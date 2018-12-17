@@ -1,11 +1,18 @@
 const todosController = require('../controllers').todos;
 const todoItemsController = require('../controllers').todoItems;
+const eventsController = require('../controllers').events;
 
 module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({
     message: 'Welcome to the Todos API!',
   }));
 
+  app.post('/api/events', eventsController.create)
+  app.get('/api/events', eventsController.list)
+  app.get('/api/events/:eventId', eventsController.retrieve);
+  app.put('/api/events/:eventId', eventsController.update);
+  app.delete('/api/events/:eventId', eventsController.destroy);
+  
   app.post('/api/todos', todosController.create);
   app.get('/api/todos', todosController.list);
   app.get('/api/todos/:todoId', todosController.retrieve);
