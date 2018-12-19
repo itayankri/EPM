@@ -2,6 +2,7 @@ const todosController = require('../controllers').todos;
 const todoItemsController = require('../controllers').todoItems;
 const eventsController = require('../controllers').events;
 const usersController = require('../controllers').users;
+const participationsController = require('../controllers').participations;
 
 module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({
@@ -13,6 +14,11 @@ module.exports = (app) => {
   app.get('/api/users/:id', usersController.retrieve);
   app.put('/api/users/:id', usersController.update);
   app.delete('/api/users/:id', usersController.destroy);
+
+  app.post('/api/participations', participationsController.create)
+  app.get('/api/participations', participationsController.list)
+  app.put('/api/participations', participationsController.update);
+  app.delete('/api/participations', participationsController.destroy);
 
   app.post('/api/events', eventsController.create)
   app.get('/api/events', eventsController.list)
