@@ -1,4 +1,5 @@
 const MyEvent = require('../models').Event;
+const EventParticipation = require('../models').Participations;
 //const TodoItem = require('../models').TodoItem;
 
 module.exports = {
@@ -23,7 +24,7 @@ module.exports = {
     return MyEvent
       .findById(req.params.eventId, {
         include: [{
-          model: Participations,
+          model: EventParticipation,
           as: 'participations',
         }],
       })
