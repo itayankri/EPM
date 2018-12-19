@@ -16,6 +16,10 @@
     "morgan": "^1.9.1",
     "pg": "^7.7.1",
     "pg-hstore": "^2.3.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-router-redux": "^4.0.8",
+    "redux": "^4.0.1",
     "sequelize": "^4.42.0"
   },
   "devDependencies": {
