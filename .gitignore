@@ -75,3 +75,4 @@ db
 .vscode/launch.json
 client/src/services/Api.js
 server/config/config.json
+package-lock.json
