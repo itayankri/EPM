@@ -21,9 +21,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import HomeIcon from '@material-ui/icons/Home';
+import EventIcon from '@material-ui/icons/Event';
 import Main from '../Main';
-import {NavLink, Link} from 'react-router-dom'
 
 const drawerWidth = 240;
 
@@ -96,7 +96,7 @@ const styles = theme => ({
 
 class MiniDrawer extends React.Component {
     state = {
-        open: false,
+        open: true,
     };
 
     handleDrawerOpen = () => {
@@ -160,12 +160,18 @@ class MiniDrawer extends React.Component {
                     </div>
                     <Divider />
                     <List>
-                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text}/>
-                            </ListItem>
-                        ))}
+                        <ListItem button>
+                            <ListItemIcon><HomeIcon/></ListItemIcon>
+                            <ListItemText primary="Home"/>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><InboxIcon/></ListItemIcon>
+                            <ListItemText primary="File Transfer"/>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><EventIcon/></ListItemIcon>
+                            <ListItemText primary="Events"/>
+                        </ListItem>
                     </List>
                 </Drawer>
                 <main className={classes.content}>
