@@ -8,6 +8,7 @@ import Login from './Login/Login';
 import About from './About/About';
 import Register from './Register/Register';
 import Events from './Events/Events';
+import EventDetails from './EventDetails/EventDetails';
 import 'react-dates/initialize';
 
 const styles = theme => ({
@@ -34,6 +35,7 @@ class Main extends React.Component {
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/register" component={Register}/>
                     <Route exact path="/events" component={Events}/>
+                    <Route exact path="/events/:eventId" component={EventDetails}/>
                 </Switch>
             </div>
         )

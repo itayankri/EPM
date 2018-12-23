@@ -7,6 +7,8 @@ import {withStyles} from 'react-with-styles';
 import classNames from 'classnames';
 import {
     Paper,
+    Typography,
+    Button,
     Table,
     TableBody,
     TableCell,
@@ -32,6 +34,11 @@ const styles = theme => ({
             backgroundColor: 'grey',
         },
     },
+    button: {
+        position: 'absolute',
+        right: 20,
+        top: 15,
+    }
 });
 
 let id = 0;
@@ -50,36 +57,47 @@ const rows = [
 class Events extends React.Component {
     render() {
         const classes = this.props.styles;
-
         return (
-            <Paper className={classes.root}>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Event Name</TableCell>
-                            <TableCell align="right">Participants</TableCell>
-                            <TableCell align="right">Date</TableCell>
-                            <TableCell align="right">Budget</TableCell>
-                            <TableCell align="right">Rate</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map(row => {
-                            return (
-                                <TableRow key={row.id}>
-                                    <TableCell component="th" scope="row">
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="right">{row.participants}</TableCell>
-                                    <TableCell align="right">{row.date}</TableCell>
-                                    <TableCell align="right">{row.budget}</TableCell>
-                                    <TableCell align="right">{row.rate}</TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </Paper>
+            <div>
+                <Typography variant="h4" component="h2">
+                    Event Management
+                </Typography>
+                <Button
+                    className={classes.button}
+                    variant="outlined"
+                    color="primary"
+                >
+                    Create Event
+                </Button>
+                <Paper className={classes.root}>
+                    <Table className={classes.table}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Event Name</TableCell>
+                                <TableCell align="right">Participants</TableCell>
+                                <TableCell align="right">Date</TableCell>
+                                <TableCell align="right">Budget</TableCell>
+                                <TableCell align="right">Rate</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map(row => {
+                                return (
+                                    <TableRow key={row.id}>
+                                        <TableCell component="th" scope="row">
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell align="right">{row.participants}</TableCell>
+                                        <TableCell align="right">{row.date}</TableCell>
+                                        <TableCell align="right">{row.budget}</TableCell>
+                                        <TableCell align="right">{row.rate}</TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </Paper>
+            </div>
         );
     }
 }
