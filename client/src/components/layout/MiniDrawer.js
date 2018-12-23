@@ -23,6 +23,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import HomeIcon from '@material-ui/icons/Home';
 import EventIcon from '@material-ui/icons/Event';
+import AccountIcon from '@material-ui/icons/AccountCircle';
 import Main from '../Main';
 
 const drawerWidth = 240;
@@ -171,6 +172,10 @@ class MiniDrawer extends React.Component {
                         <ListItem button>
                             <ListItemIcon><EventIcon/></ListItemIcon>
                             <ListItemText primary="Events"/>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><AccountIcon/></ListItemIcon>
+                            <ListItemText primary="My Account"/>
                         </ListItem>
                     </List>
                 </Drawer>
