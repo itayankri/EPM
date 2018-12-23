@@ -37,7 +37,12 @@ class ButtonAppBar extends React.Component {
             <div className={styles.root}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton className={styles.menuButton} color="inherit" aria-label="Menu">
+                        <IconButton
+                            className={styles.menuButton}
+                            color="inherit"
+                            aria-label="Menu"
+                            onClick={this.props.onMenuButtonClick}
+                        >
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" color="inherit" className={styles.grow}>
