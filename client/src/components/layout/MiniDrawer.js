@@ -4,6 +4,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import {NavLink} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -88,10 +89,17 @@ const styles = theme => ({
         flexGrow: 1,
         padding: theme.spacing.unit * 3,
     },
-    loginButton: {
+    topNavbar: {
         position: 'absolute',
         right: 20,
         top: 15
+    },
+    sideNavlink: {
+        textDecoration: 'none'
+    },
+    topNavlink: {
+        textDecoration: 'none',
+        textColor: 'white'
     }
 });
 
@@ -134,9 +142,13 @@ class MiniDrawer extends React.Component {
                         <Typography variant="h6" color="inherit" noWrap>
                             CISV
                         </Typography>
-                        <div className={classes.loginButton}>
-                            <Button color="inherit">Register</Button>
-                            <Button color="inherit">Login</Button>
+                        <div className={classes.topNavbar}>
+                            <NavLink to="/register" className={classes.topNavlink}>
+                                <Button color="inherit">Register</Button>
+                            </NavLink>
+                            <NavLink to="/login" className={classes.topNavlink}>
+                                <Button color="inherit">Login</Button>
+                            </NavLink>
                         </div>
                     </Toolbar>
                 </AppBar>
@@ -159,24 +171,32 @@ class MiniDrawer extends React.Component {
                             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     </div>
-                    <Divider />
+                    <Divider/>
                     <List>
-                        <ListItem button>
-                            <ListItemIcon><HomeIcon/></ListItemIcon>
-                            <ListItemText primary="Home"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon><InboxIcon/></ListItemIcon>
-                            <ListItemText primary="File Transfer"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon><EventIcon/></ListItemIcon>
-                            <ListItemText primary="Events"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon><AccountIcon/></ListItemIcon>
-                            <ListItemText primary="My Account"/>
-                        </ListItem>
+                        <NavLink to="/home" className={classes.sideNavlink}>
+                            <ListItem button>
+                                <ListItemIcon><HomeIcon/></ListItemIcon>
+                                <ListItemText primary="Home"/>
+                            </ListItem>
+                        </NavLink>
+                        <NavLink to="/files" className={classes.sideNavlink}>
+                            <ListItem button>
+                                <ListItemIcon><InboxIcon/></ListItemIcon>
+                                <ListItemText primary="File Transfer"/>
+                            </ListItem>
+                        </NavLink>
+                        <NavLink to="/events" className={classes.sideNavlink}>
+                            <ListItem button>
+                                <ListItemIcon><EventIcon/></ListItemIcon>
+                                <ListItemText primary="Events"/>
+                            </ListItem>
+                        </NavLink>
+                        <NavLink to="/account" className={classes.sideNavlink}>
+                            <ListItem button>
+                                <ListItemIcon><AccountIcon/></ListItemIcon>
+                                <ListItemText primary="My Account"/>
+                            </ListItem>
+                        </NavLink>
                     </List>
                 </Drawer>
                 <main className={classes.content}>

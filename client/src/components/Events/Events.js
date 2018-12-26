@@ -7,6 +7,7 @@ import {withStyles} from 'react-with-styles';
 import classNames from 'classnames';
 import {
     Paper,
+    Grid,
     Typography,
     Button,
     Table,
@@ -58,46 +59,52 @@ class Events extends React.Component {
     render() {
         const classes = this.props.styles;
         return (
-            <div>
-                <Typography variant="h4" component="h2">
-                    Event Management
-                </Typography>
-                <Button
-                    className={classes.button}
-                    variant="outlined"
-                    color="primary"
-                >
-                    Create Event
-                </Button>
-                <Paper className={classes.root}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Event Name</TableCell>
-                                <TableCell align="right">Participants</TableCell>
-                                <TableCell align="right">Date</TableCell>
-                                <TableCell align="right">Budget</TableCell>
-                                <TableCell align="right">Rate</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map(row => {
-                                return (
-                                    <TableRow key={row.id}>
-                                        <TableCell component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell align="right">{row.participants}</TableCell>
-                                        <TableCell align="right">{row.date}</TableCell>
-                                        <TableCell align="right">{row.budget}</TableCell>
-                                        <TableCell align="right">{row.rate}</TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </Paper>
-            </div>
+            <Grid container spacing={24}>
+                <Grid item md="10" className={classes}>
+                    <Typography variant="h4" component="h2">
+                        Event Management
+                    </Typography>
+                </Grid>
+                <Grid item md="2">
+                    <Button
+                        className={classes.button}
+                        variant="outlined"
+                        color="primary"
+                    >
+                        Create Event
+                    </Button>
+                </Grid>
+                <Grid item md="12">
+                    <Paper className={classes.root}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Event Name</TableCell>
+                                    <TableCell align="right">Participants</TableCell>
+                                    <TableCell align="right">Date</TableCell>
+                                    <TableCell align="right">Budget</TableCell>
+                                    <TableCell align="right">Rate</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map(row => {
+                                    return (
+                                        <TableRow key={row.id}>
+                                            <TableCell component="th" scope="row">
+                                                {row.name}
+                                            </TableCell>
+                                            <TableCell align="right">{row.participants}</TableCell>
+                                            <TableCell align="right">{row.date}</TableCell>
+                                            <TableCell align="right">{row.budget}</TableCell>
+                                            <TableCell align="right">{row.rate}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </Grid>
+            </Grid>
         );
     }
 }
