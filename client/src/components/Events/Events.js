@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {withStyles} from 'react-with-styles';
+import {withStyles} from '@material-ui/core/styles';
 import classNames from 'classnames';
 import {
     Paper,
@@ -20,7 +20,7 @@ import {
 const styles = theme => ({
     root: {
         width: '100%',
-        // marginTop: theme.spacing.unit * 3,
+        marginTop: theme.spacing.unit * 3,
         overflowX: 'auto',
     },
     table: {
@@ -31,9 +31,11 @@ const styles = theme => ({
     },
     tableRowHover: {
         '&:hover': {
-            // backgroundColor: theme.palette.grey[200],
-            backgroundColor: 'grey',
+            backgroundColor: theme.palette.grey[200],
         },
+    },
+    noClick: {
+        cursor: 'initial',
     },
     button: {
         position: 'absolute',
@@ -57,7 +59,8 @@ const rows = [
 
 class Events extends React.Component {
     render() {
-        const classes = this.props.styles;
+        const {classes} = this.props;
+        console.log("Events render", this.props);
         return (
             <Grid container spacing={24}>
                 <Grid item md="10" className={classes}>
@@ -78,7 +81,7 @@ class Events extends React.Component {
                     <Paper className={classes.root}>
                         <Table className={classes.table}>
                             <TableHead>
-                                <TableRow>
+                                <TableRow className={classNames(classes.tableRow, classes.tableRowHover)}>
                                     <TableCell>Event Name</TableCell>
                                     <TableCell align="right">Participants</TableCell>
                                     <TableCell align="right">Date</TableCell>

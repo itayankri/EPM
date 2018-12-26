@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {withStyles} from 'react-with-styles';
+import {withStyles} from '@material-ui/core/styles';
 import {
     Typography,
     Card,

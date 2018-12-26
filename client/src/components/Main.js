@@ -31,7 +31,7 @@ class Main extends React.Component {
             <div>
                 <Switch>
                     <Route exact path="/" component={About}/>
-                    <Route exact path="/about" component={About}/>
+                    <Route exact path="/home" component={About}/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/register" component={Register}/>
                     <Route exact path="/events" component={Events}/>
