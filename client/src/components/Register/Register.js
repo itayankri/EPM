@@ -72,7 +72,7 @@ class Register extends React.Component {
     }
 
     render() {
-        let classes = this.props.styles;
+        let {classes} = this.props;
         return (
             <div>
                 <Grid container>

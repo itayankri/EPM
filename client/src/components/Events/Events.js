@@ -38,6 +38,9 @@ const styles = theme => ({
     noClick: {
         cursor: 'initial',
     },
+    link: {
+        textDecoration: 'none'
+    },
 });
 
 let id = 0;
@@ -65,12 +68,17 @@ class Events extends React.Component {
                     </Typography>
                 </Grid>
                 <Grid item md="2">
-                    <Button
-                        variant="outlined"
-                        color="primary"
+                    <Link
+                        to="/events/create"
+                        className={classes.link}
                     >
-                        Create Event
-                    </Button>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                        >
+                            Create Event
+                        </Button>
+                    </Link>
                 </Grid>
                 <Grid item md="12">
                     <Paper className={classes.root}>
@@ -88,7 +96,7 @@ class Events extends React.Component {
                                 {rows.map(row => {
                                     return (
                                         <TableRow key={row.id}
-                                            className={classNames(classes.tableRow, classes.tableRowHover)}>
+                                                  className={classNames(classes.tableRow, classes.tableRowHover)}>
                                             <TableCell component="th" scope="row">
                                                 {row.name}
                                             </TableCell>
