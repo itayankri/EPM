@@ -62,12 +62,12 @@ class Events extends React.Component {
         const {classes} = this.props;
         return (
             <Grid container spacing={8}>
-                <Grid item md="10">
+                <Grid item md={10}>
                     <Typography variant="h4" component="h2">
                         Event Management
                     </Typography>
                 </Grid>
-                <Grid item md="2">
+                <Grid item md={2}>
                     <Link
                         to="/events/create"
                         className={classes.link}
@@ -80,7 +80,7 @@ class Events extends React.Component {
                         </Button>
                     </Link>
                 </Grid>
-                <Grid item md="12">
+                <Grid item md={12}>
                     <Paper className={classes.root}>
                         <Table className={classes.table}>
                             <TableHead>
