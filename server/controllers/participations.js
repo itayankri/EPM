@@ -1,19 +1,9 @@
 const MyParticipation = require('../models').Participations;
 const DEFAULT_STATUS = "0";
+const DEFAULT_ROLE = "0";
 //const TodoItem = require('../models').TodoItem;
 
 module.exports = {
-  create(req, res) {
-    return MyParticipation
-      .create({
-        userId: req.body.userId,
-        eventId: req.body.eventId,
-        roleId: req.body.roleId,
-        statusId: req.body.statusId || DEFAULT_STATUS,
-      })
-      .then(MyParticipation => res.status(201).send(MyParticipation))
-      .catch(error => res.status(400).send(error));
-  },
   list(req, res) {
     if (req.body.userId != null)
     return MyParticipation
@@ -42,16 +32,19 @@ module.exports = {
   },
   update(req, res) {
     return MyParticipation
-      .find({
+      .findOrCreate({
         where: {
         eventId: req.body.eventId,
         userId: req.body.userId,
+        },
+        defaults: {
+          eventId: req.body.eventId,
+          userId: req.body.userId,
+          roleId: DEFAULT_ROLE,
+          statusId: DEFAULT_STATUS
         }
       })
       .then(MyParticipation => {
-        if (!MyParticipation) {
-          this.exports.create(req, res);
-        }
         return MyParticipation
           .update({
             statusId: req.body.statusId || MyParticipation.statusId,
@@ -68,6 +61,14 @@ module.exports = {
   },
   unclaim(req, res) {
     req.body.statusId = 1;
+    return this.exports.update(req, res);
+  },
+  acceptParticipation(req, res) {
+    req.body.statusId = 2;
+    return this.exports.update(req, res);
+  },
+  declineParticipation(req, res) {
+    req.body.statusId = 3;
     return this.exports.update(req, res);
   },
   destroy(req, res) {

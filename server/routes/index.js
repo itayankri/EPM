@@ -61,8 +61,10 @@ module.exports = (app) => {
   // TODO: maybe add a $$ money limit system / points limit system / item limit system?
   // other stuff in event
   app.put('/event/:eventId/generateForm') // TODO: Think about generate form
-  app.put('/event/:eventId/claim', participationsController.update) // claim a participation by a user
+  app.put('/event/:eventId/claim', participationsController.claim) // claim a participation by a user
   app.put('/event/:eventId/unclaim', participationsController.unclaim) // unclaim a participation
+  app.put('/event/:eventId/acceptParticipation', participationsController.acceptParticipation) // accept a participation
+  app.put('/event/:eventId/declineParticipation', participationsController.declineParticipation) // decline a participation
   app.get('/event/:eventId/campSchedule') // get a schedule for the camp
   app.get('/event/:eventId/chapterSchedule') // get a schedule for the chapter
   app.get('/event/:eventId/contactList', eventsController.contactList); // get the contact list
@@ -74,7 +76,6 @@ module.exports = (app) => {
   app.get('/users', usersController.list)
   app.get('/users/:id', usersController.retrieve);
   app.put('/users/:id', usersController.update);
-  app.delete('/users/:id', usersController.destroy);
   
   app.post('/todos', todosController.create);
   app.get('/todos', todosController.list);

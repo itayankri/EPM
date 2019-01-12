@@ -75,21 +75,5 @@ module.exports = {
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
-  },
-  destroy(req, res) {
-    return myuser
-      .findById(req.params.id)
-      .then(myuser => {
-        if (!myuser) {
-          return res.status(400).send({
-            message: 'User Not Found',
-          });
-        }
-        return myuser
-          .destroy()
-          .then(() => res.status(204).send())
-          .catch(error => res.status(400).send(error));
-      })
-      .catch(error => res.status(400).send(error));
-  },
+  }
 };
