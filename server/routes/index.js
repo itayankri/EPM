@@ -20,6 +20,7 @@ module.exports = (app) => {
   // ENTSE              SEVEN    E     E       E      SEVE   
                                                 
   // EVENTS
+  app.post('/event', eventsController.create); // create a new event
   app.get('/events', eventsController.list); // list all events by a filter (chapter/country/date range/type)
   app.get('/event/:eventId', eventsController.retrieve); // get a specific event, returns shitload of data
   app.put('/event/:eventId/edit', eventsController.update); // update an event information
