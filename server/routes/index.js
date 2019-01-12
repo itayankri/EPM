@@ -5,9 +5,12 @@ const usersController = require('../controllers').users;
 const participationsController = require('../controllers').participations;
 
 module.exports = (app) => {
+  app.get('/', (req, res) => {
+    res.sendFile('public/index.html')
+  });
   app.get('', (req, res) => res.status(200).send({
     message: 'Welcome to the Todos API!',
-  }));    
+  }));
                                             
   // ENTSE   E      N   SEVEN    E     E    NTSEVEN    EVEN  
   // E                  S        EV    E       E      S      

@@ -6,7 +6,17 @@ export const submitEvent = event => {
         console.log(res);
         return true;
     }).catch(err => {
-        console.log(err);
+        console.log('submitEvent Error', err);
         return false;
+    });
+};
+
+export const getEvents = () => {
+    return axios.get(`${config.url}/events`).then(res => {
+        console.log(res);
+        return res;
+    }).catch(err => {
+        console.log('getEvents Error', err);
+        return err;
     });
 };
