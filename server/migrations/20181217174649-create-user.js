@@ -9,19 +9,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       firstName: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       middleName: {
         type: Sequelize.STRING
       },
       lastName: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: { isEmail: true }
       },
       homeNumber: {
         type: Sequelize.STRING
@@ -30,39 +35,49 @@ module.exports = {
         type: Sequelize.STRING
       },
       birthday: {
-        type: Sequelize.DATE
+        allowNull: false,
+        type: Sequelize.DATE,
+        validate: { isDate: true }
       },
       country: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       city: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       address: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       zipcode: {
         type: Sequelize.STRING
       },
       chapter: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       roleInNA: {
         type: Sequelize.STRING
       },
       languages: {
+        allowNull: false,
         type: Sequelize.JSONB
       },
       allergies: {
         type: Sequelize.JSONB
       },
       swimming: {
+        allowNull: false,
         type: Sequelize.BOOLEAN
       },
       firstAid: {
+        allowNull: false,
         type: Sequelize.BOOLEAN
       },
       lifeSave: {
+        allowNull: false,
         type: Sequelize.BOOLEAN
       },
       verificationCode: {
@@ -70,10 +85,12 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
+        defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
+        defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       }
     });
