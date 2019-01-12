@@ -75,10 +75,10 @@ module.exports = (app) => {
 
 
 
-  app.post('/users', usersController.create)
+  app.post('/user', usersController.create)
   app.get('/users', usersController.list)
-  app.get('/users/:id', usersController.retrieve);
-  app.put('/users/:id', usersController.update);
+  app.get('/user/:id', usersController.retrieve);
+  app.put('/user/:id', usersController.update);
   
   app.post('/todos', todosController.create);
   app.get('/todos', todosController.list);
