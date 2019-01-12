@@ -1,14 +1,31 @@
-const myuser = require('../models').user;
+const myuser = require('../models').User;
 
 module.exports = {
   create(req, res) {
     return myuser
       .create({
+        password: req.body.password,
         firstName: req.body.firstName,
+        middleName: req.body.middleName,
         lastName: req.body.lastName,
+        email: req.body.email,
+        homeNumber: req.body.homeNumber,
+        cellphoneNumber: req.body.cellphoneNumber,
+        birthday: req.body.birthday,
+        country: req.body.country,
+        city: req.body.city,
+        address: req.body.address,
+        zipcode: req.body.zipcode,
+        chapter: req.body.chapter,
+        roleInNA: req.body.roleInNA,
+        languages: req.body.languages,
+        allergies: req.body.allergies,
+        swimming: req.body.swimming,
+        firstAid: req.body.firstAid,
+        lifeSave: req.body.lifeSave,
       })
       .then(myuser => res.status(201).send(myuser))
-      .catch(error => res.status(400).send(error));
+      .catch(error => { console.log(error); res.status(400).send(error)});
   },
   list(req, res) {
     return myuser

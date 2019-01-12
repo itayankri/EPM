@@ -5,7 +5,7 @@ const usersController = require('../controllers').users;
 const participationsController = require('../controllers').participations;
 
 module.exports = (app) => {
-  app.get('/api', (req, res) => res.status(200).send({
+  app.get('', (req, res) => res.status(200).send({
     message: 'Welcome to the Todos API!',
   }));    
                                             
@@ -70,26 +70,26 @@ module.exports = (app) => {
 
 
 
-  app.post('/api/users', usersController.create)
-  app.get('/api/users', usersController.list)
-  app.get('/api/users/:id', usersController.retrieve);
-  app.put('/api/users/:id', usersController.update);
-  app.delete('/api/users/:id', usersController.destroy);
+  app.post('/users', usersController.create)
+  app.get('/users', usersController.list)
+  app.get('/users/:id', usersController.retrieve);
+  app.put('/users/:id', usersController.update);
+  app.delete('/users/:id', usersController.destroy);
   
-  app.post('/api/todos', todosController.create);
-  app.get('/api/todos', todosController.list);
-  app.get('/api/todos/:todoId', todosController.retrieve);
-  app.put('/api/todos/:todoId', todosController.update);
-  app.delete('/api/todos/:todoId', todosController.destroy);
+  app.post('/todos', todosController.create);
+  app.get('/todos', todosController.list);
+  app.get('/todos/:todoId', todosController.retrieve);
+  app.put('/todos/:todoId', todosController.update);
+  app.delete('/todos/:todoId', todosController.destroy);
 
-  app.post('/api/todos/:todoId/items', todoItemsController.create);
-  app.put('/api/todos/:todoId/items/:todoItemId', todoItemsController.update);
+  app.post('/todos/:todoId/items', todoItemsController.create);
+  app.put('/todos/:todoId/items/:todoItemId', todoItemsController.update);
   app.delete(
-    '/api/todos/:todoId/items/:todoItemId', todoItemsController.destroy
+    '/todos/:todoId/items/:todoItemId', todoItemsController.destroy
   );
 
   // For any other request method on todo items, we're going to return "Method Not Allowed"
-  app.all('/api/todos/:todoId/items', (req, res) =>
+  app.all('/todos/:todoId/items', (req, res) =>
     res.status(405).send({
       message: 'Method Not Allowed',
   }));
