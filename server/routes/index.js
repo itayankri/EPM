@@ -5,7 +5,7 @@ const usersController = require('../controllers').users;
 const participationsController = require('../controllers').participations;
 
 module.exports = (app) => {
-  app.get('/api', (req, res) => res.status(200).send({
+  app.get('', (req, res) => res.status(200).send({
     message: 'Welcome to the Todos API!',
   }));    
                                             
@@ -20,6 +20,7 @@ module.exports = (app) => {
   // ENTSE              SEVEN    E     E       E      SEVE   
                                                 
   // EVENTS
+  app.post('/event', eventsController.create); // create a new event
   app.get('/events', eventsController.list); // list all events by a filter (chapter/country/date range/type)
   app.get('/event/:eventId', eventsController.retrieve); // get a specific event, returns shitload of data
   app.put('/event/:eventId/edit', eventsController.update); // update an event information
@@ -60,8 +61,10 @@ module.exports = (app) => {
   // TODO: maybe add a $$ money limit system / points limit system / item limit system?
   // other stuff in event
   app.put('/event/:eventId/generateForm') // TODO: Think about generate form
-  app.put('/event/:eventId/claim', participationsController.update) // claim a participation by a user
+  app.put('/event/:eventId/claim', participationsController.claim) // claim a participation by a user
   app.put('/event/:eventId/unclaim', participationsController.unclaim) // unclaim a participation
+  app.put('/event/:eventId/acceptParticipation', participationsController.acceptParticipation) // accept a participation
+  app.put('/event/:eventId/declineParticipation', participationsController.declineParticipation) // decline a participation
   app.get('/event/:eventId/campSchedule') // get a schedule for the camp
   app.get('/event/:eventId/chapterSchedule') // get a schedule for the chapter
   app.get('/event/:eventId/contactList', eventsController.contactList); // get the contact list
@@ -69,26 +72,25 @@ module.exports = (app) => {
 
 
 
-  app.post('/api/users', usersController.create)
-  app.get('/api/users', usersController.list)
-  app.get('/api/users/:id', usersController.retrieve);
-  app.put('/api/users/:id', usersController.update);
-  app.delete('/api/users/:id', usersController.destroy);
+  app.post('/users', usersController.create)
+  app.get('/users', usersController.list)
+  app.get('/users/:id', usersController.retrieve);
+  app.put('/users/:id', usersController.update);
   
-  app.post('/api/todos', todosController.create);
-  app.get('/api/todos', todosController.list);
-  app.get('/api/todos/:todoId', todosController.retrieve);
-  app.put('/api/todos/:todoId', todosController.update);
-  app.delete('/api/todos/:todoId', todosController.destroy);
+  app.post('/todos', todosController.create);
+  app.get('/todos', todosController.list);
+  app.get('/todos/:todoId', todosController.retrieve);
+  app.put('/todos/:todoId', todosController.update);
+  app.delete('/todos/:todoId', todosController.destroy);
 
-  app.post('/api/todos/:todoId/items', todoItemsController.create);
-  app.put('/api/todos/:todoId/items/:todoItemId', todoItemsController.update);
+  app.post('/todos/:todoId/items', todoItemsController.create);
+  app.put('/todos/:todoId/items/:todoItemId', todoItemsController.update);
   app.delete(
-    '/api/todos/:todoId/items/:todoItemId', todoItemsController.destroy
+    '/todos/:todoId/items/:todoItemId', todoItemsController.destroy
   );
 
   // For any other request method on todo items, we're going to return "Method Not Allowed"
-  app.all('/api/todos/:todoId/items', (req, res) =>
+  app.all('/todos/:todoId/items', (req, res) =>
     res.status(405).send({
       message: 'Method Not Allowed',
   }));

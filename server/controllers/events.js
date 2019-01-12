@@ -9,11 +9,24 @@ module.exports = {
       .create({
         start: req.body.start,
         end: req.body.end,
-        country: req.body.country,
-        chapter: req.body.chapter,
+        country: req.body.country ,
+        chapter: req.body.chapter ,
+        type: req.body.type ,
+        address: req.body.address ,
+        email: req.body.email ,
+        participatingNAs: req.body.participatingNAs,
+        theme: req.body.theme ,
+        meetingPointName: req.body.meetingPointName ,
+        meetingPointAddress: req.body.meetingPointAddress ,
+        meetingDate: req.body.meetingDate,
+        nearestAirportName: req.body.nearestAirportName ,
+        nearestAirportCode: req.body.nearestAirportCode ,
+        nearestTrainStation: req.body.nearestTrainStation ,
+        arriveBefore: req.body.arriveBefore,
+        leaveAfter: req.body.leaveAfter
       })
       .then(myevent => res.status(201).send(myevent))
-      .catch(error => res.status(400).send(error));
+      .catch(error => {console.log(error); res.status(400).send(error)});
   },
   list(req, res) {
     return MyEvent
