@@ -5,7 +5,11 @@ const app = require('../app'); // The express app we just created
 
 const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(cors());
 
 const server = http.createServer(app);
