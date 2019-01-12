@@ -1,4 +1,5 @@
 const myuser = require('../models').User;
+const EventParticipation = require('../models').Participations;
 
 module.exports = {
   create(req, res) {
@@ -29,14 +30,22 @@ module.exports = {
   },
   list(req, res) {
     return myuser
-      .findAll({})
+      .findAll({
+        // include: [{
+        //   model: EventParticipation,
+        //   as: 'participations'
+        // }],
+      })
       .then(myusers => res.status(200).send(myusers))
-      .catch(error => res.status(400).send(error));
+      .catch(error => { console.log(error);res.status(400).send(error)});
   },
   retrieve(req, res) {
     return myuser
       .findById(req.params.id, {
-        include: [{}],
+        include: [{
+          model: EventParticipation,
+          as: 'participations'
+        }],
       })
       .then(myuser => {
         if (!myuser) {

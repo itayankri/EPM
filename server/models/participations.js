@@ -11,14 +11,18 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'eventId',
       onDelete: 'CASCADE',
     });
-    // associations can be defined here
-  };
-  Participations.associate = function(models) {
-    Participations.hasMany(models.User, {
+    Participations.belongsTo(models.User, {
       foreignKey: 'userId',
-      as: 'users',
+      onDelete: 'CASCADE',
     });
     // associations can be defined here
   };
+  // Participations.associate = function(models) {
+  //   Participations.hasMany(models.User, {
+  //     foreignKey: 'userId',
+  //     as: 'users',
+  //   });
+  //   // associations can be defined here
+  // };
   return Participations;
 };
