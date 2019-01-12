@@ -38,6 +38,9 @@ const styles = theme => ({
     noClick: {
         cursor: 'initial',
     },
+    link: {
+        textDecoration: 'none'
+    },
 });
 
 let id = 0;
@@ -59,20 +62,25 @@ class Events extends React.Component {
         const {classes} = this.props;
         return (
             <Grid container spacing={8}>
-                <Grid item md="10">
+                <Grid item md={10}>
                     <Typography variant="h4" component="h2">
                         Event Management
                     </Typography>
                 </Grid>
-                <Grid item md="2">
-                    <Button
-                        variant="outlined"
-                        color="primary"
+                <Grid item md={2}>
+                    <Link
+                        to="/events/create"
+                        className={classes.link}
                     >
-                        Create Event
-                    </Button>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                        >
+                            Create Event
+                        </Button>
+                    </Link>
                 </Grid>
-                <Grid item md="12">
+                <Grid item md={12}>
                     <Paper className={classes.root}>
                         <Table className={classes.table}>
                             <TableHead>
@@ -88,7 +96,7 @@ class Events extends React.Component {
                                 {rows.map(row => {
                                     return (
                                         <TableRow key={row.id}
-                                            className={classNames(classes.tableRow, classes.tableRowHover)}>
+                                                  className={classNames(classes.tableRow, classes.tableRowHover)}>
                                             <TableCell component="th" scope="row">
                                                 {row.name}
                                             </TableCell>

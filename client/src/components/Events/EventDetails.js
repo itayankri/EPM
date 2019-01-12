@@ -4,7 +4,6 @@
 
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import classNames from 'classnames';
 import {
     Typography,
 } from '@material-ui/core';
