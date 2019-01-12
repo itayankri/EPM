@@ -78,11 +78,11 @@ class CreateEvent extends React.Component {
         super(props);
 
         this.state = {
-            startDate: "",
-            endDate: "",
+            start: "",
+            end: "",
             eventType: 0,
-            hostCountry: 0,
-            hostChapter: 0,
+            country: 0,
+            chapter: 0,
             eventAddress: "",
             participatingNAs: [],
             eventTheme: "",
@@ -91,6 +91,7 @@ class CreateEvent extends React.Component {
             meetingDate: "",
             nearestAirportName: "",
             nearestAirportCode: "",
+            nearestTrainStation: "",
             arriveBefore: "",
             leaveAfter: "",
             isErrorSnackbarOpen: false
@@ -130,13 +131,13 @@ class CreateEvent extends React.Component {
                         </Typography>
                         <br/>
                         <DateInput
-                            name="startDate"
+                            name="start"
                             label="Start Date"
                             value={this.state.startDate}
                             onChange={this.handleChange}
                         />
                         <DateInput
-                            name="endDate"
+                            name="end"
                             label="End Date"
                             value={this.state.endDate}
                             onChange={this.handleChange}
@@ -149,14 +150,14 @@ class CreateEvent extends React.Component {
                             onChange={this.handleChange}
                         />
                         <DropDownInput
-                            name="hostCountry"
+                            name="country"
                             label="Host Country"
                             options={eventTypes}
                             value={this.state.hostCountry}
                             onChange={this.handleChange}
                         />
                         <DropDownInput
-                            name="hostChapter"
+                            name="chapter"
                             label="Host Chapter"
                             options={eventTypes}
                             value={this.state.hostChapter}
@@ -215,6 +216,13 @@ class CreateEvent extends React.Component {
                             label="Nearest Airport Code"
                             placeholder="A three characters code"
                             value={this.state.nearestAirportCode}
+                            onChange={this.handleChange}
+                        />
+                        <TextInput
+                            name="nearestTrainStation"
+                            label="Nearest Train Station"
+                            placeholder="A train station name"
+                            value={this.state.nearestTrainStation}
                             onChange={this.handleChange}
                         />
                         <DateInput
