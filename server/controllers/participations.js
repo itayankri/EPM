@@ -50,9 +50,7 @@ module.exports = {
       })
       .then(MyParticipation => {
         if (!MyParticipation) {
-          return res.status(404).send({
-            message: 'Participation Not Found',
-          });
+          this.exports.create(req, res);
         }
         return MyParticipation
           .update({
@@ -63,6 +61,14 @@ module.exports = {
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
+  },
+  claim(req, res) {
+    req.body.statusId = 0;
+    return this.exports.update(req, res);
+  },
+  unclaim(req, res) {
+    req.body.statusId = 1;
+    return this.exports.update(req, res);
   },
   destroy(req, res) {
     return MyParticipation

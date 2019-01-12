@@ -1,5 +1,6 @@
 const MyEvent = require('../models').Event;
 const EventParticipation = require('../models').Participations;
+const MyUser = require('../models').User;
 //const TodoItem = require('../models').TodoItem;
 
 module.exports = {
@@ -38,6 +39,16 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
+  contactList(req, res) {
+    if (req.body.eventId == null)
+    {
+      return res.status(404).send({
+        message: 'parameter eventId is not defined',
+      });
+    }
+    module.exports.retrieve(req, res)
+    .then(myevent => { return res.status(200).send(myevent.participations) });
+  },
   update(req, res) {
     return MyEvent
       .findById(req.params.eventId)
@@ -53,7 +64,7 @@ module.exports = {
             end: req.body.end || myevent.end,
             start: req.body.start || myevent.start,
             country: req.body.country || myevent.country,
-            chapter: req.body.chapter || todo.chapter,
+            chapter: req.body.chapter || myevent.chapter,
           })
           .then(() => res.status(200).send(myevent))  // Send back the updated todo.
           .catch((error) => res.status(400).send(error));
