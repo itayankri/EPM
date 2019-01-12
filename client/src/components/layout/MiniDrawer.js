@@ -99,7 +99,7 @@ const styles = theme => ({
     },
     topNavlink: {
         textDecoration: 'none',
-        textColor: 'white'
+        color: 'white'
     }
 });
 
@@ -121,7 +121,7 @@ class MiniDrawer extends React.Component {
 
         return (
             <div className={classes.root}>
-                <CssBaseline />
+                <CssBaseline/>
                 <AppBar
                     position="fixed"
                     className={classNames(classes.appBar, {

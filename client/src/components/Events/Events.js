@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 import classNames from 'classnames';
 import {
@@ -37,14 +38,10 @@ const styles = theme => ({
     noClick: {
         cursor: 'initial',
     },
-    button: {
-        position: 'absolute',
-        right: 20,
-        top: 15,
-    }
 });
 
 let id = 0;
+
 function createData(name, participants, date, budget, rate) {
     id += 1;
     return {id, name, participants, date, budget, rate};
@@ -60,17 +57,15 @@ const rows = [
 class Events extends React.Component {
     render() {
         const {classes} = this.props;
-        console.log("Events render", this.props);
         return (
-            <Grid container spacing={24}>
-                <Grid item md="10" className={classes}>
+            <Grid container spacing={8}>
+                <Grid item md="10">
                     <Typography variant="h4" component="h2">
                         Event Management
                     </Typography>
                 </Grid>
                 <Grid item md="2">
                     <Button
-                        className={classes.button}
                         variant="outlined"
                         color="primary"
                     >
@@ -81,7 +76,7 @@ class Events extends React.Component {
                     <Paper className={classes.root}>
                         <Table className={classes.table}>
                             <TableHead>
-                                <TableRow className={classNames(classes.tableRow, classes.tableRowHover)}>
+                                <TableRow>
                                     <TableCell>Event Name</TableCell>
                                     <TableCell align="right">Participants</TableCell>
                                     <TableCell align="right">Date</TableCell>
@@ -92,7 +87,8 @@ class Events extends React.Component {
                             <TableBody>
                                 {rows.map(row => {
                                     return (
-                                        <TableRow key={row.id}>
+                                        <TableRow key={row.id}
+                                            className={classNames(classes.tableRow, classes.tableRowHover)}>
                                             <TableCell component="th" scope="row">
                                                 {row.name}
                                             </TableCell>
