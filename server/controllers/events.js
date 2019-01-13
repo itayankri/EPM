@@ -31,13 +31,8 @@ module.exports = {
   list(req, res) {
     return MyEvent
       .findAll({})
-      .then(myevents => {
-          res.status(200).send(myevents)
-      })
-      .catch(error => {
-          console.log(error);
-          res.status(400).send(error)
-      });
+      .then(myevents => res.status(200).send(myevents))
+      .catch(error => res.status(400).send(error));
   },
   retrieve(req, res) {
     return MyEvent
