@@ -12,5 +12,10 @@ app.use(function(req, res, next) {
 });
 app.use(cors());
 
-const server = http.createServer(app);
+const server = http.createServer(function (request, response) {
+response.writeHead(200, {
+    'Content-Type': 'text/plain',
+    'Access-Control-Allow-Origin' : '*',
+    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+})});
 server.listen(port);
