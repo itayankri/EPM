@@ -82,6 +82,7 @@ class Events extends React.Component {
             })
             .catch(err => {
                 this.setState({
+                    isLoading: false,
                     isErrorSnackbarOpen: true,
                     errorSnackbarMessage: `Failed to load Events - ${err}`,
                 })
@@ -128,10 +129,11 @@ class Events extends React.Component {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Event Name</TableCell>
-                                        <TableCell align="right">Participants</TableCell>
-                                        <TableCell align="right">Date</TableCell>
-                                        <TableCell align="right">Budget</TableCell>
-                                        <TableCell align="right">Rate</TableCell>
+                                        <TableCell align="right">Code</TableCell>
+                                        <TableCell align="right">Year</TableCell>
+                                        <TableCell align="right">Type</TableCell>
+                                        <TableCell align="right">NA</TableCell>
+                                        <TableCell align="right">Chapter</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -145,6 +147,7 @@ class Events extends React.Component {
                                                 <TableCell align="right">{row.participants}</TableCell>
                                                 <TableCell align="right">{row.date}</TableCell>
                                                 <TableCell align="right">{row.budget}</TableCell>
+                                                <TableCell align="right">{row.rate}</TableCell>
                                                 <TableCell align="right">{row.rate}</TableCell>
                                             </TableRow>
                                         );
