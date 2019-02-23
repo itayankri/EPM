@@ -46,20 +46,6 @@ const styles = theme => ({
     },
 });
 
-let id = 0;
-
-function createData(name, participants, date, budget, rate) {
-    id += 1;
-    return {id, name, participants, date, budget, rate};
-}
-
-const rows = [
-    createData('Summer Camp', 220, '13/11/2018', 24000, 4.0),
-    createData('Meetup', 237, '4/7/2018', 37000, 9.3),
-    createData('Volunteer Event', 262, '15/1/2018', 24000, 6.0),
-    createData('Cisv Party', 305, '1/12/2018', 67000, 7.3),
-];
-
 class Events extends React.Component {
     constructor(props) {
         super(props);
@@ -75,6 +61,7 @@ class Events extends React.Component {
     componentWillMount() {
         getEvents()
             .then(res => {
+                console.log(res.data)
                 this.setState({
                     isLoading: false,
                     events: res.data
@@ -91,6 +78,10 @@ class Events extends React.Component {
 
     handleErrorSnackbarClose = event => {
         this.setState({isErrorSnackbarOpen: false})
+    };
+
+    onRowClick = rowId => {
+        this.props.history.push(`/events/${rowId}`);
     };
 
     render() {
@@ -128,27 +119,29 @@ class Events extends React.Component {
                             <Table className={classes.table}>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Event Name</TableCell>
-                                        <TableCell align="right">Code</TableCell>
-                                        <TableCell align="right">Year</TableCell>
-                                        <TableCell align="right">Type</TableCell>
-                                        <TableCell align="right">NA</TableCell>
-                                        <TableCell align="right">Chapter</TableCell>
+                                        <TableCell>Theme</TableCell>
+                                        <TableCell align="center">Code</TableCell>
+                                        <TableCell align="center">Year</TableCell>
+                                        <TableCell align="center">Type</TableCell>
+                                        <TableCell align="center">NA</TableCell>
+                                        <TableCell align="center">Chapter</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map(row => {
+                                    {this.state.events.map(row => {
                                         return (
-                                            <TableRow key={row.id}
-                                                      className={classNames(classes.tableRow, classes.tableRowHover)}>
-                                                <TableCell component="th" scope="row">
-                                                    {row.name}
-                                                </TableCell>
-                                                <TableCell align="right">{row.participants}</TableCell>
-                                                <TableCell align="right">{row.date}</TableCell>
-                                                <TableCell align="right">{row.budget}</TableCell>
-                                                <TableCell align="right">{row.rate}</TableCell>
-                                                <TableCell align="right">{row.rate}</TableCell>
+                                            <TableRow
+                                                key={row.id}
+                                                className={classNames(classes.tableRow, classes.tableRowHover)}
+                                                onClick={() => this.onRowClick(row.id)}
+                                            >
+                                                <TableCell component="th" scope="row">{row.theme}</TableCell>
+                                                <TableCell align="center">{row.code}</TableCell>
+                                                <TableCell
+                                                    align="center">{new Date(row.start).getFullYear()}</TableCell>
+                                                <TableCell align="center">{row.type}</TableCell>
+                                                <TableCell align="center">{row.country}</TableCell>
+                                                <TableCell align="center">{row.chapter}</TableCell>
                                             </TableRow>
                                         );
                                     })}
