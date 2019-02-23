@@ -4,7 +4,6 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Users', [{
       // USER 1
-      "id": 1,
       "password": "user1",
       "firstName": "firstname1",
       "middleName": "middlename1",
@@ -29,7 +28,6 @@ module.exports = {
       "createdAt": "2019-01-12T10:59:38.363Z",
       "verificationCode": null}, {
       // USER 2
-      "id": 2,
       "password": "user2",
       "firstName": "firstname2",
       "middleName": "middlename2",
@@ -54,7 +52,6 @@ module.exports = {
       "createdAt": "2019-01-12T10:59:38.363Z",
       "verificationCode": null}, {
       // USER 3
-      "id": 3,
       "password": "user3",
       "firstName": "firstname3",
       "middleName": "middlename3",
@@ -79,7 +76,6 @@ module.exports = {
       "createdAt": "2019-01-12T10:59:38.363Z",
       "verificationCode": null}, {
       // USER 4
-      "id": 4,
       "password": "user4",
       "firstName": "firstname4",
       "middleName": "middlename4",
@@ -104,7 +100,6 @@ module.exports = {
       "createdAt": "2019-01-12T10:59:38.363Z",
       "verificationCode": null}, {
       // USER 5
-      "id": 5,
       "password": "user5",
       "firstName": "firstname5",
       "middleName": "middlename5",
@@ -129,7 +124,6 @@ module.exports = {
       "createdAt": "2019-01-12T10:59:38.363Z",
       "verificationCode": null}, {
       // USER 6
-      "id": 6,
       "password": "user6",
       "firstName": "firstname6",
       "middleName": "middlename6",

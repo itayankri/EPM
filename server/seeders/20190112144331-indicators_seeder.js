@@ -4,7 +4,6 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Indicators', [{
       // USER 1
-      "id":1,
       "year":2017,
       "eventType":"village",
       "indicators":JSON.stringify([{"name":"Develop intercultural competence","indicators":[
@@ -30,7 +29,6 @@ module.exports = {
       "updatedAt": "2019-01-12T10:59:38.363Z",
       "createdAt": "2019-01-12T10:59:38.363Z"
       }, {
-        "id":2,
       "year":2017,
       "eventType":"step up",
       "indicators":JSON.stringify([{"name":"Develop leadership skills","indicators":[

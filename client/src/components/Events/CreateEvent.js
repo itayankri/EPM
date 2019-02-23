@@ -20,25 +20,48 @@ import SuccessSnackbar from '../common/SuccessSnackbar';
 
 const eventTypes = [
     {
-        value: 1,
-        label: "Event Type 1"
+        value: "Village",
+        label: "Village"
     },
     {
-        value: 2,
-        label: "Event Type 2"
+        value: "Step-Up",
+        label: "Step-Up"
     },
     {
-        value: 3,
-        label: "Event Type 3"
+        value: "Seminar",
+        label: "Seminar"
     }
 ];
 
+const countriesArr = ['Israel', 'USA', 'France'];
 const countries = [
-    'Israel',
-    'spain',
-    'USA',
-    'Iran',
-    'France'
+    {
+        value: "Israel",
+        label: "Israel"
+    },
+    {
+        value: "USA",
+        label: "USA"
+    },
+    {
+        value: "France",
+        label: "France"
+    }
+];
+
+const chapters = [
+    {
+        value: "Tel-Aviv",
+        label: "Tel-Aviv"
+    },
+    {
+        value: "Washington-DC",
+        label: "Washington-DC"
+    },
+    {
+        value: "Paris",
+        label: "Paris"
+    }
 ];
 
 const styles = theme => ({
@@ -166,15 +189,15 @@ class CreateEvent extends React.Component {
                         <DropDownInput
                             name="country"
                             label="Host Country"
-                            options={eventTypes}
-                            value={this.state.hostCountry}
+                            options={countries}
+                            value={this.state.country}
                             onChange={this.handleChange}
                         />
                         <DropDownInput
                             name="chapter"
                             label="Host Chapter"
-                            options={eventTypes}
-                            value={this.state.hostChapter}
+                            options={chapters}
+                            value={this.state.chapter}
                             onChange={this.handleChange}
                         />
                         <TextInput
@@ -189,7 +212,7 @@ class CreateEvent extends React.Component {
                             label="Participating NAs"
                             value={this.state.participatingNAs}
                             handleChange={this.handleChipsChange}
-                            items={countries}
+                            items={countriesArr}
                         />
                         <TextInput
                             name="eventTheme"

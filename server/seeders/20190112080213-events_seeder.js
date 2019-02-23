@@ -4,7 +4,6 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Events', [{
       // VILLAGE 1
-      "id": 1,
       "start": "2019-01-13T00:00:00.000Z",
       "end": "2019-02-13T00:00:00.000Z",
       "code": "V-2019-001",
@@ -26,7 +25,6 @@ module.exports = {
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"},{
         // VILLAGE 2
-      "id": 2,
       "start": "2019-02-01T00:00:00.000Z",
       "end": "2019-03-01T00:00:00.000Z",
       "code": "V-2019-002",
@@ -48,7 +46,6 @@ module.exports = {
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"},{
       // STEP UP 1
-      "id": 3,
       "start": "2019-03-13T00:00:00.000Z",
       "end": "2019-04-14T00:00:00.000Z",
       "code": "C-2019-001",
@@ -70,7 +67,6 @@ module.exports = {
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"},{
       // STEP UP 2
-      "id": 4,
       "start": "2019-04-13T00:00:00.000Z",
       "end": "2019-05-14T00:00:00.000Z",
       "code": "C-2019-002",
@@ -92,7 +88,6 @@ module.exports = {
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"},{
       // SEMINAR 1
-      "id": 5,
       "start": "2019-05-13T00:00:00.000Z",
       "end": "2019-06-14T00:00:00.000Z",
       "code": "S-2019-001",
@@ -114,7 +109,6 @@ module.exports = {
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"},{
       // SEMINAR 2
-      "id": 6,
       "start": "2019-06-13T00:00:00.000Z",
       "end": "2019-07-14T00:00:00.000Z",
       "code": "S-2019-002",

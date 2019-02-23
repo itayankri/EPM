@@ -5,14 +5,15 @@ const EventParticipation = require('../models').Participations;
 
 module.exports = {
   create(req, res) {
+      console.log("creating new event" + req);
     return MyEvent
       .create({
         start: req.body.start,
         end: req.body.end,
-        code: req.body.code,
+        code: req.body.code || "default-code",
         country: req.body.country,
         chapter: req.body.chapter,
-        type: req.body.type,
+        type: req.body.eventType,
         address: req.body.address || "",
         email: req.body.email ,
         participatingNAs: req.body.participatingNAs,
