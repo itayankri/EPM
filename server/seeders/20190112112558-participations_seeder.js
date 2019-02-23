@@ -7,42 +7,42 @@ module.exports = {
       "userId":1,
       "eventId":1,
       "roleId":1,
-      "statusId":1,
+      "status":"PENDING",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
       "userId":1,
       "eventId":2,
       "roleId":2,
-      "statusId":2,
+      "status":"CLAIMED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
       "userId":1,
       "eventId":3,
       "roleId":3,
-      "statusId":3,
+      "status":"DECLINED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
       "userId":1,
       "eventId":4,
       "roleId":1,
-      "statusId":2,
+      "status":"UNCLAIMED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
       "userId":1,
       "eventId":5,
       "roleId":2,
-      "statusId":3,
+      "status":"PENDING",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
       "userId":1,
       "eventId":6,
       "roleId":3,
-      "statusId":1,
+      "status":"APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
@@ -50,21 +50,21 @@ module.exports = {
       "userId":2,
       "eventId":1,
       "roleId":1,
-      "statusId":1,
+      "status":"APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
       "userId":2,
       "eventId":1,
       "roleId":1,
-      "statusId":1,
+      "status":"APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
       "userId":2,
       "eventId":1,
       "roleId":1,
-      "statusId":1,
+      "status":"APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
@@ -72,14 +72,14 @@ module.exports = {
       "userId":3,
       "eventId":3,
       "roleId":1,
-      "statusId":1,
+      "status":"APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
       "userId":3,
       "eventId":6,
       "roleId":2,
-      "statusId":2,
+      "status":"UNCLAIMED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
@@ -87,7 +87,7 @@ module.exports = {
       "userId":4,
       "eventId":4,
       "roleId":2,
-      "statusId":2,
+      "status":"UNCLAIMED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
@@ -95,7 +95,7 @@ module.exports = {
       "userId":5,
       "eventId":5,
       "roleId":2,
-      "statusId":2,
+      "status":"UNCLAIMED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
@@ -103,7 +103,7 @@ module.exports = {
       "userId":6,
       "eventId":6,
       "roleId":2,
-      "statusId":2,
+      "status":"UNCLAIMED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }], {});

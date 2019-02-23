@@ -20,10 +20,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      statusId: {
+      status: {
         allowNull: false,
-        defaultValue: 0,
-        type: Sequelize.INTEGER
+        defaultValue: "PENDING",
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

@@ -108,6 +108,7 @@ class CreateEvent extends React.Component {
             country: 0,
             chapter: 0,
             eventAddress: "",
+            email: "",
             participatingNAs: [],
             eventTheme: "",
             meetingPointName: "",
@@ -140,6 +141,7 @@ class CreateEvent extends React.Component {
                     isSuccessSnackbarOpen: true,
                     successSnackbarMessage: "Event created Successfully"
                 });
+                this.props.history.push("/events/");
             })
             .catch(err => {
                 this.setState({
@@ -205,6 +207,13 @@ class CreateEvent extends React.Component {
                             label="Event Address"
                             placeholder="Enter an Event address"
                             value={this.state.eventAddress}
+                            onChange={this.handleChange}
+                        />
+                        <TextInput
+                            name="email"
+                            label="Event Email"
+                            placeholder="Enter an Event Email address"
+                            value={this.state.email}
                             onChange={this.handleChange}
                         />
                         <ChipsDropDownInput

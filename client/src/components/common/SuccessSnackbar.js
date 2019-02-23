@@ -109,7 +109,7 @@ class SuccessSnackbar extends React.Component {
                     <MySnackbarContentWrapper
                         variant="success"
                         className={classes.margin}
-                        message={this.props.errorMessage}
+                        message={this.props.message}
                         onClose={this.handleClose}
                     />
                 </Snackbar>

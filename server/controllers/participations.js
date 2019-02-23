@@ -1,5 +1,5 @@
 const MyParticipation = require('../models').Participations;
-const DEFAULT_STATUS = "0";
+const DEFAULT_STATUS = "PENDING";
 const DEFAULT_ROLE = "0";
 //const TodoItem = require('../models').TodoItem;
 
@@ -41,13 +41,13 @@ module.exports = {
           eventId: req.body.eventId,
           userId: req.body.userId,
           roleId: DEFAULT_ROLE,
-          statusId: DEFAULT_STATUS
+          status: DEFAULT_STATUS
         }
       })
       .then(MyParticipation => {
         return MyParticipation
           .update({
-            statusId: req.body.statusId || MyParticipation.statusId,
+            status: req.body.status || MyParticipation.status,
             roleId: req.body.roleId || MyParticipation.roleId,
           })
           .then(() => res.status(200).send(MyParticipation))  // Send back the updated todo.
@@ -56,19 +56,19 @@ module.exports = {
       .catch((error) => res.status(400).send(error));
   },
   claim(req, res) {
-    req.body.statusId = 0;
+    req.body.status = "PENDING";
     return this.exports.update(req, res);
   },
   unclaim(req, res) {
-    req.body.statusId = 1;
+    req.body.status = "UNCLAIMED";
     return this.exports.update(req, res);
   },
   acceptParticipation(req, res) {
-    req.body.statusId = 2;
+    req.body.status = "CLAIMED";
     return this.exports.update(req, res);
   },
   declineParticipation(req, res) {
-    req.body.statusId = 3;
+    req.body.status = "DECLINED";
     return this.exports.update(req, res);
   },
   destroy(req, res) {

@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     eventId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     roleId: DataTypes.INTEGER,
-    statusId: DataTypes.INTEGER
+    status: DataTypes.STRING
   }, {});
   Participations.associate = function(models) {
     Participations.belongsTo(models.Event, {
@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     });
     Participations.belongsTo(models.User, {
       foreignKey: 'userId',
+      onDelete: 'CASCADE',
+    });
+    Participations.belongsTo(models.EventRole, {
+      foreignKey: 'roleId',
       onDelete: 'CASCADE',
     });
     // associations can be defined here

@@ -1,23 +1,38 @@
 const MyEvent = require('../models').Event;
 const EventParticipation = require('../models').Participations;
-//const MyUser = require('../models').User;
+const MyUser = require('../models').User;
+const MyRole = require('../models').EventRole;
 //const TodoItem = require('../models').TodoItem;
+
+const eventsDictionary = Object.freeze({
+    SEMINAR: 'S',
+    VILLAGE: 'V',
+    STEPUP: 'C'
+});
+
+function generateEventCode(req, res) {
+    /*const year = new Date(req.body.start).getFullYear();
+    const mystring = eventsDictionary[req.body.eventType] + "-" + year + "-" + (MyEvent.findall({
+        where: sequelize.where(sequelize.fn('YEAR', sequelize.col('start')), year)
+        }})).count();
+    return mystring;*/
+    return "ziv";
+}
 
 module.exports = {
   create(req, res) {
-      console.log("creating new event" + req);
     return MyEvent
       .create({
         start: req.body.start,
         end: req.body.end,
-        code: req.body.code || "default-code",
+        code: generateEventCode(req, res),
         country: req.body.country,
         chapter: req.body.chapter,
         type: req.body.eventType,
-        address: req.body.address || "",
+        address: req.body.eventAddress || "",
         email: req.body.email ,
         participatingNAs: req.body.participatingNAs,
-        theme: req.body.theme || "",
+        theme: req.body.eventTheme || "",
         meetingPointName: req.body.meetingPointName || "",
         meetingPointAddress: req.body.meetingPointAddress || "" ,
         meetingDate: req.body.meetingDate || "",
@@ -43,6 +58,7 @@ module.exports = {
         include: [{
           model: EventParticipation,
           as: 'participations',
+            include: [MyUser, MyRole]
         }],
       })
       .then(myevent => {
