@@ -8,6 +8,7 @@ module.exports = {
         password: req.body.password,
         firstName: req.body.firstName,
         middleName: req.body.middleName,
+        gender: req.body.gender,
         lastName: req.body.lastName,
         email: req.body.email,
         homeNumber: req.body.homeNumber,

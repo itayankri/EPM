@@ -12,7 +12,7 @@ module.exports = {
     year: {
       allowNull: false,
       type: Sequelize.INTEGER,
-      validate: { len: 4 }
+      //validate: { len: 4 }
     },
     eventType: {
       allowNull: false,
