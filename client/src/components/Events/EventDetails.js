@@ -12,6 +12,8 @@ import CustomizedTabs from '../common/CustomizedTabs';
 import EventSummaryTabView from './EventSummaryTabView';
 import EventParticipationsTabView from './EventParticipationsTabView';
 import EventOtherTabView from './EventOtherTabView';
+import {getEvent} from "../../actions/eventsActions";
+import ErrorSnackbar from "../common/ErrorSnackbar";
 
 const styles = theme => ({});
 
@@ -20,9 +22,35 @@ class EventDetails extends React.Component {
         super(props);
         this.state = {
             isLoading: false,
-            selectedTab: 0
+            selectedTab: 0,
+            eventId: this.props.match.params.eventId,
+            event: null,
+            isSuccessSnackbarOpen: false,
+            successSnackbarOpen: "",
+            isErrorSnackbarOpen: false,
+            errorSnackbarMessage: "",
         };
     }
+
+    componentWillMount() {
+        getEvent(this.state.eventId)
+            .then(res => {
+                this.setState({
+                    isLoading: false,
+                    event: res.data
+                })
+            })
+            .catch(err => {
+                this.setState({
+                    isErrorSnackbarOpen: true,
+                    errorSnackbarMessage: `Failed to load Event - ${err}`,
+                })
+            });
+    }
+
+    handleErrorSnackbarClose = event => {
+        this.setState({isErrorSnackbarOpen: false})
+    };
 
     handleChange = (event, value) => {
         this.setState({selectedTab: value});
@@ -38,11 +66,11 @@ class EventDetails extends React.Component {
         let tabToRender;
 
         if (this.state.selectedTab === 0) {
-            tabToRender = <EventSummaryTabView/>
+            tabToRender = <EventSummaryTabView event={this.state.event}/>
         } else if (this.state.selectedTab === 1) {
-                tabToRender = <EventParticipationsTabView/>
+            tabToRender = <EventParticipationsTabView event={this.state.event}/>
         } else {
-                    tabToRender = <EventOtherTabView/>
+            tabToRender = <EventOtherTabView event={this.state.event}/>
         }
 
         return (
@@ -53,6 +81,11 @@ class EventDetails extends React.Component {
                     tabs={['Summary', 'Participation', 'Other']}
                 />
                 {tabToRender}
+                <ErrorSnackbar
+                    open={this.state.isErrorSnackbarOpen}
+                    handleClose={this.handleErrorSnackbarClose}
+                    errorMessage={this.state.errorSnackbarMessage}
+                />
             </div>
         );
     }

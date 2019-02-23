@@ -76,10 +76,6 @@ class Events extends React.Component {
             });
     }
 
-    handleErrorSnackbarClose = event => {
-        this.setState({isErrorSnackbarOpen: false})
-    };
-
     onRowClick = rowId => {
         this.props.history.push(`/events/${rowId}`);
     };

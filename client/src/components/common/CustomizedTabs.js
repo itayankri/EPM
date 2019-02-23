@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -76,9 +75,5 @@ class CustomizedTabs extends React.Component {
         );
     }
 }
-
-CustomizedTabs.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(CustomizedTabs);
