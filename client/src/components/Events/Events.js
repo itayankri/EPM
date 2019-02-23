@@ -19,6 +19,7 @@ import {
 } from '@material-ui/core';
 import {getEvents} from "../../actions/eventsActions";
 import ErrorSnackbar from "../common/ErrorSnackbar";
+import Spinner from "../common/Spinner";
 
 const styles = theme => ({
     root: {
@@ -91,11 +92,14 @@ class Events extends React.Component {
         this.setState({isErrorSnackbarOpen: false})
     };
 
-    handleSuccessSnackbarClose = event => {
-        this.setState({isSuccessSnackbarOpen: false})
-    };
-
     render() {
+
+        if (this.state.isLoading) {
+            return (
+                <Spinner/>
+            );
+        }
+
         const {classes} = this.props;
         return (
             <div>
