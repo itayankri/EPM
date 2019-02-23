@@ -62,21 +62,15 @@ class CustomizedTabs extends React.Component {
                     onChange={this.props.handleChange}
                     classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
                 >
-                    <Tab
-                        disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-                        label="Tab 1"
-                    />
-                    <Tab
-                        disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-                        label="Tab 2"
-                    />
-                    <Tab
-                        disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-                        label="Tab 3"
-                    />
+                    {
+                        this.props.tabs.map(tab => (
+                            <Tab
+                                disableRipple
+                                classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+                                label={tab}
+                            />
+                        ))
+                    }
                 </Tabs>
             </div>
         );

@@ -9,10 +9,11 @@ import {
 } from '@material-ui/core';
 import Spinner from "../common/Spinner";
 import CustomizedTabs from '../common/CustomizedTabs';
+import EventSummaryTabView from './EventSummaryTabView';
+import EventParticipationsTabView from './EventParticipationsTabView';
+import EventOtherTabView from './EventOtherTabView';
 
-const styles = theme => ({
-
-});
+const styles = theme => ({});
 
 class EventDetails extends React.Component {
     constructor(props) {
@@ -24,7 +25,7 @@ class EventDetails extends React.Component {
     }
 
     handleChange = (event, value) => {
-        this.setState({ selectedTab: value });
+        this.setState({selectedTab: value});
     };
 
     render() {
@@ -34,12 +35,24 @@ class EventDetails extends React.Component {
             );
         }
 
+        let tabToRender;
+
+        if (this.state.selectedTab === 0) {
+            tabToRender = <EventSummaryTabView/>
+        } else if (this.state.selectedTab === 1) {
+                tabToRender = <EventParticipationsTabView/>
+        } else {
+                    tabToRender = <EventOtherTabView/>
+        }
+
         return (
             <div>
                 <CustomizedTabs
                     value={this.state.selectedTab}
                     handleChange={this.handleChange}
+                    tabs={['Summary', 'Participation', 'Other']}
                 />
+                {tabToRender}
             </div>
         );
     }
