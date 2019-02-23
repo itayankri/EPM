@@ -16,6 +16,7 @@ import ChipsDropDownInput from '../common/InputFields/ChipsDropDownInput';
 import TextInput from '../common/InputFields/TextInput';
 import {submitEvent} from "../../actions/eventsActions";
 import ErrorSnackbar from '../common/ErrorSnackbar';
+import SuccessSnackbar from '../common/SuccessSnackbar';
 
 const eventTypes = [
     {
@@ -94,7 +95,10 @@ class CreateEvent extends React.Component {
             nearestTrainStation: "",
             arriveBefore: "",
             leaveAfter: "",
-            isErrorSnackbarOpen: false
+            isErrorSnackbarOpen: false,
+            errorSnackbarMessage: "",
+            isSuccessSnackbarOpen: false,
+            successSnackbarMessage: ""
         }
     }
 
@@ -107,17 +111,27 @@ class CreateEvent extends React.Component {
     };
 
     onSubmit = event => {
-        submitEvent(this.state).then(result => {
-            if (result) {
-                this.props.history.push('/events');
-            } else {
-                this.setState({isErrorSnackbarOpen: true});
-            }
-        });
+        submitEvent(this.state)
+            .then(result => {
+                this.setState({
+                    isSuccessSnackbarOpen: true,
+                    successSnackbarMessage: "Event created Successfully"
+                });
+            })
+            .catch(err => {
+                this.setState({
+                    isErrorSnackbarOpen: true,
+                    errorSnackbarMessage: `Failed to create event - ${err}`
+                });
+            });
     };
 
     handleErrorSnackbarClose = event => {
         this.setState({isErrorSnackbarOpen: false})
+    };
+
+    handleSuccessSnackbarClose = event => {
+        this.setState({isSuccessSnackbarOpen: false})
     };
 
     render() {
@@ -266,7 +280,12 @@ class CreateEvent extends React.Component {
                 <ErrorSnackbar
                     open={this.state.isErrorSnackbarOpen}
                     handleClose={this.handleErrorSnackbarClose}
-                    errorMessage="An error occurred while saving the event."
+                    errorMessage={this.state.errorSnackbarMessage}
+                />
+                <SuccessSnackbar
+                    open={this.state.isSuccessSnackbarOpen}
+                    handleClose={this.handleSuccessSnackbarClose}
+                    message={this.state.successSnackbarMessage}
                 />
             </div>
         );
