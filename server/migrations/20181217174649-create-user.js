@@ -23,10 +23,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      gender: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
       email: {
         allowNull: false,
         type: Sequelize.STRING,
-        validate: { isEmail: true }
+        //validate: { isEmail: true }
       },
       homeNumber: {
         type: Sequelize.STRING
@@ -37,7 +41,7 @@ module.exports = {
       birthday: {
         allowNull: false,
         type: Sequelize.DATE,
-        validate: { isDate: true }
+        //validate: { isDate: true }
       },
       country: {
         allowNull: false,

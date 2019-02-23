@@ -1,6 +1,6 @@
 const MyEvent = require('../models').Event;
 const EventParticipation = require('../models').Participations;
-const MyUser = require('../models').User;
+//const MyUser = require('../models').User;
 //const TodoItem = require('../models').TodoItem;
 
 module.exports = {
@@ -9,8 +9,9 @@ module.exports = {
       .create({
         start: req.body.start,
         end: req.body.end,
-        country: req.body.country ,
-        chapter: req.body.chapter ,
+        code: req.body.code,
+        country: req.body.country,
+        chapter: req.body.chapter,
         type: req.body.type,
         address: req.body.address || "",
         email: req.body.email ,
@@ -23,7 +24,8 @@ module.exports = {
         nearestAirportCode: req.body.nearestAirportCode || "",
         nearestTrainStation: req.body.nearestTrainStation || "",
         arriveBefore: req.body.arriveBefore,
-        leaveAfter: req.body.leaveAfter
+        leaveAfter: req.body.leaveAfter,
+
       })
       .then(myevent => res.status(201).send(myevent))
       .catch(error => {console.log(error); res.status(400).send(error)});
@@ -75,7 +77,6 @@ module.exports = {
           .update({
             start: req.body.start || myevent.start,
             end: req.body.end || myevent.end,
-            start: req.body.start || myevent.start,
             country: req.body.country || myevent.country,
             chapter: req.body.chapter || myevent.chapter,
           })

@@ -11,12 +11,16 @@ module.exports = {
       start: {
         allowNull: false,
         type: Sequelize.DATE,
-        validate: { isDate: true }
+        //validate: { isDate: true }
       },
       end: {
         allowNull: false,
         type: Sequelize.DATE,
-        validate: { isDate: true }
+        //validate: { isDate: true }
+      },
+      code: {
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       type: {
         allowNull: false,
@@ -36,7 +40,7 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
-        validate: { isEmail: true }
+        //validate: { isEmail: true }
       },
       participatingNAs: {
         type: Sequelize.JSONB
@@ -55,14 +59,14 @@ module.exports = {
       meetingDate: {
         allowNull: false,
         type: Sequelize.DATE,
-        validate: { isDate: true }
+        //validate: { isDate: true }
       },
       nearestAirportName: {
         type: Sequelize.STRING
       },
       nearestAirportCode: {
         type: Sequelize.STRING(3),
-        validate: { len: 3 }
+        //validate: { len: 3 }
       },
       nearestTrainStation: {
         type: Sequelize.STRING
@@ -70,12 +74,12 @@ module.exports = {
       arriveBefore: {
         allowNull: false,
         type: Sequelize.DATE,
-        validate: { isDate: true }
+        //validate: { isDate: true }
       },
       leaveAfter: {
         allowNull: false,
         type: Sequelize.DATE,
-        validate: { isDate: true }
+        //validate: { isDate: true }
       },
       createdAt: {
         allowNull: false,
