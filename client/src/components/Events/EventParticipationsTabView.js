@@ -58,7 +58,7 @@ class EventParticipationsTabView extends React.Component {
                 <br/>
                 {
                     this.props.event.participations.map(participation => (
-                        <div>
+                        <div key={participation.id}>
                             <br/>
                             <Typography><b>{`${participation.User.firstName} ${participation.User.lastName}:`}</b></Typography>
                             <FormControl variant="outlined" className={classes.formControl}>

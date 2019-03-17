@@ -62,8 +62,9 @@ class CustomizedTabs extends React.Component {
                     classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
                 >
                     {
-                        this.props.tabs.map(tab => (
+                        this.props.tabs.map((tab, key) => (
                             <Tab
+                                key={key}
                                 disableRipple
                                 classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
                                 label={tab}
