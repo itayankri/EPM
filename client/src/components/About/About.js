@@ -49,6 +49,7 @@ class About extends React.Component {
                         Our Story
                     </Typography>
                 </Grid>
+                <br/>
                 <Grid container>
                     <Grid item md={3}>
                         <img src={logo2} alt=''/>
