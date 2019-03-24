@@ -34,7 +34,6 @@ class EventParticipationsTabView extends React.Component {
         super(props);
         this.state = {
             labelWidth: 0,
-            roleId: 0
         }
     }
 
@@ -44,8 +43,8 @@ class EventParticipationsTabView extends React.Component {
         });
     }
 
-    handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+    handleChange = (participationId, event) => {
+        this.props.onParticipationRoleChange(participationId, event.target.value);
     };
 
     render() {
@@ -54,13 +53,12 @@ class EventParticipationsTabView extends React.Component {
         return (
             <div>
                 <br/>
-                <Typography variant="h6">Participation</Typography>
-                <br/>
                 {
-                    this.props.event.participations.map(participation => (
+                    this.props.event.participations.map((participation, key) => (
                         <div key={participation.id}>
                             <br/>
-                            <Typography><b>{`${participation.User.firstName} ${participation.User.lastName}:`}</b></Typography>
+                            <Typography
+                                variant='h6'><b>{`${participation.User.firstName} ${participation.User.lastName}:`}</b></Typography>
                             <FormControl variant="outlined" className={classes.formControl}>
                                 <InputLabel
                                     ref={ref => {
@@ -71,8 +69,8 @@ class EventParticipationsTabView extends React.Component {
                                     Role
                                 </InputLabel>
                                 <Select
-                                    value={this.state.roleId}
-                                    onChange={this.handleChange}
+                                    value={participation.roleId}
+                                    onChange={event => this.handleChange(key, event)}
                                     input={
                                         <OutlinedInput
                                             labelWidth={this.state.labelWidth}
@@ -90,7 +88,6 @@ class EventParticipationsTabView extends React.Component {
                                 </Select>
                             </FormControl>
                             <Chip label="Pending" className={classes.chip}/>
-                            {/*<Typography>{JSON.stringify(participation)}</Typography>*/}
                         </div>
                     ))
                 }

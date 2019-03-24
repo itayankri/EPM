@@ -56,6 +56,12 @@ class EventDetails extends React.Component {
         this.setState({selectedTab: value});
     };
 
+    onParticipationRoleChange = (participationIndex, roleId) => {
+        let event = this.state.event;
+        event.participations[participationIndex].roleId = roleId;
+        this.setState({event: event});
+    };
+
     render() {
         if (this.state.isLoading) {
             return (
@@ -68,7 +74,8 @@ class EventDetails extends React.Component {
         if (this.state.selectedTab === 0) {
             tabToRender = <EventSummaryTabView event={this.state.event}/>
         } else if (this.state.selectedTab === 1) {
-            tabToRender = <EventParticipationsTabView event={this.state.event}/>
+            tabToRender = <EventParticipationsTabView event={this.state.event}
+                                                      onParticipationRoleChange={this.onParticipationRoleChange}/>
         } else {
             tabToRender = <EventOtherTabView event={this.state.event}/>
         }
