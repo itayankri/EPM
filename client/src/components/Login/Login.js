@@ -14,6 +14,9 @@ import {
     Grid,
     TextField
 } from '@material-ui/core';
+import {
+    signIn
+} from '../../actions/loginActions';
 
 const styles = theme => ({
     card: {
@@ -47,6 +50,27 @@ const styles = theme => ({
 });
 
 class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: "",
+            password: "",
+            errorMessage: ""
+        };
+
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onSubmit() {
+        signIn(this.state.username, this.state.password)
+            .then(res => {
+                this.props.match.params.history.push('/');
+            })
+            .catch(err => {
+                this.setState({errorMessage: `Login Failure - ${err}`});
+            })
+    }
+
     render() {
         let {classes} = this.props;
         return (
@@ -81,10 +105,21 @@ class Login extends React.Component {
                                     margin="normal"
                                     variant="outlined"
                                 />
+                                {
+                                    this.state.errorMessage &&
+                                    <Typography color="error">
+                                        {this.state.errorMessage}
+                                    </Typography>
+                                }
                             </CardContent>
                             <Divider/>
                             <CardActions>
-                                <Button size="normal">Login</Button>
+                                <Button
+                                    size="normal"
+                                    onClick={this.onSubmit}
+                                >
+                                    Login
+                                </Button>
                             </CardActions>
                         </Card>
                     </Grid>
