@@ -18,6 +18,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import {signUp} from '../../actions/loginActions';
 
 const styles = theme => ({
     card: {
@@ -55,12 +56,20 @@ class Register extends React.Component {
         super(props);
 
         this.state = {
+            errorMessage: "",
             showPassword: false,
-            showPasswordAgain: false
+            showPasswordAgain: false,
+            fullName: "",
+            email: "",
+            dateOfBirth: "",
+            password: "",
+            passwordAgain: ""
         };
 
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.handleClickShowPasswordAgain = this.handleClickShowPasswordAgain.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onTextFieldChange = this.onTextFieldChange.bind(this);
     }
 
     handleClickShowPassword() {
@@ -69,6 +78,26 @@ class Register extends React.Component {
 
     handleClickShowPasswordAgain() {
         this.setState({showPasswordAgain: !this.state.showPasswordAgain});
+    }
+
+    onTextFieldChange(event) {
+        this.setState({[event.target.name]: event.target.value});
+    }
+
+    onSubmit() {
+        signUp({
+            fullName: this.state.fullName,
+            email: this.state.email,
+            dateOfBirth: this.state.dateOfBirth,
+            password: this.state.password,
+            passwordAgain: this.state.passwordAgain
+        })
+            .then(res => {
+                this.props.match.params.history.push('/');
+            })
+            .catch(err => {
+                this.setState({errorMessage: `Registration Failure - ${err}`});
+            })
     }
 
     render() {
@@ -89,9 +118,11 @@ class Register extends React.Component {
                                     label="Full Name"
                                     className={classes.textField}
                                     type="text"
-                                    name="name"
+                                    name="fullName"
                                     margin="normal"
                                     variant="outlined"
+                                    value={this.state.fullName}
+                                    onChange={this.onTextFieldChange}
                                 />
                                 <br/>
                                 <TextField
@@ -104,10 +135,13 @@ class Register extends React.Component {
                                     autoComplete="email"
                                     margin="normal"
                                     variant="outlined"
+                                    value={this.state.email}
+                                    onChange={this.onTextFieldChange}
                                 />
                                 <br/><br/>
                                 <TextField
                                     id="date"
+                                    name="dateOfBirth"
                                     label="Date of birth"
                                     type="date"
                                     defaultValue="2017-05-24"
@@ -116,11 +150,14 @@ class Register extends React.Component {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    value={this.state.dateOfBirth}
+                                    onChange={this.onTextFieldChange}
                                 />
                                 <br/>
                                 <TextField
                                     fullWidth
                                     id="outlined-password-input"
+                                    name="password"
                                     label="Password"
                                     className={classes.textField}
                                     type={this.state.showPassword ? 'text' : 'password'}
@@ -139,10 +176,13 @@ class Register extends React.Component {
                                             </InputAdornment>
                                         ),
                                     }}
+                                    value={this.state.password}
+                                    onChange={this.onTextFieldChange}
                                 />
                                 <TextField
                                     fullWidth
                                     id="outlined-password-input"
+                                    name="passwordAgain"
                                     label="Password again"
                                     className={classes.textField}
                                     type={this.state.showPasswordAgain ? 'text' : 'password'}
@@ -161,11 +201,24 @@ class Register extends React.Component {
                                             </InputAdornment>
                                         ),
                                     }}
+                                    value={this.state.passwordAgain}
+                                    onChange={this.onTextFieldChange}
                                 />
+                                {
+                                    this.state.errorMessage &&
+                                    <Typography color="error">
+                                        {this.state.errorMessage}
+                                    </Typography>
+                                }
                             </CardContent>
                             <Divider/>
                             <CardActions>
-                                <Button size="normal">Submit</Button>
+                                <Button
+                                    size="normal"
+                                    onClick={this.onSubmit}
+                                >
+                                    Submit
+                                </Button>
                             </CardActions>
                         </Card>
                     </Grid>
