@@ -26,6 +26,7 @@ const styles = theme => ({
     },
     chip: {
         margin: theme.spacing.unit,
+        marginTop: theme.spacing.unit * 2.5
     },
 });
 
