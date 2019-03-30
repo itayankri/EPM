@@ -2,6 +2,8 @@ const MyEvent = require('../models').Event;
 const EventParticipation = require('../models').Participations;
 const MyUser = require('../models').User;
 const MyRole = require('../models').EventRole;
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 //const TodoItem = require('../models').TodoItem;
 
 const eventsDictionary = Object.freeze({
@@ -11,24 +13,38 @@ const eventsDictionary = Object.freeze({
 });
 
 function generateEventCode(req, res) {
-    /*const year = new Date(req.body.start).getFullYear();
-    const mystring = eventsDictionary[req.body.eventType] + "-" + year + "-" + (MyEvent.findall({
-        where: sequelize.where(sequelize.fn('YEAR', sequelize.col('start')), year)
-        }})).count();
-    return mystring;*/
-    return "ziv";
+    const year = new Date(req.body.start).getFullYear();
+    console.log(year);
+    return MyEvent.findAll({
+      where: {
+        start: {
+          [Op.lt]: new Date((Number(year)),11,31,23,59,59) ,
+          [Op.gt]: new Date((Number(year)),00,01)
+        },
+        type: req.body.eventType.toString().toLowerCase()
+      }
+    })
+    .then(myevents => {
+      let count = 0;
+      if (myevents) {
+        count = myevents.length;
+      }
+      count++;
+      return (eventsDictionary[req.body.eventType.toString().toUpperCase()] + "-" + year + "-" + count.toString().padStart(3, '0'));
+    });
 }
 
 module.exports = {
   create(req, res) {
+    generateEventCode(req, res).then(eventcode => {
     return MyEvent
       .create({
         start: req.body.start,
         end: req.body.end,
-        code: generateEventCode(req, res),
+        code: eventcode.toString(),
         country: req.body.country,
         chapter: req.body.chapter,
-        type: req.body.eventType,
+        type: req.body.eventType.toString().toLowerCase(),
         address: req.body.eventAddress || "",
         email: req.body.email ,
         participatingNAs: req.body.participatingNAs,
@@ -44,7 +60,7 @@ module.exports = {
 
       })
       .then(myevent => res.status(201).send(myevent))
-      .catch(error => {console.log(error); res.status(400).send(error)});
+      .catch(error => {console.log(error); res.status(400).send(error)})});
   },
   list(req, res) {
     return MyEvent
