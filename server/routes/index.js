@@ -5,41 +5,92 @@ const usersController = require('../controllers').users;
 const participationsController = require('../controllers').participations;
 
 module.exports = (app) => {
-  app.get('/api', (req, res) => res.status(200).send({
+  app.get('', (req, res) => res.status(200).send({
     message: 'Welcome to the Todos API!',
-  }));
+  }));    
+                                            
+  // ENTSE   E      N   SEVEN    E     E    NTSEVEN    EVEN  
+  // E                  S        EV    E       E      S      
+  // E        N    E    S        E E   E       E      S      
+  // E        N    E    S        E E   E       E      S      
+  // ENTSE     T  V     SEVEN    E  N  E       E        VE   
+  // E         T  V     S        E     E       E          N  
+  // E                  S        E   T E       E             
+  // E          SE      S        E    SE       E          N  
+  // ENTSE              SEVEN    E     E       E      SEVE   
+                                                
+  // EVENTS
+  app.post('/event', eventsController.create); // create a new event
+  app.get('/events', eventsController.list); // list all events by a filter (chapter/country/date range/type)
+  app.get('/event/:eventId', eventsController.retrieve); // get a specific event, returns shitload of data
+  app.put('/event/:eventId/edit', eventsController.update); // update an event information
+  // BLOG
+  app.get('/event/:eventId/blog') // get the blog
+  app.post('/event/:eventId/blog') // create a blog post
+  app.put('/event/:eventId/blog/:postId') // update a blog post
+  app.delete('/event/:eventId/blog/:postId') // delete a blog post
+  // GALLERY
+  app.get('/event/:eventId/gallery') // get the gallery
+  app.post('/event/:eventId/gallery/uploadPhoto') // upload a picture
+  app.get('/event/:eventId/gallery/:photoId') // view one picture
+  app.delete('/event/:eventId/gallery/:photoId') // delete a picture
+  // LEADERS MEETINGS
+  app.get('/event/:eventId/leadersMeetings') // get the leaders meetings notes
+  app.post('/event/:eventId/leadersMeetings/createNote') // create a note
+  app.get('/event/:eventId/leadersMeetings/:noteId') // get a specific note
+  app.post('/event/:eventId/leadersMeetings/:noteId') // update a note
+  app.delete('/event/:eventId/leadersMeetings/:noteId') // delete a note
+  // SHOPPING LIST
+  app.get('/event/:eventId/shoppingList') // get the shopping list
+  app.post('/event/:eventId/shoppingList/addItem') // create an item
+  app.post('/event/:eventId/shoppingList/:itemId') // update an item
+  app.delete('/event/:eventId/shoppingList/:itemId') // delete an item
+  /* //TODO: IMPLEMENT FILES ??
+  app.get('/event/:eventId/files') // get all the file names
+  app.post('/event/:eventId/files') // upload a file
+  app.get('/event/:eventId/files/:fileId') // download a file
+  app.delete('/event/:eventId/files/:fileId') // delete a file
+  */
+  // Camp Shop
+  app.get('/event/:eventId/campShop') // Get all items
+  app.post('/event/:eventId/campShop/addItem') // Add an item
+  app.post('/event/:eventId/campShop/pay') // Pay for items
+  app.post('/event/:eventId/campShop/buy') // "Buy" items
+  app.put('/event/:eventId/campShop/:itemId') // edit an item
+  app.delete('/event/:eventId/campShop/:itemId') // delete an item
+  // TODO: maybe add a $$ money limit system / points limit system / item limit system?
+  // other stuff in event
+  app.put('/event/:eventId/generateForm') // TODO: Think about generate form
+  app.put('/event/:eventId/claim', participationsController.claim); // claim a participation by a user
+  app.put('/event/:eventId/unclaim', participationsController.unclaim); // unclaim a participation
+  app.put('/event/:eventId/acceptParticipation', participationsController.acceptParticipation); // accept a participation
+  app.put('/event/:eventId/declineParticipation', participationsController.declineParticipation); // decline a participation
+  app.get('/event/:eventId/campSchedule') // get a schedule for the camp
+  app.get('/event/:eventId/chapterSchedule') // get a schedule for the chapter
+  app.get('/event/:eventId/contactList', eventsController.contactList); // get the contact list
 
-  app.post('/api/users', usersController.create)
-  app.get('/api/users', usersController.list)
-  app.get('/api/users/:id', usersController.retrieve);
-  app.put('/api/users/:id', usersController.update);
-  app.delete('/api/users/:id', usersController.destroy);
 
-  app.post('/api/participations', participationsController.create)
-  app.get('/api/participations', participationsController.list)
-  app.put('/api/participations', participationsController.update);
-  app.delete('/api/participations', participationsController.destroy);
 
-  app.post('/api/events', eventsController.create)
-  app.get('/api/events', eventsController.list)
-  app.get('/api/events/:eventId', eventsController.retrieve);
-  app.put('/api/events/:eventId', eventsController.update);
-  app.delete('/api/events/:eventId', eventsController.destroy);
+
+  app.post('/user', usersController.create)
+  app.get('/users', usersController.list)
+  app.get('/user/:id', usersController.retrieve);
+  app.put('/user/:id', usersController.update);
   
-  app.post('/api/todos', todosController.create);
-  app.get('/api/todos', todosController.list);
-  app.get('/api/todos/:todoId', todosController.retrieve);
-  app.put('/api/todos/:todoId', todosController.update);
-  app.delete('/api/todos/:todoId', todosController.destroy);
+  app.post('/todos', todosController.create);
+  app.get('/todos', todosController.list);
+  app.get('/todos/:todoId', todosController.retrieve);
+  app.put('/todos/:todoId', todosController.update);
+  app.delete('/todos/:todoId', todosController.destroy);
 
-  app.post('/api/todos/:todoId/items', todoItemsController.create);
-  app.put('/api/todos/:todoId/items/:todoItemId', todoItemsController.update);
+  app.post('/todos/:todoId/items', todoItemsController.create);
+  app.put('/todos/:todoId/items/:todoItemId', todoItemsController.update);
   app.delete(
-    '/api/todos/:todoId/items/:todoItemId', todoItemsController.destroy
+    '/todos/:todoId/items/:todoItemId', todoItemsController.destroy
   );
 
   // For any other request method on todo items, we're going to return "Method Not Allowed"
-  app.all('/api/todos/:todoId/items', (req, res) =>
+  app.all('/todos/:todoId/items', (req, res) =>
     res.status(405).send({
       message: 'Method Not Allowed',
   }));

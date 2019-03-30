@@ -4,7 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     rolename: DataTypes.STRING
   }, {});
   EventRole.associate = function(models) {
-    // associations can be defined here
+    EventRole.hasMany(models.Participations, {
+      foreignKey: 'roleId',
+      as: 'participations',
+    });
   };
   return EventRole;
 };
