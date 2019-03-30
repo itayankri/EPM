@@ -78,7 +78,7 @@ class EventOtherTabView extends React.Component {
                 <br/>
                 <Grid container spacing={16}>
                     <Grid item md={2}>
-                        <Link to={`./${this.props.event.id}/bla`} className={classes.link}>
+                        <Link to={`./${this.props.event.id}/roomRandomizer`} className={classes.link}>
                             <Card className={classes.card}>
                                 <CardActionArea>
                                     <CardMedia
@@ -190,7 +190,7 @@ class EventOtherTabView extends React.Component {
                 <br/>
                 <Grid container spacing={16}>
                     <Grid item md={2}>
-                    <Link to={`./${this.props.event.id}/bla`} className={classes.link}>
+                    <Link to={`./${this.props.event.id}/generateForms`} className={classes.link}>
                         <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
