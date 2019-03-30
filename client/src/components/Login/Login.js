@@ -69,7 +69,7 @@ class Login extends React.Component {
     onSubmit() {
         signIn(this.state.username, this.state.password)
             .then(res => {
-                this.props.match.params.history.push('/');
+                this.props.history.push('/');
             })
             .catch(err => {
                 this.setState({errorMessage: `Login Failure - ${err}`});
@@ -123,7 +123,7 @@ class Login extends React.Component {
                             <Divider/>
                             <CardActions>
                                 <Button
-                                    size="normal"
+                                    size="medium"
                                     onClick={this.onSubmit}
                                 >
                                     Login
