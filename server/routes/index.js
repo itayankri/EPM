@@ -73,6 +73,7 @@ module.exports = (app) => {
 
 
   app.post('/user', usersController.create)
+  app.post('/login', usersController.login)
   app.get('/users', usersController.list)
   app.get('/user/:id', usersController.retrieve);
   app.put('/user/:id', usersController.update);
