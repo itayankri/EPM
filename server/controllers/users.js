@@ -81,13 +81,14 @@ module.exports = {
   login(req, res) {
     return myuser
       .find({ email: req.body.email,
-              password: req.body.password })
+              password: req.body.password },)
       .then(myuser => {
         if (!myuser) {
           return res.status(404).send({
             message: 'Incorrect username or password',
           })
         }
+        myuser.password=""
         return res.status(200).send(myuser);
       })
       .catch((error) => res.status(400).send(error));
