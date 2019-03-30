@@ -76,5 +76,20 @@ module.exports = {
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
+  },
+
+  login(req, res) {
+    return myuser
+      .find({ email: req.params.email,
+              password: req.params.password })
+      .then(myuser => {
+        if (!myuser) {
+          return res.status(404).send({
+            message: 'Incorrect username or password',
+          })
+        }
+        return myuser;
+      })
+      .catch((error) => res.status(400).send(error));
   }
 };
