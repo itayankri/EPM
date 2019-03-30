@@ -11,7 +11,8 @@ export const signIn = (username, password) => {
 };
 
 export const signUp = (user) => {
-    return axios.post(`${config.url}/register`, {
-        user: user
+    console.log('user', user);
+    return axios.post(`${config.url}/user`, {
+        ...user
     });
 };
