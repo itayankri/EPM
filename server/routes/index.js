@@ -60,7 +60,7 @@ module.exports = (app) => {
   app.delete('/event/:eventId/campShop/:itemId') // delete an item
   // TODO: maybe add a $$ money limit system / points limit system / item limit system?
   // other stuff in event
-  app.put('/event/:eventId/generateForm') // TODO: Think about generate form
+  app.post('/event/:eventId/generateForm', eventsController.generateForm) // TODO: Think about generate form
   app.put('/event/:eventId/claim', participationsController.claim); // claim a participation by a user
   app.put('/event/:eventId/unclaim', participationsController.unclaim); // unclaim a participation
   app.put('/event/:eventId/acceptParticipation', participationsController.acceptParticipation); // accept a participation

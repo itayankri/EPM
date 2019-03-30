@@ -29,17 +29,27 @@ export const declineParticipation = (eventId, userId, roleId) => {
     })
 };
 
-export const downloadForm = () => {
-    axios({
-        url: `${config.url}/static/pdfs/healthForm.pdf`,
-        method: 'GET',
-        responseType: 'blob', // important
-    }).then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'healthForm.pdf');
-        document.body.appendChild(link);
-        link.click();
+export const downloadForm = (formName, eventId) => {
+    axios.post(`${config.url}/event/${eventId}/generateForm`, {
+            formName: formName,
+            eventId: eventId,
+            userId: 1
+        })
+    .then(filePath => {
+        console.log(filePath);
+        console.log(filePath.data);
+        console.log(`${config.url}/static/pdfs/filledForms/${filePath.data.split("\\")[8]}`);
+        axios({
+            url: `${config.url}/static/pdfs/filledForms/${filePath.data.split("\\")[8]}`,
+            method: 'GET',
+            responseType: 'blob', // important
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', formName);
+            document.body.appendChild(link);
+            link.click();
+        });
     });
 };

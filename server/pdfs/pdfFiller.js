@@ -2,6 +2,7 @@ let hummus = require('hummus'),
     fillForm = require('./pdf-form-fill').fillForm,
     PDFDigitalForm = require('./pdf-digital-form'),
     fs = require('fs');
+    path = require('path');
 
 //fillPdfForm('healthForm', {"Middle name":'a', "Languages spoken":'c', "Name of Participant":'b'});
 
@@ -21,9 +22,18 @@ function fillPdfForm(formName, dataToFill) {
     for (let field in fields) {
         data[field] = dataToFill[field];
     }
+    let now = new Date(Date.now());
+    
+    let modifiedFilePath = path.resolve(__dirname,'../static/pdfs/filledForms/',now.getFullYear().toString() + 
+                                        (now.getMonth()+1).toString().padStart(2, '0') + now.getDate().toString().padStart(2, '0') + "-" +
+                                        data["First name"] + "_" + data["Last name"] + "_" + formName + '_' + "Filled.pdf");
+
+    fs.copyFile(path.resolve(__dirname,'../static/pdfs/filledForms/healthForm.pdf'), modifiedFilePath, (err) => {
+        if (err) throw err;
+    });
 
     let writer = hummus.createWriterToModify(__dirname + '/pdfForms/' + formName + '.pdf', {
-        modifiedFilePath: __dirname + '/filledForms/' + formName + '_' + "Filled.pdf"
+        modifiedFilePath: modifiedFilePath
     });
 
     fillForm(writer,data, {
@@ -37,7 +47,7 @@ function fillPdfForm(formName, dataToFill) {
     });
     writer.end();
 
-    return writer.modifiedFilePath;
+    return modifiedFilePath;
 }
 
 /***
