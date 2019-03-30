@@ -24,7 +24,7 @@ const eventTypes = [
         label: "Village"
     },
     {
-        value: "Step-Up",
+        value: "StepUp",
         label: "Step-Up"
     },
     {
