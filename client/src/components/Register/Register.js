@@ -132,7 +132,7 @@ class Register extends React.Component {
             gender: this.state.gender === "male"
         })
             .then(res => {
-                this.props.match.params.history.push('/');
+                this.props.history.push('/');
             })
             .catch(err => {
                 this.setState({errorMessage: `Registration Failure - ${err}`});
