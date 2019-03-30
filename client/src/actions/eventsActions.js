@@ -12,3 +12,19 @@ export const getEvent = (eventId) => {
 export const submitEvent = event => {
     return axios.post(`${config.url}/event`, event);
 };
+
+export const approveParticipation = (eventId, userId, roleId) => {
+    return axios.put(`${config.url}/event/${eventId}/acceptParticipation`, {
+        eventId: eventId,
+        userId: userId,
+        roleId: roleId,
+    })
+};
+
+export const declineParticipation = (eventId, userId, roleId) => {
+    return axios.put(`${config.url}/event/${eventId}/declineParticipation`, {
+        eventId: eventId,
+        userId: userId,
+        roleId: roleId,
+    })
+};

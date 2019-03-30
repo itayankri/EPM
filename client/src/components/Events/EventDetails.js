@@ -11,6 +11,7 @@ import Spinner from "../common/Spinner";
 import CustomizedTabs from '../common/CustomizedTabs';
 import EventSummaryTabView from './EventSummaryTabView';
 import EventParticipationsTabView from './EventParticipationsTabView';
+import EventParticipationTableView from './EventParticipationTableView';
 import EventOtherTabView from './EventOtherTabView';
 import {getEvent} from "../../actions/eventsActions";
 import ErrorSnackbar from "../common/ErrorSnackbar";
@@ -33,6 +34,10 @@ class EventDetails extends React.Component {
     }
 
     componentWillMount() {
+        this.refreshEvent()
+    }
+
+    refreshEvent = () => {
         getEvent(this.state.eventId)
             .then(res => {
                 this.setState({
@@ -46,7 +51,7 @@ class EventDetails extends React.Component {
                     errorSnackbarMessage: `Failed to load Event - ${err}`,
                 })
             });
-    }
+    };
 
     handleErrorSnackbarClose = event => {
         this.setState({isErrorSnackbarOpen: false})
@@ -74,8 +79,10 @@ class EventDetails extends React.Component {
         if (this.state.selectedTab === 0) {
             tabToRender = <EventSummaryTabView event={this.state.event}/>
         } else if (this.state.selectedTab === 1) {
-            tabToRender = <EventParticipationsTabView event={this.state.event}
-                                                      onParticipationRoleChange={this.onParticipationRoleChange}/>
+            tabToRender = <EventParticipationTableView
+                            event={this.state.event}
+                            onParticipationRoleChange={this.onParticipationRoleChange}
+                            refreshEvent={this.refreshEvent}/>
         } else {
             tabToRender = <EventOtherTabView event={this.state.event}/>
         }
