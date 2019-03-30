@@ -99,7 +99,7 @@ class EventOtherTabView extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                        <Link to={`./${this.props.event.id}/bla`} className={classes.link}>
+                        <Link to={`./${this.props.event.id}/campShop`} className={classes.link}>
                         <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
@@ -121,7 +121,7 @@ class EventOtherTabView extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                        <Link to={`./${this.props.event.id}/bla`} className={classes.link}>
+                        <Link to={`./${this.props.event.id}/blog`} className={classes.link}>
                         <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
@@ -143,7 +143,7 @@ class EventOtherTabView extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                    <Link to={`./${this.props.event.id}/bla`} className={classes.link}>
+                    <Link to={`./${this.props.event.id}/shoppingList`} className={classes.link}>
                         <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
@@ -165,7 +165,7 @@ class EventOtherTabView extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                    <Link to={`./${this.props.event.id}/bla`} className={classes.link}>
+                    <Link to={`./${this.props.event.id}/leadersMeetings`} className={classes.link}>
                         <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
@@ -212,7 +212,7 @@ class EventOtherTabView extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                    <Link to={`./${this.props.event.id}/bla`} className={classes.link}>
+                    <Link to={`./${this.props.event.id}/campSchedule`} className={classes.link}>
                         <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
@@ -234,7 +234,7 @@ class EventOtherTabView extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                    <Link to={`./${this.props.event.id}/bla`} className={classes.link}>
+                    <Link to={`./${this.props.event.id}/chapterSchedule`} className={classes.link}>
                         <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
@@ -256,7 +256,7 @@ class EventOtherTabView extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                    <Link to={`./${this.props.event.id}/bla`} className={classes.link}>
+                    <Link to={`./${this.props.event.id}/contactList`} className={classes.link}>
                         <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
