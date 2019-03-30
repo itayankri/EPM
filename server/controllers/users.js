@@ -19,12 +19,12 @@ module.exports = {
         address: req.body.address,
         zipcode: req.body.zipcode,
         chapter: req.body.chapter,
-        roleInNA: req.body.roleInNA,
-        languages: req.body.languages,
-        allergies: req.body.allergies,
-        swimming: req.body.swimming,
-        firstAid: req.body.firstAid,
-        lifeSave: req.body.lifeSave,
+        roleInNA: req.body.roleInNA  || "123",
+        languages: req.body.languages || "123",
+        allergies: req.body.allergies || "123",
+        swimming: req.body.swimming  || true,
+        firstAid: req.body.firstAid  || true,
+        lifeSave: req.body.lifeSave  || true,
       })
       .then(myuser => res.status(201).send(myuser))
       .catch(error => { console.log(error); res.status(400).send(error)});
