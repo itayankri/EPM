@@ -2,6 +2,7 @@ import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/es/Typography/Typography";
 import Button from "@material-ui/core/Button";
+import {downloadForm} from '../../actions/eventsActions';
 
 const styles = theme => ({
 
@@ -22,7 +23,7 @@ class GenerateForms extends React.Component {
                     Generate Forms
                 </Typography>
                 <br/>
-                <Button variant="outlined">
+                <Button variant="outlined" onClick={() => downloadForm()}>
                     Download Form
                 </Button>
             </div>
