@@ -72,14 +72,36 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
   contactList(req, res) {
-    if (req.body.eventId == null)
+    if (req.params.eventId == null)
     {
       return res.status(404).send({
         message: 'parameter eventId is not defined',
       });
     }
-    module.exports.retrieve(req, res)
-    .then(myevent => { return res.status(200).send(myevent.participations) });
+    return MyEvent
+      .findById(req.params.eventId, {
+        attributes: [ "id", "theme", "country", "chapter" ],
+        include: [{
+          model: EventParticipation,
+          as: 'participations',
+          attributes: [ "status" ],
+          where: { status: "CLAIMED" },
+            include: [{
+              model: MyUser,
+              attributes: [ "firstName", "middleName", "lastName", "birthday",
+                            "gender", "email", "homeNumber", "cellphoneNumber",
+                            "country", "city", "address", "zipcode" ]},
+            ]
+      }]})
+      .then(myevent => {
+        if (!myevent) {
+          return res.status(404).send({
+            message: 'No records found.',
+          });
+        }
+        return res.status(200).send(myevent);
+      })
+      .catch(error => res.status(400).send(error));
   },
   update(req, res) {
     return MyEvent
