@@ -53,12 +53,17 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            email: "",
             password: "",
             errorMessage: ""
         };
 
         this.onSubmit = this.onSubmit.bind(this);
+        this.onTextFieldChange = this.onTextFieldChange.bind(this);
+    }
+
+    onTextFieldChange(event) {
+        this.setState({[event.target.name]: event.target.value});
     }
 
     onSubmit() {
@@ -85,7 +90,6 @@ class Login extends React.Component {
                                 </Typography>
                                 <TextField
                                     fullWidth
-                                    id="outlined-email-input"
                                     label="Email"
                                     className={classes.textField}
                                     type="email"
@@ -93,17 +97,21 @@ class Login extends React.Component {
                                     autoComplete="email"
                                     margin="normal"
                                     variant="outlined"
+                                    value={this.state.email}
+                                    onChange={this.onTextFieldChange}
                                 />
                                 <br/>
                                 <TextField
                                     fullWidth
-                                    id="outlined-password-input"
+                                    name="password"
                                     label="Password"
                                     className={classes.textField}
                                     type="password"
                                     autoComplete="current-password"
                                     margin="normal"
                                     variant="outlined"
+                                    value={this.state.password}
+                                    onChange={this.onTextFieldChange}
                                 />
                                 {
                                     this.state.errorMessage &&
