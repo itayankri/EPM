@@ -129,6 +129,7 @@ class EventParticipationsTabView extends React.Component {
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center">Name</TableCell>
+                                <TableCell align="center">Birthday</TableCell>
                                 <TableCell align="center">Role</TableCell>
                                 <TableCell align="center">Status</TableCell>
                                 <TableCell align="center">Actions</TableCell>
@@ -144,6 +145,7 @@ class EventParticipationsTabView extends React.Component {
                                         <TableCell align="center">
                                             {row.User.firstName} {row.User.middleName || ""} {row.User.lastName}
                                         </TableCell>
+                                        <TableCell>{row.User.birthday.split('T')[0]}</TableCell>
                                         <TableCell
                                             align="center"
                                         >
@@ -171,6 +173,7 @@ class EventParticipationsTabView extends React.Component {
                                                 color="primary"
                                                 size="small"
                                                 onClick={() => this.onApprove(key)}
+                                                disabled={row.status === 'APPROVED'}
                                             >
                                                 <CheckIcon/>
                                             </IconButton>
@@ -178,6 +181,7 @@ class EventParticipationsTabView extends React.Component {
                                                 color="secondary"
                                                 size="small"
                                                 onClick={() => this.onDecline(key)}
+                                                disabled={row.status === 'DECLINED'}
                                             >
                                                 <BlockIcon/>
                                             </IconButton>
