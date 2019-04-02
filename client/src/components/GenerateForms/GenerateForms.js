@@ -48,8 +48,9 @@ const styles = ({
         width: 200,
     },
     media: {
-        height: 250,
-        width: 250
+        height: 150,
+        width: 150,
+        margin: '25px 50px'
     },
     link: {
         textDecoration: 'none'
@@ -69,6 +70,10 @@ class GenerateForms extends React.Component {
         return (
             <div>
                 <br/>
+                <Button
+                    onClick={() => this.props.history.goBack()}>
+                    BACK
+                </Button>
                 <Typography variant="h4" component="h2">
                     Generate Forms
                 </Typography>
@@ -88,7 +93,7 @@ class GenerateForms extends React.Component {
                                         Health Form
                                     </Typography>
                                     <Typography component="p">
-                                        Generate a filled-in Health Form with your details, all you need is a doctor's signature!
+                                        Generate a filled-in Health Form with your details, all you need is a doctor's signature and make copies!
                                     </Typography>
                                     </CardContent>
                                 </CardActionArea>

@@ -54,8 +54,9 @@ const styles = ({
         width: 200,
     },
     media: {
-        height: 250,
-        width: 250
+        height: 150,
+        width: 150,
+        margin: '25px 50px'
     },
     link: {
         textDecoration: 'none'
