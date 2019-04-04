@@ -4,9 +4,9 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {NavLink} from 'react-router-dom';
-import {withStyles} from '@material-ui/core/styles';
 import {connect} from 'react-redux';
+import {NavLink, withRouter} from 'react-router-dom';
+import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -106,7 +106,8 @@ const styles = theme => ({
 
 const mapStateToProps = state => {
     return {
-        isUserLoggedIn: state.isUserLoggedIn
+        isUserLoggedIn: state.isUserLoggedIn,
+        user: state.user
     }
 };
 
@@ -236,4 +237,4 @@ class MiniDrawer extends React.Component {
 }
 
 // export default withStyles(styles, {withTheme: true})(MiniDrawer);
-export default connect(mapStateToProps)(withStyles(styles, {withTheme: true})(MiniDrawer));
+export default withRouter(connect(mapStateToProps)(withStyles(styles, {withTheme: true})(MiniDrawer)));
