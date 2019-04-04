@@ -116,6 +116,8 @@ class MiniDrawer extends React.Component {
         this.state = {
             open: true,
         };
+
+        console.log(props);
     }
 
     handleDrawerOpen = () => {
@@ -166,7 +168,6 @@ class MiniDrawer extends React.Component {
                                 :
                                 <div className={classes.topNavbar}>
                                     <NavLink to="/account" className={classes.topNavlink}>
-                                        {/*<Button color="inherit">User</Button>*/}
                                         <Typography className={classes.topNavlink}>
                                             <IconButton className={classes.topNavlink}>
                                                 <AccountIcon/>

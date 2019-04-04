@@ -4,16 +4,12 @@ import {downloadForm} from '../../actions/eventsActions';
 import {
     Typography,
     Card,
-    CardActions,
     CardContent,
     Button,
-    Divider,
     Grid,
-    TextField,
     CardMedia,
     CardActionArea
 } from '@material-ui/core';
-import {Link} from 'react-router-dom';
 import health_form_pic from "../../static/images/health_form.png";
 import legal_form_pic from "../../static/images/legal_form.png";
 import incident_report_pic from "../../static/images/incident_report.png";

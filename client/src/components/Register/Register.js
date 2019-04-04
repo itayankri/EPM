@@ -21,7 +21,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import {signUp} from '../../actions/loginActions';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";

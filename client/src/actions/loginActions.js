@@ -2,7 +2,6 @@ import axios from 'axios';
 import config from '../config/config';
 import {
     SIGN_IN,
-    REGISTER
 } from '../constants/actionTypes';
 
 export const signIn = (username, password) => {

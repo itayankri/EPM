@@ -4,13 +4,9 @@
 
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import {
-    Typography,
-} from '@material-ui/core';
 import Spinner from "../common/Spinner";
 import CustomizedTabs from '../common/CustomizedTabs';
 import EventSummaryTabView from './EventSummaryTabView';
-import EventParticipationsTabView from './EventParticipationsTabView';
 import EventParticipationTableView from './EventParticipationTableView';
 import EventOtherTabView from './EventOtherTabView';
 import {getEvent} from "../../actions/eventsActions";

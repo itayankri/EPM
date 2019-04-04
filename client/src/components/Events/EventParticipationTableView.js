@@ -1,16 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {withStyles} from '@material-ui/core/styles';
 import {
-    Paper,
-    Table, TableBody, TableCell, TableHead, TableRow,
-    Typography,
+    Paper, Table, TableBody, TableCell, TableHead, TableRow,
 } from '@material-ui/core';
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import classNames from "classnames";
-import Button from "@material-ui/core/Button";
 import BlockIcon from '@material-ui/icons/Block';
 import CheckIcon from '@material-ui/icons/Check';
 import IconButton from "@material-ui/core/IconButton";

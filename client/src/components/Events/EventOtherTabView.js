@@ -3,16 +3,11 @@ import {withStyles} from '@material-ui/core/styles';
 import {
     Typography,
     Card,
-    CardActions,
     CardContent,
-    Button,
-    Divider,
     Grid,
-    TextField,
     CardMedia,
     CardActionArea
 } from '@material-ui/core';
-import Spinner from "./EventSummaryTabView";
 import {Link} from 'react-router-dom';
 import random_pic from "../../static/images/randomize.jpg";
 import camp_shop_pic from "../../static/images/camp_shop.png";
