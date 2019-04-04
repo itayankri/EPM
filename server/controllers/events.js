@@ -125,6 +125,89 @@ const myshit = module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
+  participantsToRandomize(req, res) {
+    if (req.params.eventId == null)
+    {
+      return res.status(404).send({
+        message: 'parameter eventId is not defined',
+      });
+    }
+    return MyEvent
+      .findById(req.params.eventId, {
+        attributes: [ "id", "theme", "country", "chapter" ],
+        include: [{
+          model: EventParticipation,
+          as: 'participations',
+          attributes: [ "status", "roleId" ],
+          where: { status: "CLAIMED" },
+            include: [{
+              model: MyUser,
+              attributes: [ "firstName", "lastName", "gender", "country" ],
+            }]
+      }]})
+      .then(myevent => {
+        if (!myevent) {
+          return res.status(404).send({
+            message: 'No records found.',
+          });
+        }
+        return res.status(200).send(myevent);
+      })
+      .catch(error => res.status(400).send(error));
+  },
+  roomRandomizer(req, res) {
+    let myObject;
+    console.log(req.body);
+    switch (req.body.rooms){
+      case 1:
+        myObject = {
+          "Rooms": [
+            {
+              "Room Number": 1,
+              "Participants": [
+                {"firstName": "fake_first_1","lastName": "fake_last_1","gender": true,"country": "fake_country_1","roleId": 2},
+                {"firstName": "fake_first_2","lastName": "fake_last_2","gender": false,"country": "fake_country_2","roleId": 2},
+                {"firstName": "fake_first_3","lastName": "fake_last_3","gender": true,"country": "fake_country_3","roleId": 2},
+                {"firstName": "fake_first_4","lastName": "fake_last_4","gender": false,"country": "fake_country_4","roleId": 2},
+              ],
+              "warning": ""
+            }
+          ]
+        }
+        break;
+      case 2:
+        myObject = {
+          "Rooms": [
+            {
+              "Room Number": 1,
+              "Participants": [
+                {"firstName": "fake_first_1","lastName": "fake_last_1","gender": true,"country": "fake_country_1","roleId": 2},
+                {"firstName": "fake_first_2","lastName": "fake_last_2","gender": false,"country": "fake_country_2","roleId": 2},
+                {"firstName": "fake_first_3","lastName": "fake_last_3","gender": true,"country": "fake_country_3","roleId": 2},
+                {"firstName": "fake_first_4","lastName": "fake_last_4","gender": false,"country": "fake_country_4","roleId": 2},
+              ],
+              "warning": ""
+            },
+            {
+              "Room Number": 2,
+              "Participants": [
+                {"firstName": "fake_first_5","lastName": "fake_last_5","gender": true,"country": "fake_country_1","roleId": 2},
+                {"firstName": "fake_first_6","lastName": "fake_last_6","gender": false,"country": "fake_country_2","roleId": 2},
+                {"firstName": "fake_first_7","lastName": "fake_last_7","gender": true,"country": "fake_country_3","roleId": 2},
+                {"firstName": "fake_first_8","lastName": "fake_last_8","gender": false,"country": "fake_country_4","roleId": 2},
+              ],
+              "warning": "Fake warning"
+            },
+          ]
+        }
+        break;
+      default:
+        myObject = {"error":"Didn't get 1 room or 2 rooms"};
+        break;
+    }
+    
+    return res.status(200).send(myObject);
+  },
   update(req, res) {
     return MyEvent
       .findById(req.params.eventId)

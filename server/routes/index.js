@@ -68,6 +68,8 @@ module.exports = (app) => {
   app.get('/event/:eventId/campSchedule') // get a schedule for the camp
   app.get('/event/:eventId/chapterSchedule') // get a schedule for the chapter
   app.get('/event/:eventId/contactList', eventsController.contactList); // get the contact list
+  app.get('/event/:eventId/participantsToRandomize', eventsController.participantsToRandomize); // get the participants before randomizing
+  app.post('/event/:eventId/roomRandomizer', eventsController.roomRandomizer); // Randomize a given list of participants
 
 
 
