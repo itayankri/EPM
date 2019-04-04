@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../config/config';
 import {
-    SIGN_IN,
+    SET_USER,
 } from '../constants/actionTypes';
 
 export const signIn = (username, password) => {
@@ -19,7 +19,7 @@ export const signUp = (user) => dispatch => {
 
 export const setUser = (user) => dispatch => {
     dispatch({
-        type: SIGN_IN,
+        type: SET_USER,
         payload: {
             user: user,
             isUserLoggedIn: true

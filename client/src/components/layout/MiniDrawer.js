@@ -106,8 +106,8 @@ const styles = theme => ({
 
 const mapStateToProps = state => {
     return {
-        isUserLoggedIn: state.isUserLoggedIn,
-        user: state.user
+        isUserLoggedIn: state.userDetails.isUserLoggedIn,
+        user: state.userDetails.user
     }
 };
 
@@ -128,6 +128,11 @@ class MiniDrawer extends React.Component {
     handleDrawerClose = () => {
         this.setState({open: false});
     };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('isUserLoggedIn', prevProps.isUserLoggedIn, this.props.isUserLoggedIn)
+        console.log('user', prevProps.user, this.props.user)
+    }
 
     render() {
         const {classes, theme} = this.props;

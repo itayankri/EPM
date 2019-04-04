@@ -8,7 +8,7 @@ export default combineReducers({
   // article,
   // articleList,
   auth,
-  user: userReducer,
+  userDetails: userReducer,
   // common,
   // editor,
   // home,
