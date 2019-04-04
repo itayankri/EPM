@@ -3,6 +3,8 @@
  */
 
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {withStyles} from '@material-ui/core/styles';
 import {
     Typography,
@@ -15,7 +17,8 @@ import {
     TextField
 } from '@material-ui/core';
 import {
-    signIn
+    signIn,
+    setUser
 } from '../../actions/loginActions';
 
 const styles = theme => ({
@@ -49,6 +52,10 @@ const styles = theme => ({
     },
 });
 
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({setUser}, dispatch);
+};
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -69,6 +76,7 @@ class Login extends React.Component {
     onSubmit() {
         signIn(this.state.username, this.state.password)
             .then(res => {
+                this.props.setUser(res.data);
                 this.props.history.push('/');
             })
             .catch(err => {
@@ -137,4 +145,4 @@ class Login extends React.Component {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(Login);
+export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(Login));

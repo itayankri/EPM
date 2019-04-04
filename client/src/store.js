@@ -1,4 +1,5 @@
 import { applyMiddleware, createStore } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { promiseMiddleware, localStorageMiddleware } from './middleware';
@@ -17,7 +18,7 @@ const getMiddleware = () => {
     return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware);
   } else {
     // Enable additional logging in non-production environments.
-    return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware, createLogger())
+    return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware, createLogger(), thunkMiddleware)
   }
 };
 

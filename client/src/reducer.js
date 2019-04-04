@@ -7,12 +7,14 @@ import editor from './reducers/editor';
 import home from './reducers/home';
 import profile from './reducers/profile';
 import settings from './reducers/settings';
+import userReducer from './reducers/userReducer';
 import { routerReducer } from 'react-router-redux';
 
 export default combineReducers({
   article,
   articleList,
   auth,
+  user: userReducer,
   common,
   editor,
   home,

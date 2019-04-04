@@ -6,6 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {NavLink} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
+import {connect} from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -103,10 +104,19 @@ const styles = theme => ({
     }
 });
 
+const mapStateToProps = state => {
+    return {
+        isUserLoggedIn: state.isUserLoggedIn
+    }
+};
+
 class MiniDrawer extends React.Component {
-    state = {
-        open: true,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: true,
+        };
+    }
 
     handleDrawerOpen = () => {
         this.setState({open: true});
@@ -142,14 +152,30 @@ class MiniDrawer extends React.Component {
                         <Typography variant="h6" color="inherit" noWrap>
                             CISV
                         </Typography>
-                        <div className={classes.topNavbar}>
-                            <NavLink to="/register" className={classes.topNavlink}>
-                                <Button color="inherit">Register</Button>
-                            </NavLink>
-                            <NavLink to="/login" className={classes.topNavlink}>
-                                <Button color="inherit">Login</Button>
-                            </NavLink>
-                        </div>
+                        {
+                            !this.props.isUserLoggedIn
+                                ?
+                                <div className={classes.topNavbar}>
+                                    <NavLink to="/register" className={classes.topNavlink}>
+                                        <Button color="inherit">Register</Button>
+                                    </NavLink>
+                                    <NavLink to="/login" className={classes.topNavlink}>
+                                        <Button color="inherit">Login</Button>
+                                    </NavLink>
+                                </div>
+                                :
+                                <div className={classes.topNavbar}>
+                                    <NavLink to="/account" className={classes.topNavlink}>
+                                        {/*<Button color="inherit">User</Button>*/}
+                                        <Typography className={classes.topNavlink}>
+                                            <IconButton className={classes.topNavlink}>
+                                                <AccountIcon/>
+                                            </IconButton>
+                                            {this.props.user.firstName}
+                                        </Typography>
+                                    </NavLink>
+                                </div>
+                        }
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -208,4 +234,5 @@ class MiniDrawer extends React.Component {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(MiniDrawer);
+// export default withStyles(styles, {withTheme: true})(MiniDrawer);
+export default connect(mapStateToProps)(withStyles(styles, {withTheme: true})(MiniDrawer));
