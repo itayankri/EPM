@@ -29,11 +29,33 @@ export const declineParticipation = (eventId, userId, roleId) => {
     })
 };
 
-export const downloadForm = (formName, eventId) => {
+export const getContactList = (eventId) => {
+    return axios.get(`${config.url}/event/${eventId}/contactList`);
+}
+
+export const getCountryFlag = (countryName) => {
+    return axios.get(`https://restcountries.eu/rest/v2/name/${countryName}`).then(res => {
+        return `https://restcountries.eu/data/${res.data[0].alpha3Code.toLowerCase()}.svg`;
+    });
+    
+}
+
+export const downloadForm = (formName, eventId, userId) => {
+    console.log("DownloadForm");
+    if (!eventId)
+    {
+        console.log("EventId is not defined");
+        return;
+    }
+    if (!userId)
+    {
+        console.log("UserId is not defined");
+        return;
+    }
     axios.post(`${config.url}/event/${eventId}/generateForm`, {
             formName: formName,
             eventId: eventId,
-            userId: 1
+            userId: userId
         })
     .then(filePath => {
         console.log(filePath);
