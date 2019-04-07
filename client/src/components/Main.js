@@ -11,6 +11,7 @@ import Events from './Events/Events';
 import EventDetails from './Events/EventDetails';
 import CreateEvent from './Events/CreateEvent';
 import GenerateForms from './GenerateForms/GenerateForms';
+import ContactList from './ContactList/ContactList';
 import 'react-dates/initialize';
 
 const styles = theme => ({
@@ -40,6 +41,7 @@ class Main extends React.Component {
                     <Route exact path="/events/create" component={CreateEvent}/>
                     <Route exact path="/events/:eventId" component={EventDetails}/>
                     <Route exact path="/events/:eventId/generateForms" component={GenerateForms}/>
+                    <Route exact path="/events/:eventId/contactList" component={ContactList}/>
                 </Switch>
             </div>
         )
