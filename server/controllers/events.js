@@ -106,7 +106,7 @@ const myshit = module.exports = {
         include: [{
           model: EventParticipation,
           as: 'participations',
-          attributes: [ "status" ],
+          attributes: [ "status", "roleId" ],
           where: { status: "CLAIMED" },
             include: [{
               model: MyUser,
