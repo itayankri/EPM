@@ -1,6 +1,8 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {downloadForm} from '../../actions/eventsActions';
+import {connect} from 'react-redux';
+import Back from '@material-ui/icons/KeyboardBackspace';
 import {
     Typography,
     Card,
@@ -53,36 +55,47 @@ const styles = ({
     }
 });
 
+const mapStateToProps = state => {
+    return {
+        isUserLoggedIn: state.userDetails.isUserLoggedIn,
+        user: state.userDetails.user
+    }
+};
+
 class GenerateForms extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            eventId: (this.props.location.pathname.split("/")[2]),
         }
     }
 
     render() {
+        if (!this.props.user)
+        {
+            console.log("USER IS NOT LOGGED IN");
+            this.props.history.push('/login');
+        }
         let {classes} = this.props;
         return (
             <div>
-                <br/>
-                <Button
-                    onClick={() => this.props.history.goBack()}>
-                    BACK
+                <Button variant="contained" color="primary" className={classes.button} onClick={() => this.props.history.goBack()}>
+                    <Back></Back>Back
                 </Button>
+                <br/>
+                <br/>
                 <Typography variant="h4" component="h2">
                     Generate Forms
                 </Typography>
                 <br/>
                 <Grid container spacing={16}>
                     <Grid item md={2}>
-                            <Card className={classes.card}>
+                            <Card className={classes.card} onClick={() => downloadForm("healthForm.pdf", this.state.eventId, this.props.user.id)}>
                                 <CardActionArea>
                                     <CardMedia
                                     className={classes.media}
                                     image={health_form_pic}
                                     title="Health Form"
-                                    onClick={() => downloadForm("healthForm.pdf", 1)}
                                     />
                                     <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
@@ -97,13 +110,12 @@ class GenerateForms extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                            <Card className={classes.card}>
+                            <Card className={classes.card} onClick={() => downloadForm("adultLegalForm.pdf", this.state.eventId, this.props.userId)}>
                                 <CardActionArea>
                                     <CardMedia
                                     className={classes.media}
                                     image={legal_form_pic}
                                     title="Adult Legal Form"
-                                    onClick={() => downloadForm("adultLegalForm.pdf")}
                                     />
                                     <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
@@ -118,13 +130,12 @@ class GenerateForms extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                            <Card className={classes.card}>
+                            <Card className={classes.card} onClick={() => downloadForm("incidentReportForm.docx", this.state.eventId, this.props.userId)}>
                                 <CardActionArea>
                                     <CardMedia
                                     className={classes.media}
                                     image={incident_report_pic}
                                     title="Incident Report"
-                                    onClick={() => downloadForm("incidentReportForm.docx", )}
                                     />
                                     <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
@@ -143,4 +154,4 @@ class GenerateForms extends React.Component {
     }
 }
 
-export default withStyles(styles)(GenerateForms);
+export default connect(mapStateToProps)(withStyles(styles)(GenerateForms));
