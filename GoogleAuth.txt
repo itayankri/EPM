@@ -1,0 +1,5 @@
+Client Id:
+917530482100-ccvu3dub2sn8hoi3kv00f8l0mlenld5p.apps.googleusercontent.com
+
+Client Secret:
+WVx_XVBKRKxT_-Xsu4yLU3MR
