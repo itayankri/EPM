@@ -74,4 +74,21 @@ export const downloadForm = (formName, eventId, userId) => {
             link.click();
         });
     });
+    
+};
+
+export const getParticipations = (eventId) => {
+    return axios.get(`${config.url}/event/${eventId}/participantsToRandomize`)
+    .then(response => {
+        return response
+    })
+}
+
+
+export const randomizeParticipants = (eventId, payload) => {
+    return axios.post(`${config.url}/event/${eventId}/roomRandomizer`, payload)
+    .then(response => {
+        return response.data.Rooms
+    });
+    
 };
