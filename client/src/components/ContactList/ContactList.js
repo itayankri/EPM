@@ -121,7 +121,7 @@ function compareValues(key, order='asc') {
         comparison = -1;
       }
       return (
-        (order == 'desc') ? (comparison * -1) : comparison
+        (order === 'desc') ? (comparison * -1) : comparison
       );
     };
   }
