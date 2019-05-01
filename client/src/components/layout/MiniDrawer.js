@@ -5,12 +5,14 @@
 import React from 'react';
 import classNames from 'classnames';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {NavLink, withRouter} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -27,6 +29,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import EventIcon from '@material-ui/icons/Event';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import Main from '../Main';
+import {getLoggedUser} from "../../actions/loginActions";
 
 const drawerWidth = 240;
 
@@ -107,8 +110,13 @@ const styles = theme => ({
 const mapStateToProps = state => {
     return {
         isUserLoggedIn: state.userDetails.isUserLoggedIn,
-        user: state.userDetails.user
+        user: state.userDetails.user,
+        loadingUserDetails: state.userDetails.loadingUserDetails
     }
+};
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({getLoggedUser}, dispatch);
 };
 
 class MiniDrawer extends React.Component {
@@ -117,8 +125,10 @@ class MiniDrawer extends React.Component {
         this.state = {
             open: true,
         };
+    }
 
-        console.log(props);
+    componentDidMount() {
+        this.props.getLoggedUser();
     }
 
     handleDrawerOpen = () => {
@@ -129,13 +139,19 @@ class MiniDrawer extends React.Component {
         this.setState({open: false});
     };
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log('isUserLoggedIn', prevProps.isUserLoggedIn, this.props.isUserLoggedIn)
-        console.log('user', prevProps.user, this.props.user)
-    }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     console.log('isUserLoggedIn', prevProps.isUserLoggedIn, this.props.isUserLoggedIn);
+    //     console.log('user', prevProps.user, this.props.user)
+    // }
 
     render() {
         const {classes, theme} = this.props;
+
+        if (this.props.loadingUserDetails) {
+            return (
+                <CircularProgress/>
+            )
+        }
 
         return (
             <div className={classes.root}>
@@ -242,4 +258,4 @@ class MiniDrawer extends React.Component {
 }
 
 // export default withStyles(styles, {withTheme: true})(MiniDrawer);
-export default withRouter(connect(mapStateToProps)(withStyles(styles, {withTheme: true})(MiniDrawer)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MiniDrawer)));

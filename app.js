@@ -4,25 +4,42 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
+const pg = require('pg');
+const pgSessionStore = require('connect-pg-simple')(session);
 
 const app = express();
 
 app.use(cors());
-
-app.use(session({
-    secret: 'test',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        secure: false
-    }
-}));
 
 app.use(logger('dev'));
 
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(session({
+    secret: 'test',
+    resave: false,
+    saveUninitialized: true,
+    store: new pgSessionStore({
+        pool: new pg.Pool({
+            user: "postgres",
+            password: "Aa123456",
+            host: "127.0.0.1",
+            port: 5432,
+            database: "epm-db"
+        })
+    }),
+    cookie: {
+        secure: false,
+        maxAge: 8640000
+    }
+}));
+
+app.use((req, res, next) => {
+    console.log('Session: ', req.session);
+    next();
+});
 
 app.use('/static', express.static(path.join(__dirname, 'server/static')));
 
