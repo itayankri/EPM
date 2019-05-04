@@ -6,7 +6,8 @@ import BlogMessageCard from './BlogMessageCard';
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ErrorSnackbar from "../common/ErrorSnackbar";
-import {getEventBlogMessages} from "../../actions/eventsActions";
+import {getEventBlogMessages, postComment} from "../../actions/eventsActions";
+import Grid from "@material-ui/core/Grid";
 
 const styles = {
     submit: {
@@ -26,14 +27,17 @@ class Blog extends React.Component {
             messages: [],
             loadingMessages: true,
             isErrorSnackbarOpen: false,
-            errorSnackbarMessage: ""
-        }
+            errorSnackbarMessage: "",
+            commentInput: ""
+        };
+
+        this.post = this.post.bind(this);
+        this.onTextFieldChange = this.onTextFieldChange.bind(this);
     }
 
     componentDidMount() {
         getEventBlogMessages(this.state.eventId)
             .then(messages => {
-                console.log(messages);
                 this.setState({
                     messages: messages,
                 })
@@ -50,6 +54,44 @@ class Blog extends React.Component {
                     loadingMessages: false
                 })
             })
+    }
+
+    onTextFieldChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    post() {
+        postComment(this.state.eventId, this.state.commentInput)
+            .then(() => {
+                this.setState({commentInput: ""});
+                getEventBlogMessages(this.state.eventId)
+                    .then(messages => {
+                        this.setState({
+                            messages: messages,
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.setState({
+                            isErrorSnackbarOpen: true,
+                            errorSnackbarMessage: `Failed to load blog messages - ${err}`
+                        })
+                    })
+                    .finally(() => {
+                        this.setState({
+                            loadingMessages: false
+                        })
+                    })
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({
+                    isErrorSnackbarOpen: true,
+                    errorSnackbarMessage: `Failed to load post your comment - ${err}`
+                })
+            });
     }
 
     render() {
@@ -75,6 +117,7 @@ class Blog extends React.Component {
                 {
                     this.state.messages.map(message =>
                         <BlogMessageCard
+                            key={message.id}
                             title={`${message.User.firstName} ${message.User.middleName || ""} ${message.User.lastName}`}
                             subtitle={message.User.country}
                             body={message.content}
@@ -82,24 +125,32 @@ class Blog extends React.Component {
                     )
                 }
 
-                <div className={this.props.classes.input}>
-                    <TextField
-                        color='primary'
-                        style={{margin: 8}}
-                        placeholder="Write your comment here"
-                        fullWidth
-                        multiline
-                        variant="outlined"
-                    />
-                </div>
-                <div className={this.props.classes.submit}>
-                    <Button
-                        color="primary"
-                        variant="outlined"
-                    >
-                        Add Comment
-                    </Button>
-                </div>
+                <Grid container>
+                    <Grid item md={11}>
+                        <TextField
+                            color='primary'
+                            style={{margin: 15, backgroundColor: 'white'}}
+                            placeholder="Write your comment here"
+                            fullWidth
+                            multiline
+                            variant="outlined"
+                            value={this.state.commentInput}
+                            name="commentInput"
+                            onChange={this.onTextFieldChange}
+                        />
+                    </Grid>
+                    <Grid item md={1}>
+                        <Button
+                            size='large'
+                            style={{margin: 22}}
+                            color="primary"
+                            variant="contained"
+                            onClick={this.post}
+                        >
+                            Post
+                        </Button>
+                    </Grid>
+                </Grid>
                 <ErrorSnackbar
                     open={this.state.isErrorSnackbarOpen}
                     handleClose={this.handleErrorSnackbarClose}

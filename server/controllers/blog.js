@@ -23,6 +23,23 @@ const getEventMessages = (req, res) => {
         })
 };
 
+const postEventMessage = (req, res) => {
+    Blog.create({
+        eventId: req.params.eventId,
+        //TODO: Use userId from session after session is fixed.
+        userId: 2,
+        content: req.body.message,
+    })
+        .then(message => {
+            res.send(message)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Server Error - ' + err);
+        })
+};
+
 module.exports = {
-    getEventMessages
+    getEventMessages,
+    postEventMessage
 };

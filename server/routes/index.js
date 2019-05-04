@@ -73,6 +73,7 @@ module.exports = (app) => {
   app.post('/event/:eventId/roomRandomizer', eventsController.roomRandomizer); // Randomize a given list of participants
 
   app.get('/event/:eventId/blogMessages', blogController.getEventMessages);
+  app.post('/event/:eventId/blogMessages', blogController.postEventMessage);
 
 
 

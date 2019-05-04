@@ -3,18 +3,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Fab from "@material-ui/core/Fab";
+import LikeIcon from '@material-ui/icons/ThumbUp';
+import UnlikeIcon from '@material-ui/icons/ThumbDown';
 
 const styles = {
     card: {
         minWidth: 275,
         margin: 15
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
     },
     title: {
         fontSize: 14,
@@ -22,13 +19,12 @@ const styles = {
     pos: {
         marginBottom: 12,
     },
+    grow: {
+        flexGrow: 1
+    }
 };
 
 class BlogMessageCard extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { classes } = this.props;
 
@@ -46,7 +42,16 @@ class BlogMessageCard extends React.Component {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Like</Button>
+                    <Typography className={classes.pos} color="textSecondary">
+                        0 Likes
+                    </Typography>
+                    <div className={classes.grow}/>
+                    <Fab color="primary" className={classes.fab} size="small">
+                        <LikeIcon/>
+                    </Fab>
+                    <Fab color="secondary" className={classes.fab} size="small">
+                        <UnlikeIcon/>
+                    </Fab>
                 </CardActions>
             </Card>
         );

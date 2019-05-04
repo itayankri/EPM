@@ -97,3 +97,9 @@ export const getEventBlogMessages = (eventId) => {
             return response.data;
         })
 };
+
+export const postComment = (eventId, comment) => {
+    return axios.post(`${config.url}/event/${eventId}/blogMessages`, {
+        message: comment
+    })
+};
