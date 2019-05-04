@@ -5,15 +5,14 @@ const Sequelize = require('sequelize');
 const getEventMessages = (req, res) => {
     Blog.findAll({
         where: {
-            eventId: req.params.eventId,
-            include: [
-                {
-                    model: User,
-                    as: 'user',
-                    attributes: ['firstName', 'middleName', 'lastName', 'country']
-                }
-            ]
-        }
+            eventId: req.params.eventId
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['firstName', 'middleName', 'lastName', 'country']
+            }
+        ]
     })
         .then(messages => {
             res.send(messages)
