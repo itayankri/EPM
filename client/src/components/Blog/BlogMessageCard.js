@@ -12,6 +12,8 @@ import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/es/TextField/TextField";
+import {Button} from "@material-ui/core";
 
 const styles = {
     card: {
@@ -35,16 +37,34 @@ class BlogMessageCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            anchorEl: null
+            anchorEl: null,
+            editMode: false
         }
     }
 
     handleClick = event => {
-        this.setState({ anchorEl: event.currentTarget });
+        this.setState({anchorEl: event.currentTarget});
     };
 
     handleClose = () => {
-        this.setState({ anchorEl: null });
+        this.setState({anchorEl: null});
+    };
+
+    editModeOn = () => {
+        this.setState({editMode: true});
+        this.handleClose();
+    };
+
+    editModeOff = () => {
+        this.setState({editMode: false});
+    };
+
+    updateComment = () => {
+
+    };
+
+    onDeletePost = () => {
+        this.handleClose();
     };
 
     render() {
@@ -75,30 +95,55 @@ class BlogMessageCard extends React.Component {
                         },
                     }}
                 >
-                    <MenuItem onClick={this.handleClose}>
-                        Edit
-                    </MenuItem>
-                    <MenuItem onClick={this.handleClose}>
+                    {
+                        !this.state.editMode &&
+                        <MenuItem onClick={this.editModeOn}>
+                            Edit
+                        </MenuItem>
+                    }
+                    <MenuItem onClick={this.onDeletePost}>
                         Delete
                     </MenuItem>
                 </Menu>
-                <CardContent>
-                    <Typography component="p">
-                        {this.props.body}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Typography className={classes.pos} color="textSecondary">
-                        0 Likes
-                    </Typography>
-                    <div className={classes.grow}/>
-                    <Fab color="primary" className={classes.fab} size="small">
-                        <LikeIcon/>
-                    </Fab>
-                    <Fab color="secondary" className={classes.fab} size="small">
-                        <UnlikeIcon/>
-                    </Fab>
-                </CardActions>
+                {
+                    this.state.editMode
+                        ?
+                        <span>
+                            <CardContent>
+                                <TextField
+                                    color='primary'
+                                    variant='outlined'
+                                    multiline
+                                    fullWidth
+                                    value={this.props.body}
+                                />
+                            </CardContent>
+                            <CardActions>
+                                <Button color='primary'>Save</Button>
+                                <Button color='secondary' onClick={this.editModeOff}>Cancel</Button>
+                            </CardActions>
+                        </span>
+                        :
+                        <span>
+                            <CardContent>
+                                <Typography component="p">
+                                    {this.props.body}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Typography className={classes.pos} color="textSecondary">
+                                    0 Likes
+                                </Typography>
+                                <div className={classes.grow}/>
+                                <Fab color="primary" className={classes.fab} size="small">
+                                    <LikeIcon/>
+                                </Fab>
+                                <Fab color="secondary" className={classes.fab} size="small">
+                                    <UnlikeIcon/>
+                                </Fab>
+                            </CardActions>
+                        </span>
+                }
             </Card>
         );
     }
