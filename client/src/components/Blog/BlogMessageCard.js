@@ -36,13 +36,13 @@ class BlogMessageCard extends React.Component {
             <Card className={classes.card}>
                 <CardContent>
                     <Typography variant="h5" component="h2">
-                        Firstname Lastname
+                        {this.props.title}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        Country
+                        {this.props.subtitle}
                     </Typography>
                     <Typography component="p">
-                        Message content Message content Message content Message content Message content Message content Message content.
+                        {this.props.body}
                     </Typography>
                 </CardContent>
                 <CardActions>
