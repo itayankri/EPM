@@ -3,6 +3,7 @@ const todoItemsController = require('../controllers').todoItems;
 const eventsController = require('../controllers').events;
 const usersController = require('../controllers').users;
 const participationsController = require('../controllers').participations;
+const blogController = require('../controllers').blog;
 
 module.exports = (app) => {
   app.get('', (req, res) => res.status(200).send({
@@ -70,6 +71,8 @@ module.exports = (app) => {
   app.get('/event/:eventId/contactList', eventsController.contactList); // get the contact list
   app.get('/event/:eventId/participantsToRandomize', eventsController.participantsToRandomize); // get the participants before randomizing
   app.post('/event/:eventId/roomRandomizer', eventsController.roomRandomizer); // Randomize a given list of participants
+
+  app.get('/event/:eventId/blogMessages', blogController.getEventMessages);
 
 
 

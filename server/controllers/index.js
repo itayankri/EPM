@@ -3,6 +3,7 @@ const todoItems = require('./todoitems');
 const events = require('./events');
 const users = require('./users');
 const participations = require('./participations');
+const blog = require('./blog');
 
 module.exports = {
   todos,
@@ -12,4 +13,5 @@ module.exports = {
   participations,
   // statuses
   users,
+  blog
 };
