@@ -6,7 +6,7 @@ import BlogMessageCard from './BlogMessageCard';
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ErrorSnackbar from "../common/ErrorSnackbar";
-import {getEventBlogMessages, postComment} from "../../actions/eventsActions";
+import {getEventBlogMessages, postComment, removeComment} from "../../actions/eventsActions";
 import Grid from "@material-ui/core/Grid";
 
 const styles = {
@@ -94,6 +94,37 @@ class Blog extends React.Component {
             });
     }
 
+    removeComment = (messageId) => {
+        removeComment(this.state.eventId, messageId)
+            .then(() => {
+                getEventBlogMessages(this.state.eventId)
+                    .then(messages => {
+                        this.setState({
+                            messages: messages,
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.setState({
+                            isErrorSnackbarOpen: true,
+                            errorSnackbarMessage: `Failed to load blog messages - ${err}`
+                        })
+                    })
+                    .finally(() => {
+                        this.setState({
+                            loadingMessages: false
+                        })
+                    })
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({
+                    isErrorSnackbarOpen: true,
+                    errorSnackbarMessage: `Failed to delete comment - ${err}`
+                })
+            });
+    };
+
     render() {
         if (this.state.loadingMessages) {
             return (
@@ -121,6 +152,7 @@ class Blog extends React.Component {
                             title={`${message.User.firstName} ${message.User.middleName || ""} ${message.User.lastName}`}
                             subtitle={message.User.country}
                             body={message.content}
+                            onDelete={() => this.removeComment(message.id)}
                         />
                     )
                 }

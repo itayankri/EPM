@@ -103,3 +103,7 @@ export const postComment = (eventId, comment) => {
         message: comment
     })
 };
+
+export const removeComment = (eventId, messageId) => {
+    return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
+};

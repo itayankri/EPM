@@ -64,6 +64,7 @@ class BlogMessageCard extends React.Component {
     };
 
     onDeletePost = () => {
+        this.props.onDelete();
         this.handleClose();
     };
 

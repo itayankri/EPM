@@ -39,7 +39,23 @@ const postEventMessage = (req, res) => {
         })
 };
 
+const removeEventMessage = (req, res) => {
+    Blog.destroy({
+        where: {
+            id: req.params.messageId
+        }
+    })
+        .then(() => {
+            res.send('Message Removed');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Server Error - ' + err);
+        })
+};
+
 module.exports = {
     getEventMessages,
-    postEventMessage
+    postEventMessage,
+    removeEventMessage
 };
