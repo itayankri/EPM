@@ -7,7 +7,7 @@ const getEventMessages = (req, res) => {
         where: {
             eventId: req.params.eventId
         },
-        order: [['createdAt', 'DESC']],
+        order: [['id', 'DESC'], ['createdAt', 'DESC']],
         include: [
             {
                 model: User,
