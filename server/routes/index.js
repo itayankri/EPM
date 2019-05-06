@@ -6,9 +6,9 @@ const participationsController = require('../controllers').participations;
 const blogController = require('../controllers').blog;
 
 module.exports = (app) => {
-  app.get('', (req, res) => res.status(200).send({
-    message: 'Welcome to the Todos API!',
-  }));    
+  // app.get('', (req, res) => res.status(200).send({
+  //   message: 'Welcome to the Todos API!',
+  // }));
                                             
   // ENTSE   E      N   SEVEN    E     E    NTSEVEN    EVEN  
   // E                  S        EV    E       E      S      
