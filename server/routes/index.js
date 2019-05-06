@@ -75,6 +75,7 @@ module.exports = (app) => {
   app.get('/event/:eventId/blogMessages', blogController.getEventMessages);
   app.post('/event/:eventId/blogMessages', blogController.postEventMessage);
   app.delete('/event/:evenId/blogMessages/:messageId', blogController.removeEventMessage);
+  app.put('/event/:eventId/blogMessages/:messageId', blogController.updateEventMessage);
 
 
 

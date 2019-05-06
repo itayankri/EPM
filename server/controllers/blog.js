@@ -54,8 +54,26 @@ const removeEventMessage = (req, res) => {
         })
 };
 
+const updateEventMessage = (req, res) => {
+    Blog.update({
+        where: {
+            id: req.params.messageId
+        }
+    })
+        .then(() => {
+            Blog.create({
+
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Server Error - ' + err);
+        })
+};
+
 module.exports = {
     getEventMessages,
     postEventMessage,
-    removeEventMessage
+    removeEventMessage,
+    updateEventMessage
 };

@@ -104,6 +104,12 @@ export const postComment = (eventId, comment) => {
     })
 };
 
+export const updateComment = (eventId, messageId, comment) => {
+    return axios.put(`${config.url}/event/${eventId}/blogMessages/${messageId}`, {
+        message: comment
+    })
+};
+
 export const removeComment = (eventId, messageId) => {
     return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
 };

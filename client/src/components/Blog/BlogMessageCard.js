@@ -38,7 +38,8 @@ class BlogMessageCard extends React.Component {
         super(props);
         this.state = {
             anchorEl: null,
-            editMode: false
+            editMode: false,
+            commentInput: this.props.body
         }
     }
 
@@ -60,12 +61,18 @@ class BlogMessageCard extends React.Component {
     };
 
     updateComment = () => {
-
+        this.setState({editMode: false});
+        this.props.onUpdate(this.state.commentInput);
+        this.props.onUpdate();
     };
 
     onDeletePost = () => {
         this.props.onDelete();
         this.handleClose();
+    };
+
+    onBodyChange = (event) => {
+        this.setState({commentInput: event.target.value});
     };
 
     render() {
@@ -116,11 +123,12 @@ class BlogMessageCard extends React.Component {
                                     variant='outlined'
                                     multiline
                                     fullWidth
-                                    value={this.props.body}
+                                    value={this.state.commentInput}
+                                    onChange={this.onBodyChange}
                                 />
                             </CardContent>
                             <CardActions>
-                                <Button color='primary'>Save</Button>
+                                <Button color='primary' onClick={this.updateComment}>Save</Button>
                                 <Button color='secondary' onClick={this.editModeOff}>Cancel</Button>
                             </CardActions>
                         </span>
