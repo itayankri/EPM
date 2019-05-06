@@ -89,7 +89,7 @@ class BlogMessageCard extends React.Component {
                         </IconButton>
                     }
                     title={this.props.title}
-                    subheader={this.props.subtitle}
+                    subheader={`${this.props.subtitle}  |  ${new Date(this.props.createdAt).toString().split('GMT')[0]}`}
                 />
                 <Menu
                     id="long-menu"

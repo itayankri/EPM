@@ -183,6 +183,8 @@ class Blog extends React.Component {
                             title={`${message.User.firstName} ${message.User.middleName || ""} ${message.User.lastName}`}
                             subtitle={message.User.country}
                             body={message.content}
+                            createdAt={message.createdAt}
+                            updatedAt={message.updatedAt}
                             onDelete={() => this.removeComment(message.id)}
                             onUpdate={msg => this.updateComment(message.id, msg)}
                         />

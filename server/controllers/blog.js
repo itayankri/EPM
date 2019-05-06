@@ -7,6 +7,7 @@ const getEventMessages = (req, res) => {
         where: {
             eventId: req.params.eventId
         },
+        order: [['createdAt', 'DESC']],
         include: [
             {
                 model: User,
@@ -56,14 +57,17 @@ const removeEventMessage = (req, res) => {
 
 const updateEventMessage = (req, res) => {
     Blog.update({
+        content: req.body.message,
+    }, {
         where: {
             id: req.params.messageId
         }
     })
         .then(() => {
-            Blog.create({
-
-            })
+            // Blog.create({
+            //
+            // })
+            res.send("Message Updated");
         })
         .catch(err => {
             console.log(err);
