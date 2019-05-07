@@ -89,7 +89,7 @@ class Blog extends React.Component {
                 console.log(err);
                 this.setState({
                     isErrorSnackbarOpen: true,
-                    errorSnackbarMessage: `Failed to load post your comment - ${err}`
+                    errorSnackbarMessage: `Failed to post your comment - ${err}`
                 })
             });
     }
@@ -181,6 +181,7 @@ class Blog extends React.Component {
                         <BlogMessageCard
                             key={message.id}
                             title={`${message.User.firstName} ${message.User.middleName || ""} ${message.User.lastName}`}
+                            user={message.User}
                             subtitle={message.User.country}
                             body={message.content}
                             createdAt={message.createdAt}

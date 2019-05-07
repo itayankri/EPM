@@ -11,7 +11,7 @@ const getEventMessages = (req, res) => {
         include: [
             {
                 model: User,
-                attributes: ['firstName', 'middleName', 'lastName', 'country']
+                attributes: ['id', 'firstName', 'middleName', 'lastName', 'country']
             }
         ]
     })
@@ -28,8 +28,9 @@ const postEventMessage = (req, res) => {
     Blog.create({
         eventId: req.params.eventId,
         //TODO: Use userId from session after session is fixed.
-        userId: 2,
+        userId: req.session.user.id,
         content: req.body.message,
+        likes: 0
     })
         .then(message => {
             res.send(message)
@@ -64,9 +65,6 @@ const updateEventMessage = (req, res) => {
         }
     })
         .then(() => {
-            // Blog.create({
-            //
-            // })
             res.send("Message Updated");
         })
         .catch(err => {
