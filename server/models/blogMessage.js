@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
     const BlogMessage = sequelize.define('BlogMessage', {
         userId: DataTypes.INTEGER,
         eventId: DataTypes.INTEGER,
-        content: DataTypes.STRING
+        content: DataTypes.STRING,
+        likes: DataTypes.INTEGER
     }, {});
     BlogMessage.associate = function(models) {
         BlogMessage.belongsTo(models.Event, {
