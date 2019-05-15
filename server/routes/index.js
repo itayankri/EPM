@@ -5,6 +5,7 @@ const usersController = require('../controllers').users;
 const participationsController = require('../controllers').participations;
 const campShopController = require('../controllers').campShop;
 const blogController = require('../controllers').blog;
+const purchaseController = require('../controllers').purchase;
 
 module.exports = (app) => {
   // app.get('', (req, res) => res.status(200).send({
@@ -57,7 +58,9 @@ module.exports = (app) => {
   app.get('/event/:eventId/campShop', campShopController.list); // Get all items
   app.post('/event/:eventId/campShop/addItem'); // Add an item
   app.post('/event/:eventId/campShop/pay'); // Pay for items
-  app.post('/event/:eventId/campShop/buy'); // "Buy" items
+  app.get('/event/:eventId/campShop/items', purchaseController.getEventPurchases); // Get all items
+  app.post('/event/:eventId/campShop/buy', purchaseController.purchaseItem); // "Buy" items
+  app.post('/event/:eventId/campShop/return', purchaseController.returnItem); // "Buy" items
   app.put('/event/:eventId/campShop/:itemId'); // edit an item
   app.delete('/event/:eventId/campShop/:itemId'); // delete an item
   // TODO: maybe add a $$ money limit system / points limit system / item limit system?
