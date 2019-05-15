@@ -8,7 +8,7 @@ import {
 
 export const signIn = (username, password) => {
     return axios.post(`${config.url}/login`, {
-        username: username,
+        email: username,
         password: password
     })
 };
