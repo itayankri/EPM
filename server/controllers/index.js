@@ -4,6 +4,7 @@ const events = require('./events');
 const users = require('./users');
 const participations = require('./participations');
 const campShop = require('./campShop');
+const blog = require('./blog');
 
 module.exports = {
   todos,
@@ -14,4 +15,5 @@ module.exports = {
   campShop,
   // statuses
   users,
+  blog
 };

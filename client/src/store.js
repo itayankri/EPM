@@ -15,7 +15,7 @@ const myRouterMiddleware = routerMiddleware(history);
 
 const getMiddleware = () => {
   if (process.env.NODE_ENV === 'production') {
-    return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware);
+    return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware, thunkMiddleware);
   } else {
     // Enable additional logging in non-production environments.
     return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware, createLogger(), thunkMiddleware)

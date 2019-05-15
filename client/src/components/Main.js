@@ -13,6 +13,7 @@ import CreateEvent from './Events/CreateEvent';
 import GenerateForms from './GenerateForms/GenerateForms';
 import ContactList from './ContactList/ContactList';
 import CampShop from './CampShop/CampShop';
+import Blog from './Blog/Blog';
 import 'react-dates/initialize';
 
 const styles = theme => ({
@@ -44,6 +45,7 @@ class Main extends React.Component {
                     <Route exact path="/events/:eventId/generateForms" component={GenerateForms}/>
                     <Route exact path="/events/:eventId/campShop" component={CampShop}/>
                     <Route exact path="/events/:eventId/contactList" component={ContactList}/>
+                    <Route exact path="/events/:eventId/blog" component={Blog}/>
                 </Switch>
             </div>
         )

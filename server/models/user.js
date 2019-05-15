@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'participations',
     });
+
+    User.hasMany(models.BlogMessage, {
+      foreignKey: 'userId'
+    })
     // associations can be defined here
   };
   return User;
