@@ -54,20 +54,6 @@ module.exports = {
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
-      "userId":2,
-      "eventId":1,
-      "roleId":1,
-      "status":"APPROVED",
-      "updatedAt": "2019-01-12T09:37:46.207Z",
-      "createdAt": "2019-01-12T09:37:46.207Z"
-    }, {
-      "userId":2,
-      "eventId":1,
-      "roleId":1,
-      "status":"APPROVED",
-      "updatedAt": "2019-01-12T09:37:46.207Z",
-      "createdAt": "2019-01-12T09:37:46.207Z"
-    }, {
     // USER 3
       "userId":3,
       "eventId":3,

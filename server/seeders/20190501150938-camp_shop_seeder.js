@@ -5,37 +5,37 @@ module.exports = {
     return queryInterface.bulkInsert('CampShops', [{
       // ITEM 1
       "eventId": "1",
-      "name": "item1",
+      "name": "Soda",
       "quantity": "0",
       "updatedAt": "2019-01-12T10:59:38.363Z",
       "createdAt": "2019-01-12T10:59:38.363Z",}, {
         // ITEM 1
       "eventId": "1",
-      "name": "item1",
+      "name": "Chocolate bar",
       "quantity": "1",
       "updatedAt": "2019-01-12T10:59:38.363Z",
       "createdAt": "2019-01-12T10:59:38.363Z",}, {
         // ITEM 2
       "eventId": "1",
-      "name": "item2",
+      "name": "T-Shirt",
       "quantity": "2",
       "updatedAt": "2019-01-12T10:59:38.363Z",
       "createdAt": "2019-01-12T10:59:38.363Z",}, {
         // ITEM 3
       "eventId": "1",
-      "name": "item3",
+      "name": "Pajamas",
       "quantity": "3",
       "updatedAt": "2019-01-12T10:59:38.363Z",
       "createdAt": "2019-01-12T10:59:38.363Z",}, {
         // ITEM 4
       "eventId": "1",
-      "name": "item4",
+      "name": "Pants",
       "quantity": "4",
       "updatedAt": "2019-01-12T10:59:38.363Z",
       "createdAt": "2019-01-12T10:59:38.363Z",}, {
         // ITEM 5
       "eventId": "1",
-      "name": "item5",
+      "name": "Ice Cream",
       "quantity": "5",
       "updatedAt": "2019-01-12T10:59:38.363Z",
       "createdAt": "2019-01-12T10:59:38.363Z",}
