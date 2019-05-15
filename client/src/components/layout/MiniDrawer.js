@@ -228,12 +228,6 @@ class MiniDrawer extends React.Component {
                                 <ListItemText primary="Home"/>
                             </ListItem>
                         </NavLink>
-                        <NavLink to="/files" className={classes.sideNavlink}>
-                            <ListItem button>
-                                <ListItemIcon><InboxIcon/></ListItemIcon>
-                                <ListItemText primary="File Transfer"/>
-                            </ListItem>
-                        </NavLink>
                         <NavLink to="/events" className={classes.sideNavlink}>
                             <ListItem button>
                                 <ListItemIcon><EventIcon/></ListItemIcon>
