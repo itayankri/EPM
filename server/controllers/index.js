@@ -3,6 +3,7 @@ const todoItems = require('./todoitems');
 const events = require('./events');
 const users = require('./users');
 const participations = require('./participations');
+const campShop = require('./campShop');
 
 module.exports = {
   todos,
@@ -10,6 +11,7 @@ module.exports = {
   events,
   // eventRoles,
   participations,
+  campShop,
   // statuses
   users,
 };

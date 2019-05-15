@@ -3,6 +3,7 @@ const todoItemsController = require('../controllers').todoItems;
 const eventsController = require('../controllers').events;
 const usersController = require('../controllers').users;
 const participationsController = require('../controllers').participations;
+const campShopController = require('../controllers').campShop;
 
 module.exports = (app) => {
   app.get('', (req, res) => res.status(200).send({
@@ -52,7 +53,7 @@ module.exports = (app) => {
   app.delete('/event/:eventId/files/:fileId') // delete a file
   */
   // Camp Shop
-  app.get('/event/:eventId/campShop') // Get all items
+  app.get('/event/:eventId/campShop', campShopController.list) // Get all items
   app.post('/event/:eventId/campShop/addItem') // Add an item
   app.post('/event/:eventId/campShop/pay') // Pay for items
   app.post('/event/:eventId/campShop/buy') // "Buy" items
