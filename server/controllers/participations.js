@@ -26,7 +26,8 @@ module.exports = {
             .findAll({
                 where: {
                     eventId: req.body.eventId
-                }
+                },
+                order: [['id', 'ASC']]
             })
             .then(MyParticipations => res.status(200).send(MyParticipations))
             .catch(error => res.status(400).send(error));
@@ -52,7 +53,7 @@ module.exports = {
                     },
                     {
                         where: {
-                            id: myParticipation.id
+                            id: myParticipation[0].id
                         }
                     })
             })
@@ -81,7 +82,7 @@ module.exports = {
                     },
                     {
                         where: {
-                            id: myParticipation.id
+                            id: myParticipation[0].id
                         }
                     })
             })
@@ -110,7 +111,7 @@ module.exports = {
                     },
                     {
                         where: {
-                            id: myParticipation.id
+                            id: myParticipation[0].id
                         }
                     })
             })
@@ -118,7 +119,7 @@ module.exports = {
             .catch((error) => res.status(400).send(error));
     },
     acceptParticipation(req, res) {
-        req.body.status = "CLAIMED";
+        req.body.status = "APPROVED";
         return MyParticipation
             .findOrCreate({
                 where: {
@@ -139,7 +140,7 @@ module.exports = {
                     },
                     {
                         where: {
-                            id: myParticipation.id
+                            id: myParticipation[0].id
                         }
                     })
             })
@@ -148,6 +149,7 @@ module.exports = {
     },
     declineParticipation(req, res) {
         req.body.status = "DECLINED";
+
         return MyParticipation
             .findOrCreate({
                 where: {
@@ -168,7 +170,7 @@ module.exports = {
                     },
                     {
                         where: {
-                            id: myParticipation.id
+                            id: myParticipation[0].id
                         }
                     })
             })
