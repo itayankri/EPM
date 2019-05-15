@@ -140,8 +140,8 @@ class Events extends React.Component {
                                         return (
                                             <TableRow
                                                 key={row.id}
-                                                className={classNames(classes.tableRow, classes.tableRowHover)}
-                                                onClick={() => this.onRowClick(row.id)}
+                                                className={this.props.isUserLoggedIn && classNames(classes.tableRow, classes.tableRowHover)}
+                                                onClick={this.props.isUserLoggedIn ? () => this.onRowClick(row.id): () => {}}
                                             >
                                                 <TableCell component="th" scope="row">{row.theme}</TableCell>
                                                 <TableCell align="center">{row.code}</TableCell>
