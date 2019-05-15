@@ -42,8 +42,8 @@ class EventParticipationsTabView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isSuccessSnackbarOpen: false,
-            successSnackbarOpen: "",
+            isSuccessSnackbarMessage: false,
+            successSnackbarMessage: "",
             isErrorSnackbarOpen: false,
             errorSnackbarMessage: "",
         };
@@ -62,11 +62,11 @@ class EventParticipationsTabView extends React.Component {
     };
 
     handleSuccessSnackbarClose = event => {
-        this.setState({isSuccessSnackbarOpen: false})
+        this.setState({isSuccessSnackbarMessage: false})
     };
 
     onApprove(participationIndex) {
-        console.log(this.props.event.participations)
+        console.log(this.props.event.participations);
         approveParticipation(this.props.event.participations[participationIndex].eventId,
                              this.props.event.participations[participationIndex].User.id,
                              this.props.event.participations[participationIndex].roleId)
@@ -75,8 +75,8 @@ class EventParticipationsTabView extends React.Component {
             })
             .then(() => {
                 this.setState({
-                    isSuccessSnackbarOpen: true,
-                    successSnackbarOpen: `Participation approved successfully`,
+                    isSuccessSnackbarMessage: true,
+                    successSnackbarMessage: `Participation approved successfully`,
                 })
             })
             .catch(err => {
@@ -96,8 +96,8 @@ class EventParticipationsTabView extends React.Component {
             })
             .then(() => {
                 this.setState({
-                    isSuccessSnackbarOpen: true,
-                    successSnackbarOpen: `Participation declined successfully`,
+                    isSuccessSnackbarMessage: true,
+                    successSnackbarMessage: `Participation declined successfully`,
                 })
             })
             .catch(err => {
@@ -189,7 +189,7 @@ class EventParticipationsTabView extends React.Component {
                     </Table>
                 </Paper>
                 <SuccessSnackbar
-                    open={this.state.isSuccessSnackbarOpen}
+                    open={this.state.isSuccessSnackbarMessage}
                     handleClose={this.handleSuccessSnackbarClose}
                     message={this.state.successSnackbarMessage}
                 />

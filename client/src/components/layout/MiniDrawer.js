@@ -24,7 +24,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import HomeIcon from '@material-ui/icons/Home';
 import EventIcon from '@material-ui/icons/Event';
 import AccountIcon from '@material-ui/icons/AccountCircle';
@@ -104,6 +103,9 @@ const styles = theme => ({
     topNavlink: {
         textDecoration: 'none',
         color: 'white'
+    },
+    grow: {
+        flexGrow: 1
     }
 });
 
@@ -171,11 +173,12 @@ class MiniDrawer extends React.Component {
                                 [classes.hide]: this.state.open,
                             })}
                         >
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" color="inherit" noWrap>
                             CISV
                         </Typography>
+                        <div className={classes.grow}/>
                         {
                             !this.props.isUserLoggedIn
                                 ?
@@ -188,16 +191,14 @@ class MiniDrawer extends React.Component {
                                     </NavLink>
                                 </div>
                                 :
-                                <div className={classes.topNavbar}>
-                                    <NavLink to="/account" className={classes.topNavlink}>
-                                        <Typography className={classes.topNavlink}>
-                                            <IconButton className={classes.topNavlink}>
-                                                <AccountIcon/>
-                                            </IconButton>
-                                            {this.props.user.firstName}
-                                        </Typography>
-                                    </NavLink>
-                                </div>
+                                <NavLink to="/account" className={classes.topNavlink}>
+                                    <Typography color="inherit">
+                                        <IconButton color="inherit">
+                                            <AccountIcon/>
+                                        </IconButton>
+                                        {this.props.user.firstName}
+                                    </Typography>
+                                </NavLink>
                         }
                     </Toolbar>
                 </AppBar>
@@ -217,7 +218,7 @@ class MiniDrawer extends React.Component {
                 >
                     <div className={classes.toolbar}>
                         <IconButton onClick={this.handleDrawerClose}>
-                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                            {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
                         </IconButton>
                     </div>
                     <Divider/>
@@ -226,12 +227,6 @@ class MiniDrawer extends React.Component {
                             <ListItem button>
                                 <ListItemIcon><HomeIcon/></ListItemIcon>
                                 <ListItemText primary="Home"/>
-                            </ListItem>
-                        </NavLink>
-                        <NavLink to="/files" className={classes.sideNavlink}>
-                            <ListItem button>
-                                <ListItemIcon><InboxIcon/></ListItemIcon>
-                                <ListItemText primary="File Transfer"/>
                             </ListItem>
                         </NavLink>
                         <NavLink to="/events" className={classes.sideNavlink}>

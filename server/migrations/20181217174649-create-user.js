@@ -87,6 +87,10 @@ module.exports = {
       verificationCode: {
         type: Sequelize.STRING
       },
+      isAdmin: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         defaultValue: Sequelize.NOW,

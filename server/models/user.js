@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     swimming: DataTypes.BOOLEAN,
     firstAid: DataTypes.BOOLEAN,
     lifeSave: DataTypes.BOOLEAN,
-    verificationCode: DataTypes.STRING
+    verificationCode: DataTypes.STRING,
+    isAdmin: DataTypes.BOOLEAN,
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Participations, {
