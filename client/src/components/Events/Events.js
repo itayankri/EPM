@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -46,6 +47,13 @@ const styles = theme => ({
     },
 });
 
+const mapStateToProps = state => {
+    return {
+        isUserLoggedIn: state.userDetails.isUserLoggedIn,
+        user: state.userDetails.user,
+    }
+};
+
 class Events extends React.Component {
     constructor(props) {
         super(props);
@@ -55,6 +63,7 @@ class Events extends React.Component {
             isLoading: true,
             isErrorSnackbarOpen: false,
             errorSnackbarMessage: "",
+            isAdmin: this.props.user && this.props.user.isAdmin,
         }
     }
 
@@ -97,19 +106,22 @@ class Events extends React.Component {
                             Events Management
                         </Typography>
                     </Grid>
-                    <Grid item md={2}>
-                        <Link
-                            to="/events/create"
-                            className={classes.link}
-                        >
-                            <Button
-                                variant="outlined"
-                                color="primary"
+                    {
+                        this.state.isAdmin &&
+                        <Grid item md={2}>
+                            <Link
+                                to="/events/create"
+                                className={classes.link}
                             >
-                                Create Event
-                            </Button>
-                        </Link>
-                    </Grid>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                >
+                                    Create Event
+                                </Button>
+                            </Link>
+                        </Grid>
+                    }
                     <Grid item md={12}>
                         <Paper className={classes.root}>
                             <Table className={classes.table}>
@@ -156,4 +168,4 @@ class Events extends React.Component {
     }
 }
 
-export default withStyles(styles)(Events);
+export default connect(mapStateToProps)(withStyles(styles)(Events));
