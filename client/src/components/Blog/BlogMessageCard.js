@@ -1,5 +1,6 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
+import {connect} from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -28,6 +29,12 @@ const styles = {
     },
     grow: {
         flexGrow: 1
+    }
+};
+
+const mapStateToProps = state => {
+    return {
+        userFromRedux: state.userDetails.user,
     }
 };
 
@@ -80,10 +87,13 @@ class BlogMessageCard extends React.Component {
         const {anchorEl} = this.state;
         const open = Boolean(anchorEl);
 
+        console.log(this.props.user.id === this.props.userFromRedux.id, this.props.user.id, this.props.userFromRedux.id);
+
         return (
             <Card className={classes.card}>
                 <CardHeader
                     action={
+                        this.props.user.id === this.props.userFromRedux.id &&
                         <IconButton onClick={this.handleClick}>
                             <MoreVertIcon/>
                         </IconButton>
@@ -158,4 +168,4 @@ class BlogMessageCard extends React.Component {
     }
 }
 
-export default withStyles(styles)(BlogMessageCard);
+export default connect(mapStateToProps)(withStyles(styles)(BlogMessageCard));
