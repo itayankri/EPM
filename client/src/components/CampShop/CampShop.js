@@ -1,20 +1,15 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { downloadForm } from '../../actions/eventsActions';
 import { connect } from 'react-redux';
 import Back from '@material-ui/icons/KeyboardBackspace';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import ErrorSnackbar from "../common/ErrorSnackbar";
-import { getEvent, getCampShopItems } from "../../actions/eventsActions";
+import { getEvent, getCampShopItems, getPurchases, purchaseItem, returnItem } from "../../actions/eventsActions";
 import {
     Typography,
-    Card,
-    CardContent,
     Button,
     Grid,
-    CardMedia,
-    CardActionArea,
     Paper,
     Table,
     TableBody,
@@ -23,12 +18,9 @@ import {
     TableRow
 } from '@material-ui/core';
 import Spinner from "../common/Spinner";
+import { thisExpression } from '@babel/types';
 
-import health_form_pic from "../../static/images/health_form.png";
-import legal_form_pic from "../../static/images/legal_form.png";
-import incident_report_pic from "../../static/images/incident_report.png";
-
-const styles = ({
+const styles = theme => ({
     card: {
         width: 250,
     },
@@ -64,7 +56,15 @@ const styles = ({
     },
     link: {
         textDecoration: 'none'
-    }
+    },
+    tableRow: {
+        cursor: 'pointer',
+    },
+    tableRowHover: {
+        '&:hover': {
+            backgroundColor: theme.palette.grey[200],
+        },
+    },
 });
 
 const mapStateToProps = state => {
@@ -80,21 +80,98 @@ class CampShop extends React.Component {
         this.state = {
             isLoadingItems: true,
             isLoadingEvent: true,
+            isGeneratingTextboxes: true,
             event: '',
             eventId: (this.props.location.pathname.split("/")[2]),
             isErrorSnackbarOpen: false,
             errorSnackbarMessage: "",
             items: [],
+            purchases: [],
+        }
+    }
+
+    disableKeyboard(e) {
+        e.preventDefault();
+    }
+
+    handleErrorSnackbarClose = () => {
+        this.setState({
+            isErrorSnackbarOpen: false,
+        })
+    }
+
+    generateTextboxes = () => {
+        let obj = {}
+
+        Object.keys(this.state.items).map(item => {
+            obj[item] = {};
+            this.state.event.participations.map(part => {
+                obj[item][part.User.id] = 0;
+            })
+        })
+
+        this.setState({
+            purchases: obj,
+            isGeneratingTextboxes: false,
+        })
+    }
+
+    handleChange(e, userId, itemName) {
+        let newVal = e.target.value;
+        let previousValue = this.state.purchases[itemName][userId];
+
+        let newPurchases = this.state.purchases;
+        let newItems = this.state.items;
+        let changed = false;
+
+        if (newVal > previousValue) {
+            // User bought an item 
+            if (this.state.items[itemName] === 0) {
+                e.target.value = previousValue;
+                this.setState({
+                    isErrorSnackbarOpen: true,
+                    errorSnackbarMessage: `There are no more '${itemName}' left.`
+                });
+            }
+            else {
+                newPurchases[itemName][userId] = newVal;
+                newItems[itemName] = newItems[itemName] - 1;
+                changed = true;
+            }
+        } else {
+            if (newVal < 0) {
+                e.target.value = previousValue;
+                this.setState({
+                    isErrorSnackbarOpen: true,
+                    errorSnackbarMessage: `You've returned too many '${itemName}'.`
+                });
+            } else {
+                newPurchases[itemName][userId] = newVal;
+                newItems[itemName] = newItems[itemName] + 1;
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            this.setState({
+                items: newItems,
+                purchases: newPurchases
+            })
         }
     }
 
     componentWillMount() {
         getCampShopItems(this.state.eventId)
             .then(res => {
-                console.log(res.data)
+                let obj = {}
+
+                res.data.map(item => {
+                    obj[item.name] = item.quantity;
+                })
+
                 this.setState({
                     isLoadingItems: false,
-                    items: res.data
+                    items: obj
                 })
             })
             .catch(err => {
@@ -131,11 +208,21 @@ class CampShop extends React.Component {
                 <Spinner />
             );
         }
-        let { classes } = this.props;
+        if (this.state.isGeneratingTextboxes) {
+            this.generateTextboxes()
+            return (
+                <Spinner />
+            );
+        }
+        let { classes,  } = this.props;
+        let { purchases, items, event } = this.state;
         return (
             <div>
                 <Grid container spacing={8}>
                     <Grid item md={10}>
+                        <Button key={this.state.key} variant="contained" color="primary" className={classes.button} onClick={() => this.props.history.goBack()}>
+                            <Back />Back
+                        </Button>
                         <Typography variant="h4" component="h2">
                             Camp Shop
                         </Typography>
@@ -158,37 +245,51 @@ class CampShop extends React.Component {
                             <Table className={classes.table}>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ backgroundColor: 'blanchedalmond' }}>
+                                        <TableCell align="center" style={{ backgroundColor: 'blanchedalmond' }}>
                                             Country
                                     </TableCell>
-                                        <TableCell style={{ backgroundColor: 'blanchedalmond' }}>
+                                        <TableCell align="center" style={{ backgroundColor: 'blanchedalmond' }}>
                                             Name
                                     </TableCell>
-                                        {this.state.items.map(row => {
-                                            console.log(row);
+                                        {Object.keys(items).map(row => {
                                             return (
                                                 <TableCell align="center">
-                                                    {row.name} ({row.quantity})
+                                                    {row} ({items[row]})
                                                 </TableCell>
                                             );
                                         })}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    { this.state.event.participations.map(row => {
+                                    {event.participations.map(row => {
                                         return (
                                             <TableRow
                                                 key={row.id}
                                                 className={classNames(classes.tableRow, classes.tableRowHover)}
-                                                onClick={() => this.onRowClick(row.id)}
                                             >
-                                                <TableCell align="center">{row.User.firstName} {row.User.lastName}</TableCell>
                                                 <TableCell align="center">{row.User.country}</TableCell>
+                                                <TableCell align="center">{row.User.firstName} {row.User.lastName}</TableCell>
+                                                {Object.keys(items).map(item => {
+                                                    return (
+                                                        <TableCell align="center">
+                                                            <input
+                                                                type='number'
+                                                                pattern='[0-9]{0,5}'
+                                                                onKeyDown={(e) => { this.disableKeyboard(e) }}
+                                                                onChange={(e) => { this.handleChange(e, row.User.id, item) }}
+                                                                style={{ width: 50 }}
+                                                                value={purchases[item][row.User.id]}
+                                                            //value={this.state.purchases.filter(purchase => {if(purchase.item === row2.name) return purchase})[0].quantities.filter(bla => {if (bla.userId === 2) return bla})[0].quantity}
+                                                            //value={this.state.purchases[row.id][row2.id]}
+                                                            />
+                                                        </TableCell>
+                                                    );
+                                                })}
                                             </TableRow>
                                         );
                                     })}
                                     {
-                                        
+
                                     }
                                 </TableBody>
                             </Table>

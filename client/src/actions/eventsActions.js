@@ -41,7 +41,6 @@ export const getCountryFlag = (countryName) => {
     return axios.get(`https://restcountries.eu/rest/v2/name/${countryName}`).then(res => {
         return `https://restcountries.eu/data/${res.data[0].alpha3Code.toLowerCase()}.svg`;
     });
-
 };
 
 export const downloadForm = (formName, eventId, userId) => {
@@ -116,4 +115,19 @@ export const updateComment = (eventId, messageId, comment) => {
 
 export const removeComment = (eventId, messageId) => {
     return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
+};
+
+export const getPurchases = (eventId, messageId) => {
+    //TODO: Implement
+    //return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
+};
+
+export const purchaseItem = (eventId, messageId) => {
+    //TODO: Implement
+    //return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
+};
+
+export const returnItem = (eventId, messageId) => {
+    //TODO: Implement
+    //return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
 };
