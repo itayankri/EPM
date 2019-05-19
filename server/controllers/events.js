@@ -5,31 +5,31 @@ const MyRole = require('../models').EventRole;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const pdfController = require('../pdfs/pdfFiller');
-//const TodoItem = require('../models').TodoItem;
+const MyIndicators = require('../models').Indicators;
+const MyEvidences = require('../models').Evidences;
 
 const eventsDictionary = Object.freeze({
-    SEMINAR: 'S',
-    VILLAGE: 'V',
-    STEPUP: 'C'
+  SEMINAR: 'S',
+  VILLAGE: 'V',
+  STEPUP: 'C'
 });
 
-function formatDate(date)
-{
-  return date.getDate() + "/" + date.getMonth()+1 + "/" + date.getFullYear()
+function formatDate(date) {
+  return date.getDate() + "/" + date.getMonth() + 1 + "/" + date.getFullYear()
 }
 
 function generateEventCode(req, res) {
-    const year = new Date(req.body.start).getFullYear();
-    console.log(year);
-    return MyEvent.findAll({
-      where: {
-        start: {
-          [Op.lt]: new Date((Number(year)),11,31,23,59,59) ,
-          [Op.gt]: new Date((Number(year)),00,01)
-        },
-        type: req.body.eventType.toString().toLowerCase()
-      }
-    })
+  const year = new Date(req.body.start).getFullYear();
+  console.log(year);
+  return MyEvent.findAll({
+    where: {
+      start: {
+        [Op.lt]: new Date((Number(year)), 11, 31, 23, 59, 59),
+        [Op.gt]: new Date((Number(year)), 00, 01)
+      },
+      type: req.body.eventType.toString().toLowerCase()
+    }
+  })
     .then(myevents => {
       let count = 0;
       if (myevents) {
@@ -43,30 +43,31 @@ function generateEventCode(req, res) {
 const myshit = module.exports = {
   create(req, res) {
     generateEventCode(req, res).then(eventcode => {
-    return MyEvent
-      .create({
-        start: req.body.start,
-        end: req.body.end,
-        code: eventcode.toString(),
-        country: req.body.country,
-        chapter: req.body.chapter,
-        type: req.body.eventType.toString().toLowerCase(),
-        address: req.body.eventAddress || "",
-        email: req.body.email ,
-        participatingNAs: req.body.participatingNAs,
-        theme: req.body.eventTheme || "",
-        meetingPointName: req.body.meetingPointName || "",
-        meetingPointAddress: req.body.meetingPointAddress || "" ,
-        meetingDate: req.body.meetingDate || "",
-        nearestAirportName: req.body.nearestAirportName || "" ,
-        nearestAirportCode: req.body.nearestAirportCode || "",
-        nearestTrainStation: req.body.nearestTrainStation || "",
-        arriveBefore: req.body.arriveBefore,
-        leaveAfter: req.body.leaveAfter,
+      return MyEvent
+        .create({
+          start: req.body.start,
+          end: req.body.end,
+          code: eventcode.toString(),
+          country: req.body.country,
+          chapter: req.body.chapter,
+          type: req.body.eventType.toString().toLowerCase(),
+          address: req.body.eventAddress || "",
+          email: req.body.email,
+          participatingNAs: req.body.participatingNAs,
+          theme: req.body.eventTheme || "",
+          meetingPointName: req.body.meetingPointName || "",
+          meetingPointAddress: req.body.meetingPointAddress || "",
+          meetingDate: req.body.meetingDate || "",
+          nearestAirportName: req.body.nearestAirportName || "",
+          nearestAirportCode: req.body.nearestAirportCode || "",
+          nearestTrainStation: req.body.nearestTrainStation || "",
+          arriveBefore: req.body.arriveBefore,
+          leaveAfter: req.body.leaveAfter,
 
-      })
-      .then(myevent => res.status(201).send(myevent))
-      .catch(error => {console.log(error); res.status(400).send(error)})});
+        })
+        .then(myevent => res.status(201).send(myevent))
+        .catch(error => { console.log(error); res.status(400).send(error) })
+    });
   },
   list(req, res) {
     return MyEvent
@@ -80,7 +81,7 @@ const myshit = module.exports = {
         include: [{
           model: EventParticipation,
           as: 'participations',
-            include: [MyUser, MyRole]
+          include: [MyUser, MyRole]
         }],
       })
       .then(myevent => {
@@ -94,27 +95,28 @@ const myshit = module.exports = {
       .catch(error => res.status(400).send(error));
   },
   contactList(req, res) {
-    if (req.params.eventId == null)
-    {
+    if (req.params.eventId == null) {
       return res.status(404).send({
         message: 'parameter eventId is not defined',
       });
     }
     return MyEvent
       .findById(req.params.eventId, {
-        attributes: [ "id", "theme", "country", "chapter" ],
+        attributes: ["id", "theme", "country", "chapter"],
         include: [{
           model: EventParticipation,
           as: 'participations',
-          attributes: [ "status", "roleId" ],
-          where: { status:"APPROVED" },
-            include: [{
-              model: MyUser,
-              attributes: [ "firstName", "middleName", "lastName", "birthday",
-                            "gender", "email", "homeNumber", "cellphoneNumber",
-                            "country", "city", "address", "zipcode" ]},
-            ]
-      }]})
+          attributes: ["status", "roleId"],
+          where: { status: "APPROVED" },
+          include: [{
+            model: MyUser,
+            attributes: ["firstName", "middleName", "lastName", "birthday",
+              "gender", "email", "homeNumber", "cellphoneNumber",
+              "country", "city", "address", "zipcode"]
+          },
+          ]
+        }]
+      })
       .then(myevent => {
         if (!myevent) {
           return res.status(404).send({
@@ -126,25 +128,25 @@ const myshit = module.exports = {
       .catch(error => res.status(400).send(error));
   },
   participantsToRandomize(req, res) {
-    if (req.params.eventId == null)
-    {
+    if (req.params.eventId == null) {
       return res.status(404).send({
         message: 'parameter eventId is not defined',
       });
     }
     return MyEvent
       .findById(req.params.eventId, {
-        attributes: [ "id", "theme", "country", "chapter" ],
+        attributes: ["id", "theme", "country", "chapter"],
         include: [{
           model: EventParticipation,
           as: 'participations',
-          attributes: [ "status", "roleId" ],
-          where: { status:"APPROVED" },
-            include: [{
-              model: MyUser,
-              attributes: [ "firstName", "lastName", "gender", "country" ],
-            }]
-      }]})
+          attributes: ["status", "roleId"],
+          where: { status: "APPROVED" },
+          include: [{
+            model: MyUser,
+            attributes: ["firstName", "lastName", "gender", "country"],
+          }]
+        }]
+      })
       .then(myevent => {
         if (!myevent) {
           return res.status(404).send({
@@ -155,20 +157,115 @@ const myshit = module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
+  indicators(req, res) {
+    if (req.params.eventId == null) {
+      return res.status(404).send({
+        message: 'parameter eventId is not defined',
+      });
+    }
+    return MyEvent
+      .findById(req.params.eventId, {
+        include: [{
+          model: EventParticipation,
+          as: 'participations',
+          include: [MyUser, MyRole]
+        }],
+      })
+      .then(myevent => {
+        if (!myevent) {
+          return res.status(404).send({
+            message: 'Event Not Found',
+          });
+        }
+        return MyIndicators.find({
+          where: {
+            year: myevent.code.split('-')[1],
+            eventType: myevent.type
+          }
+        })
+          .then(myindicators => { res.status(200).send(myindicators) })
+      })
+      .catch(error => res.status(400).send(error));
+  },
+  getEvidences(req, res) {
+    if (req.params.eventId == null) {
+      return res.status(404).send({
+        message: 'parameter eventId is not defined',
+      });
+    }
+    if (req.params.userId == null) {
+      return res.status(404).send({
+        message: 'parameter userId is not defined',
+      });
+    }
+    return MyEvidences.find({
+      where: {
+        userId: req.params.userId,
+        eventId: req.params.eventId
+      }
+    })
+      .then(myevidences => {
+        return res.status(200).send(myevidences);
+      })
+      .catch(err => {
+        return res.status(400).send(err);
+      })
+  },
+  setEvidences(req, res) {
+    if (req.params.eventId == null) {
+      return res.status(404).send({
+        message: 'parameter eventId is not defined',
+      });
+    }
+    if (req.params.userId == null) {
+      return res.status(404).send({
+        message: 'parameter userId is not defined',
+      });
+    }
+
+    return MyEvidences
+      .findOrCreate({
+        where: {
+          eventId: req.params.eventId,
+          userId: req.params.userId,
+        },
+        defaults: {
+          eventId: req.params.eventId,
+          userId: req.params.userId,
+          indicatorsId: 1,
+          values: {}
+        }
+      }).then(myevidence => {
+        return MyEvidences.update({
+          userId: req.params.userId || myevidence.userId,
+          eventId: req.params.eventId || myevidence.userId,
+          indicatorsId: req.params.indicatorsId || myevidence.indicatorsId,
+          values: req.body.values || JSON.stringify([{ "index": 0, "checked": true, "evidences": [{ "reportingUser": 1, "description": "bla bla bla" }] },
+          { "index": 1, "checked": false, "evidences": [] }])
+        }, {
+            where: {
+              id: myevidence[0].id
+            },
+            //returning: true
+          })
+      })
+      .then(updatedEvidence => res.status(201).send(updatedEvidence))
+      .catch(error => { console.log(error); res.status(400).send(error) })
+  },
   roomRandomizer(req, res) {
     let myObject;
     console.log(req.body);
-    switch (req.body.rooms){
+    switch (req.body.rooms) {
       case 1:
         myObject = {
           "Rooms": [
             {
               "Room Number": 1,
               "Participants": [
-                {"firstName": "fake_first_1","lastName": "fake_last_1","gender": true,"country": "fake_country_1","roleId": 2},
-                {"firstName": "fake_first_2","lastName": "fake_last_2","gender": false,"country": "fake_country_2","roleId": 2},
-                {"firstName": "fake_first_3","lastName": "fake_last_3","gender": true,"country": "fake_country_3","roleId": 2},
-                {"firstName": "fake_first_4","lastName": "fake_last_4","gender": false,"country": "fake_country_4","roleId": 2},
+                { "firstName": "fake_first_1", "lastName": "fake_last_1", "gender": true, "country": "fake_country_1", "roleId": 2 },
+                { "firstName": "fake_first_2", "lastName": "fake_last_2", "gender": false, "country": "fake_country_2", "roleId": 2 },
+                { "firstName": "fake_first_3", "lastName": "fake_last_3", "gender": true, "country": "fake_country_3", "roleId": 2 },
+                { "firstName": "fake_first_4", "lastName": "fake_last_4", "gender": false, "country": "fake_country_4", "roleId": 2 },
               ],
               "warning": ""
             }
@@ -181,20 +278,20 @@ const myshit = module.exports = {
             {
               "Room Number": 1,
               "Participants": [
-                {"firstName": "fake_first_1","lastName": "fake_last_1","gender": true,"country": "fake_country_1","roleId": 2},
-                {"firstName": "fake_first_2","lastName": "fake_last_2","gender": false,"country": "fake_country_2","roleId": 2},
-                {"firstName": "fake_first_3","lastName": "fake_last_3","gender": true,"country": "fake_country_3","roleId": 2},
-                {"firstName": "fake_first_4","lastName": "fake_last_4","gender": false,"country": "fake_country_4","roleId": 2},
+                { "firstName": "fake_first_1", "lastName": "fake_last_1", "gender": true, "country": "fake_country_1", "roleId": 2 },
+                { "firstName": "fake_first_2", "lastName": "fake_last_2", "gender": false, "country": "fake_country_2", "roleId": 2 },
+                { "firstName": "fake_first_3", "lastName": "fake_last_3", "gender": true, "country": "fake_country_3", "roleId": 2 },
+                { "firstName": "fake_first_4", "lastName": "fake_last_4", "gender": false, "country": "fake_country_4", "roleId": 2 },
               ],
               "warning": ""
             },
             {
               "Room Number": 2,
               "Participants": [
-                {"firstName": "fake_first_5","lastName": "fake_last_5","gender": true,"country": "fake_country_1","roleId": 2},
-                {"firstName": "fake_first_6","lastName": "fake_last_6","gender": false,"country": "fake_country_2","roleId": 2},
-                {"firstName": "fake_first_7","lastName": "fake_last_7","gender": true,"country": "fake_country_3","roleId": 2},
-                {"firstName": "fake_first_8","lastName": "fake_last_8","gender": false,"country": "fake_country_4","roleId": 2},
+                { "firstName": "fake_first_5", "lastName": "fake_last_5", "gender": true, "country": "fake_country_1", "roleId": 2 },
+                { "firstName": "fake_first_6", "lastName": "fake_last_6", "gender": false, "country": "fake_country_2", "roleId": 2 },
+                { "firstName": "fake_first_7", "lastName": "fake_last_7", "gender": true, "country": "fake_country_3", "roleId": 2 },
+                { "firstName": "fake_first_8", "lastName": "fake_last_8", "gender": false, "country": "fake_country_4", "roleId": 2 },
               ],
               "warning": "Fake warning"
             },
@@ -202,10 +299,10 @@ const myshit = module.exports = {
         }
         break;
       default:
-        myObject = {"error":"Didn't get 1 room or 2 rooms"};
+        myObject = { "error": "Didn't get 1 room or 2 rooms" };
         break;
     }
-    
+
     return res.status(200).send(myObject);
   },
   update(req, res) {
@@ -236,7 +333,7 @@ const myshit = module.exports = {
           model: EventParticipation,
           as: 'participations',
           where: { userId: req.body.userId },
-            include: [MyUser, MyRole]
+          include: [MyUser, MyRole]
         }],
       })
       .then(myevent => {
@@ -270,6 +367,7 @@ const myshit = module.exports = {
       })
       .catch(error => {
         console.log(error);
-        res.status(400).send(error)});
+        res.status(400).send(error)
+      });
   },
 };

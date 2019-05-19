@@ -72,6 +72,9 @@ module.exports = (app) => {
   app.put('/event/:eventId/declineParticipation', participationsController.declineParticipation); // decline a participation
   app.get('/event/:eventId/campSchedule'); // get a schedule for the camp
   app.get('/event/:eventId/chapterSchedule'); // get a schedule for the chapter
+  app.get('/event/:eventId/indicators', eventsController.indicators); // get all the indicators for an event
+  app.get('/event/:eventId/indicators/:userId/', eventsController.getEvidences); // get evidences for a specific user
+  app.post('/event/:eventId/indicators/:userId/', eventsController.setEvidences); // set evidences for a specific user
   app.get('/event/:eventId/contactList', eventsController.contactList); // get the contact list
   app.get('/event/:eventId/participantsToRandomize', eventsController.participantsToRandomize); // get the participants before randomizing
   app.post('/event/:eventId/roomRandomizer', eventsController.roomRandomizer); // Randomize a given list of participants
