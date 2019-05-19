@@ -85,7 +85,7 @@ const myshit = module.exports = {
                     model: EventParticipation,
                     as: 'participations',
                     attributes: ["status", "roleId"],
-                    where: { status: "CLAIMED" },
+                    where: { status: "APPROVED" },
                     include: [{
                         model: MyUser,
                         attributes: ["firstName", "middleName", "lastName", "birthday",
@@ -118,7 +118,7 @@ const myshit = module.exports = {
                     model: EventParticipation,
                     as: 'participations',
                     attributes: ["status", "roleId"],
-                    where: { status: "CLAIMED" },
+                    where: { status:"APPROVED" },
                     include: [{
                         model: MyUser,
                         attributes: ["firstName", "lastName", "gender", "country"],

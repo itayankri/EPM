@@ -107,7 +107,7 @@ const myshit = module.exports = {
           model: EventParticipation,
           as: 'participations',
           attributes: [ "status", "roleId" ],
-          where: { status: "CLAIMED" },
+          where: { status:"APPROVED" },
             include: [{
               model: MyUser,
               attributes: [ "firstName", "middleName", "lastName", "birthday",
@@ -139,7 +139,7 @@ const myshit = module.exports = {
           model: EventParticipation,
           as: 'participations',
           attributes: [ "status", "roleId" ],
-          where: { status: "CLAIMED" },
+          where: { status:"APPROVED" },
             include: [{
               model: MyUser,
               attributes: [ "firstName", "lastName", "gender", "country" ],
@@ -245,7 +245,7 @@ const myshit = module.exports = {
             message: 'Event Not Found',
           });
         }
-        let zivPath = pdfController.fillPdfForm(req.body.formName.split(".")[0], {
+        let myPath = pdfController.fillPdfForm(req.body.formName.split(".")[0], {
           "Date of Birth": formatDate(new Date(myevent.participations[0].User.birthday)),
           "Last name": myevent.participations[0].User.lastName,
           "First name": myevent.participations[0].User.firstName,
@@ -266,7 +266,7 @@ const myshit = module.exports = {
           "Name of Participant": myevent.participations[0].User.firstName + " " + ((myevent.participations[0].User.middleName ? myevent.participations[0].User.middleName + " " : "")) + myevent.participations[0].User.lastName,
           "Sending National Association": myevent.participations[0].User.country
         });
-        return res.status(200).send(zivPath);
+        return res.status(200).send(myPath);
       })
       .catch(error => {
         console.log(error);

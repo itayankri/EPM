@@ -14,7 +14,7 @@ module.exports = {
       "userId":1,
       "eventId":2,
       "roleId":2,
-      "status":"CLAIMED",
+      "status":"APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
