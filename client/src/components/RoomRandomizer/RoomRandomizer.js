@@ -170,7 +170,7 @@ class RoomRandomizer extends React.Component {
     render() {
         if (!this.props.user) {
             console.log("USER IS NOT LOGGED IN");
-            // this.props.history.push('/login');
+            this.props.history.push('/login');
         }
 
         if (this.state.isLoading) return (<Spinner />)

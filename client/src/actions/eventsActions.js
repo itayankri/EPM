@@ -113,3 +113,11 @@ export const updateComment = (eventId, messageId, comment) => {
 export const removeComment = (eventId, messageId) => {
     return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
 };
+
+export const getEventIndicators = (eventId) => {
+    return axios.get(`${config.url}/event/${eventId}/indicators`)
+        .then(response => {
+            return response
+        });
+
+};
