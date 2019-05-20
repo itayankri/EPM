@@ -3,16 +3,25 @@
  */
 
 import React from 'react';
+import {connect} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles';
 import Spinner from "../common/Spinner";
 import CustomizedTabs from '../common/CustomizedTabs';
 import EventSummaryTabView from './EventSummaryTabView';
 import EventParticipationTableView from './EventParticipationTableView';
+import ParticipantEventView from './ParticipantEventView';
 import EventOtherTabView from './EventOtherTabView';
 import {getEvent} from "../../actions/eventsActions";
 import ErrorSnackbar from "../common/ErrorSnackbar";
 
 const styles = theme => ({});
+
+const mapStateToProps = state => {
+    return {
+        isUserLoggedIn: state.userDetails.isUserLoggedIn,
+        user: state.userDetails.user,
+    }
+};
 
 class EventDetails extends React.Component {
     constructor(props) {
@@ -70,27 +79,38 @@ class EventDetails extends React.Component {
             );
         }
 
+        let isAdmin = (this.props.user && this.props.user.isAdmin);
         let tabToRender;
 
         if (this.state.selectedTab === 0) {
             tabToRender = <EventSummaryTabView event={this.state.event}/>
         } else if (this.state.selectedTab === 1) {
             tabToRender = <EventParticipationTableView
-                            event={this.state.event}
-                            onParticipationRoleChange={this.onParticipationRoleChange}
-                            refreshEvent={this.refreshEvent}/>
+                event={this.state.event}
+                onParticipationRoleChange={this.onParticipationRoleChange}
+                refreshEvent={this.refreshEvent}/>
         } else {
             tabToRender = <EventOtherTabView event={this.state.event}/>
         }
 
         return (
             <div>
-                <CustomizedTabs
-                    value={this.state.selectedTab}
-                    handleChange={this.handleChange}
-                    tabs={['Summary', 'Participation', 'Other']}
-                />
-                {tabToRender}
+                {
+                    isAdmin &&
+                    <CustomizedTabs
+                        value={this.state.selectedTab}
+                        handleChange={this.handleChange}
+                        tabs={['Summary', 'Participation', 'Other']}
+                    />
+                }
+                {
+                    isAdmin ?
+                        tabToRender
+                        :
+                        <ParticipantEventView
+                            event={this.state.event}
+                        />
+                }
                 <ErrorSnackbar
                     open={this.state.isErrorSnackbarOpen}
                     handleClose={this.handleErrorSnackbarClose}
@@ -101,4 +121,4 @@ class EventDetails extends React.Component {
     }
 }
 
-export default withStyles(styles)(EventDetails);
+export default connect(mapStateToProps)(withStyles(styles)(EventDetails));

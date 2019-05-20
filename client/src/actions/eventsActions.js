@@ -33,11 +33,14 @@ export const getContactList = (eventId) => {
     return axios.get(`${config.url}/event/${eventId}/contactList`);
 };
 
+export const getCampShopItems = (eventId) => {
+    return axios.get(`${config.url}/event/${eventId}/campShop`);
+}
+
 export const getCountryFlag = (countryName) => {
     return axios.get(`https://restcountries.eu/rest/v2/name/${countryName}`).then(res => {
         return `https://restcountries.eu/data/${res.data[0].alpha3Code.toLowerCase()}.svg`;
     });
-
 };
 
 export const downloadForm = (formName, eventId, userId) => {
@@ -88,7 +91,6 @@ export const randomizeParticipants = (eventId, payload) => {
         .then(response => {
             return response.data.Rooms
         });
-
 };
 
 export const getEventBlogMessages = (eventId) => {
@@ -119,5 +121,4 @@ export const getEventIndicators = (eventId) => {
         .then(response => {
             return response
         });
-
 };

@@ -1,9 +1,9 @@
-const myuser = require('../models').User;
+const User = require('../models').User;
 const EventParticipation = require('../models').Participations;
 
 module.exports = {
     create(req, res) {
-        return myuser
+        return User
             .create({
                 password: req.body.password,
                 firstName: req.body.firstName,
@@ -26,82 +26,82 @@ module.exports = {
                 firstAid: req.body.firstAid || true,
                 lifeSave: req.body.lifeSave || true,
             })
-            .then(myuser => res.status(201).send(myuser))
+            .then(user => res.status(201).send(user))
             .catch(error => {
                 console.log(error);
                 res.status(400).send(error)
             });
     },
     list(req, res) {
-        return myuser
+        return User
             .findAll({
                 // include: [{
                 //   model: EventParticipation,
                 //   as: 'participations'
                 // }],
             })
-            .then(myusers => res.status(200).send(myusers))
+            .then(users => res.status(200).send(users))
             .catch(error => {
                 console.log(error);
                 res.status(400).send(error)
             });
     },
     retrieve(req, res) {
-        return myuser
+        return User
             .findById(req.params.id, {
                 include: [{
                     model: EventParticipation,
                     as: 'participations'
                 }],
             })
-            .then(myuser => {
-                if (!myuser) {
+            .then(user => {
+                if (!user) {
                     return res.status(404).send({
                         message: 'User Not Found',
                     });
                 }
-                return res.status(200).send(myuser);
+                return res.status(200).send(user);
             })
             .catch(error => res.status(400).send(error));
     },
     update(req, res) {
-        return myuser
+        return User
             .findById(req.params.id)
-            .then(myuser => {
-                if (!myuser) {
+            .then(user => {
+                if (!user) {
                     return res.status(404).send({
                         message: 'User Not Found',
                     });
                 }
-                return myuser
+                return User
                     .update({
-                        firstName: req.body.start || myuser.firstName,
-                        lastName: req.body.end || myuser.lastName,
+                        firstName: req.body.start || user.firstName,
+                        lastName: req.body.end || user.lastName,
                     })
-                    .then(() => res.status(200).send(myuser))  // Send back the updated user.
+                    .then(() => res.status(200).send(user))  // Send back the updated user.
                     .catch((error) => res.status(400).send(error));
             })
             .catch((error) => res.status(400).send(error));
     },
 
     login(req, res) {
-        return myuser
-            .find({
-                email: req.body.email,
-                password: req.body.password
-            })
-            .then(myuser => {
-                if (!myuser) {
-                    return res.status(404).send({
-                        message: 'Incorrect username or password',
-                    })
+        return User
+            .findOne({
+                where: {
+                    email: req.body.email,
+                    password: req.body.password
                 }
-
-                myuser.password = "";
-                req.session.user = myuser.dataValues;
-                req.session.isAuthenticated = true;
-                console.log('session user', req.session.user);
-                return res.status(200).send(myuser);
+            })
+            .then(user => {
+                if (!user) {
+                    return res.status(404).send('Incorrect username or password');
+                } else {
+                    user.password = "";
+                    req.session.user = user.dataValues;
+                    req.session.isAuthenticated = true;
+                    console.log('session user', req.session.user);
+                    return res.status(200).send(user);
+                }
             })
             .catch((error) => res.status(400).send(error));
     },

@@ -12,6 +12,7 @@ import EventDetails from './Events/EventDetails';
 import CreateEvent from './Events/CreateEvent';
 import GenerateForms from './GenerateForms/GenerateForms';
 import ContactList from './ContactList/ContactList';
+import CampShop from './CampShop/CampShop';
 import Blog from './Blog/Blog';
 import RoomRandomizer from './RoomRandomizer/RoomRandomizer'
 import Pdpef from './Pdpef/Pdpef'
@@ -44,6 +45,7 @@ class Main extends React.Component {
                     <Route exact path="/events/create" component={CreateEvent}/>
                     <Route exact path="/events/:eventId" component={EventDetails}/>
                     <Route exact path="/events/:eventId/generateForms" component={GenerateForms}/>
+                    <Route exact path="/events/:eventId/campShop" component={CampShop}/>
                     <Route exact path="/events/:eventId/contactList" component={ContactList}/>
                     <Route exact path="/events/:eventId/blog" component={Blog}/>
                     <Route exact path="/events/:eventId/roomRandomizer" component={RoomRandomizer}/>
