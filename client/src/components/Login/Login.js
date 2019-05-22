@@ -74,7 +74,7 @@ class Login extends React.Component {
     }
 
     onSubmit() {
-        signIn(this.state.username, this.state.password)
+        signIn(this.state.email, this.state.password)
             .then(res => {
                 this.props.setUser(res.data);
                 this.props.history.push('/');

@@ -14,7 +14,7 @@ module.exports = {
       "userId":1,
       "eventId":2,
       "roleId":2,
-      "status":"CLAIMED",
+      "status":"APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
@@ -47,20 +47,6 @@ module.exports = {
       "createdAt": "2019-01-12T09:37:46.207Z"
     }, {
     // USER 2
-      "userId":2,
-      "eventId":1,
-      "roleId":1,
-      "status":"APPROVED",
-      "updatedAt": "2019-01-12T09:37:46.207Z",
-      "createdAt": "2019-01-12T09:37:46.207Z"
-    }, {
-      "userId":2,
-      "eventId":1,
-      "roleId":1,
-      "status":"APPROVED",
-      "updatedAt": "2019-01-12T09:37:46.207Z",
-      "createdAt": "2019-01-12T09:37:46.207Z"
-    }, {
       "userId":2,
       "eventId":1,
       "roleId":1,

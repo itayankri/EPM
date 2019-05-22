@@ -11,14 +11,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@passport-next/passport": "^2.1.1",
+    "@passport-next/passport-google-oauth2": "^1.0.0",
     "body-parser": "^1.18.3",
+    "connect-pg-simple": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
     "hummus": "^1.0.95",
     "hummus-recipe": "^1.8.0",
     "morgan": "^1.9.1",
-    "pg": "^7.7.1",
+    "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
@@ -29,6 +32,7 @@
   },
   "devDependencies": {
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "react-scripts": "^3.0.0"
   }
 }

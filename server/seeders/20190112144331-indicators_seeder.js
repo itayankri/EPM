@@ -33,7 +33,7 @@ module.exports = {
       "eventType":"step up",
       "indicators":JSON.stringify([{"name":"Develop leadership skills","indicators":[
                                       {"name":"Express personal ideas to promote group development","type":"S"},
-                                      {"name":"Suggest solutions to conflicts","type":"KS"},
+                                      {"name":"Suggest solutions to conflicts","type":"S"},
                                       {"name":"Facilitate a group","type":"S"},
                                       {"name":"Take responsibility for an activity, project or problem","type":"S"}]},
                                     {"name":"Be willing to take initiative in own community","indicators":[

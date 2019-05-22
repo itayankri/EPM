@@ -5,12 +5,14 @@
 import React from 'react';
 import classNames from 'classnames';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {NavLink, withRouter} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -22,11 +24,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import HomeIcon from '@material-ui/icons/Home';
 import EventIcon from '@material-ui/icons/Event';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import Main from '../Main';
+import {getLoggedUser} from "../../actions/loginActions";
 
 const drawerWidth = 240;
 
@@ -101,14 +103,22 @@ const styles = theme => ({
     topNavlink: {
         textDecoration: 'none',
         color: 'white'
+    },
+    grow: {
+        flexGrow: 1
     }
 });
 
 const mapStateToProps = state => {
     return {
         isUserLoggedIn: state.userDetails.isUserLoggedIn,
-        user: state.userDetails.user
+        user: state.userDetails.user,
+        loadingUserDetails: state.userDetails.loadingUserDetails
     }
+};
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({getLoggedUser}, dispatch);
 };
 
 class MiniDrawer extends React.Component {
@@ -117,8 +127,10 @@ class MiniDrawer extends React.Component {
         this.state = {
             open: true,
         };
+    }
 
-        console.log(props);
+    componentDidMount() {
+        this.props.getLoggedUser();
     }
 
     handleDrawerOpen = () => {
@@ -129,13 +141,19 @@ class MiniDrawer extends React.Component {
         this.setState({open: false});
     };
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log('isUserLoggedIn', prevProps.isUserLoggedIn, this.props.isUserLoggedIn)
-        console.log('user', prevProps.user, this.props.user)
-    }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     console.log('isUserLoggedIn', prevProps.isUserLoggedIn, this.props.isUserLoggedIn);
+    //     console.log('user', prevProps.user, this.props.user)
+    // }
 
     render() {
         const {classes, theme} = this.props;
+
+        if (this.props.loadingUserDetails) {
+            return (
+                <CircularProgress/>
+            )
+        }
 
         return (
             <div className={classes.root}>
@@ -155,11 +173,12 @@ class MiniDrawer extends React.Component {
                                 [classes.hide]: this.state.open,
                             })}
                         >
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" color="inherit" noWrap>
                             CISV
                         </Typography>
+                        <div className={classes.grow}/>
                         {
                             !this.props.isUserLoggedIn
                                 ?
@@ -172,16 +191,14 @@ class MiniDrawer extends React.Component {
                                     </NavLink>
                                 </div>
                                 :
-                                <div className={classes.topNavbar}>
-                                    <NavLink to="/account" className={classes.topNavlink}>
-                                        <Typography className={classes.topNavlink}>
-                                            <IconButton className={classes.topNavlink}>
-                                                <AccountIcon/>
-                                            </IconButton>
-                                            {this.props.user.firstName}
-                                        </Typography>
-                                    </NavLink>
-                                </div>
+                                <NavLink to="/account" className={classes.topNavlink}>
+                                    <Typography color="inherit">
+                                        <IconButton color="inherit">
+                                            <AccountIcon/>
+                                        </IconButton>
+                                        {this.props.user.firstName}
+                                    </Typography>
+                                </NavLink>
                         }
                     </Toolbar>
                 </AppBar>
@@ -201,7 +218,7 @@ class MiniDrawer extends React.Component {
                 >
                     <div className={classes.toolbar}>
                         <IconButton onClick={this.handleDrawerClose}>
-                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                            {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
                         </IconButton>
                     </div>
                     <Divider/>
@@ -210,12 +227,6 @@ class MiniDrawer extends React.Component {
                             <ListItem button>
                                 <ListItemIcon><HomeIcon/></ListItemIcon>
                                 <ListItemText primary="Home"/>
-                            </ListItem>
-                        </NavLink>
-                        <NavLink to="/files" className={classes.sideNavlink}>
-                            <ListItem button>
-                                <ListItemIcon><InboxIcon/></ListItemIcon>
-                                <ListItemText primary="File Transfer"/>
                             </ListItem>
                         </NavLink>
                         <NavLink to="/events" className={classes.sideNavlink}>
@@ -242,4 +253,4 @@ class MiniDrawer extends React.Component {
 }
 
 // export default withStyles(styles, {withTheme: true})(MiniDrawer);
-export default withRouter(connect(mapStateToProps)(withStyles(styles, {withTheme: true})(MiniDrawer)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MiniDrawer)));

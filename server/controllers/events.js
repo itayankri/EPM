@@ -5,7 +5,8 @@ const MyRole = require('../models').EventRole;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const pdfController = require('../pdfs/pdfFiller');
-//const TodoItem = require('../models').TodoItem;
+const MyIndicators = require('../models').Indicators;
+const MyEvidences = require('../models').Evidences;
 
 const eventsDictionary = Object.freeze({
   SEMINAR: 'S',
@@ -155,7 +156,7 @@ const myshit = module.exports = {
           model: EventParticipation,
           as: 'participations',
           attributes: ["status", "roleId"],
-          where: { status: "CLAIMED" },
+          where: { status: "APPROVED" },
           include: [{
             model: MyUser,
             attributes: ["firstName", "middleName", "lastName", "birthday",
@@ -204,6 +205,101 @@ const myshit = module.exports = {
         return res.status(200).send(myevent);
       })
       .catch(error => res.status(400).send(error));
+  },
+  indicators(req, res) {
+    if (req.params.eventId == null) {
+      return res.status(404).send({
+        message: 'parameter eventId is not defined',
+      });
+    }
+    return MyEvent
+      .findById(req.params.eventId, {
+        include: [{
+          model: EventParticipation,
+          as: 'participations',
+          include: [MyUser, MyRole]
+        }],
+      })
+      .then(myevent => {
+        if (!myevent) {
+          return res.status(404).send({
+            message: 'Event Not Found',
+          });
+        }
+        return MyIndicators.find({
+          where: {
+            year: myevent.code.split('-')[1],
+            eventType: myevent.type
+          }
+        })
+          .then(myindicators => { res.status(200).send(myindicators) })
+      })
+      .catch(error => res.status(400).send(error));
+  },
+  getEvidences(req, res) {
+    if (req.params.eventId == null) {
+      return res.status(404).send({
+        message: 'parameter eventId is not defined',
+      });
+    }
+    if (req.params.userId == null) {
+      return res.status(404).send({
+        message: 'parameter userId is not defined',
+      });
+    }
+    return MyEvidences.find({
+      where: {
+        userId: req.params.userId,
+        eventId: req.params.eventId
+      }
+    })
+      .then(myevidences => {
+        return res.status(200).send(myevidences);
+      })
+      .catch(err => {
+        return res.status(400).send(err);
+      })
+  },
+  setEvidences(req, res) {
+    if (req.params.eventId == null) {
+      return res.status(404).send({
+        message: 'parameter eventId is not defined',
+      });
+    }
+    if (req.params.userId == null) {
+      return res.status(404).send({
+        message: 'parameter userId is not defined',
+      });
+    }
+
+    return MyEvidences
+      .findOrCreate({
+        where: {
+          eventId: req.params.eventId,
+          userId: req.params.userId,
+        },
+        defaults: {
+          eventId: req.params.eventId,
+          userId: req.params.userId,
+          indicatorsId: 1,
+          values: {}
+        }
+      }).then(myevidence => {
+        return MyEvidences.update({
+          userId: req.params.userId || myevidence.userId,
+          eventId: req.params.eventId || myevidence.userId,
+          indicatorsId: req.params.indicatorsId || myevidence.indicatorsId,
+          values: req.body.values || JSON.stringify([{ "index": 0, "checked": true, "evidences": [{ "reportingUser": 1, "description": "bla bla bla" }] },
+          { "index": 1, "checked": false, "evidences": [] }])
+        }, {
+            where: {
+              id: myevidence[0].id
+            },
+            //returning: true
+          })
+      })
+      .then(updatedEvidence => res.status(201).send(updatedEvidence))
+      .catch(error => { console.log(error); res.status(400).send(error) })
   },
   roomRandomizer(req, res) {
     const { separateBy, rooms, participants } = req.body;
@@ -340,7 +436,7 @@ const myshit = module.exports = {
             message: 'Event Not Found',
           });
         }
-        let zivPath = pdfController.fillPdfForm(req.body.formName.split(".")[0], {
+        let myPath = pdfController.fillPdfForm(req.body.formName.split(".")[0], {
           "Date of Birth": formatDate(new Date(myevent.participations[0].User.birthday)),
           "Last name": myevent.participations[0].User.lastName,
           "First name": myevent.participations[0].User.firstName,
@@ -361,7 +457,7 @@ const myshit = module.exports = {
           "Name of Participant": myevent.participations[0].User.firstName + " " + ((myevent.participations[0].User.middleName ? myevent.participations[0].User.middleName + " " : "")) + myevent.participations[0].User.lastName,
           "Sending National Association": myevent.participations[0].User.country
         });
-        return res.status(200).send(zivPath);
+        return res.status(200).send(myPath);
       })
       .catch(error => {
         console.log(error);

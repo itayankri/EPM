@@ -21,13 +21,18 @@ module.exports = (sequelize, DataTypes) => {
     swimming: DataTypes.BOOLEAN,
     firstAid: DataTypes.BOOLEAN,
     lifeSave: DataTypes.BOOLEAN,
-    verificationCode: DataTypes.STRING
+    verificationCode: DataTypes.STRING,
+    isAdmin: DataTypes.BOOLEAN,
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Participations, {
       foreignKey: 'userId',
       as: 'participations',
     });
+
+    User.hasMany(models.BlogMessage, {
+      foreignKey: 'userId'
+    })
     // associations can be defined here
   };
   return User;

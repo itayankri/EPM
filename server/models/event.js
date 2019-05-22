@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'eventId',
       as: 'participations',
     });
+
+    Event.hasMany(models.BlogMessage, {
+      foreignKey: 'eventId',
+    })
     // associations can be defined here
   };
   return Event;
