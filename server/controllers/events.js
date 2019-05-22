@@ -8,28 +8,27 @@ const pdfController = require('../pdfs/pdfFiller');
 //const TodoItem = require('../models').TodoItem;
 
 const eventsDictionary = Object.freeze({
-    SEMINAR: 'S',
-    VILLAGE: 'V',
-    STEPUP: 'C'
+  SEMINAR: 'S',
+  VILLAGE: 'V',
+  STEPUP: 'C'
 });
 
-function formatDate(date)
-{
-  return date.getDate() + "/" + date.getMonth()+1 + "/" + date.getFullYear()
+function formatDate(date) {
+  return date.getDate() + "/" + date.getMonth() + 1 + "/" + date.getFullYear()
 }
 
 function generateEventCode(req, res) {
-    const year = new Date(req.body.start).getFullYear();
-    console.log(year);
-    return MyEvent.findAll({
-      where: {
-        start: {
-          [Op.lt]: new Date((Number(year)),11,31,23,59,59) ,
-          [Op.gt]: new Date((Number(year)),00,01)
-        },
-        type: req.body.eventType.toString().toLowerCase()
-      }
-    })
+  const year = new Date(req.body.start).getFullYear();
+  console.log(year);
+  return MyEvent.findAll({
+    where: {
+      start: {
+        [Op.lt]: new Date((Number(year)), 11, 31, 23, 59, 59),
+        [Op.gt]: new Date((Number(year)), 00, 01)
+      },
+      type: req.body.eventType.toString().toLowerCase()
+    }
+  })
     .then(myevents => {
       let count = 0;
       if (myevents) {
@@ -40,33 +39,83 @@ function generateEventCode(req, res) {
     });
 }
 
+function compareValues(key, order = 'asc') {
+  return function (a, b) {
+    if (!a.hasOwnProperty(key) ||
+      !b.hasOwnProperty(key)) {
+      return 0;
+    }
+
+    const varA = (typeof a[key] === 'string') ?
+      a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string') ?
+      b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order == 'desc') ?
+        (comparison * -1) : comparison
+    );
+  };
+}
+
+function shuffleArray(a) {
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
+  }
+  return a;
+}
+
+function shuffleDict(d) {
+  let myParticipants = {};
+  Object.entries(d).forEach(([key, value]) => {
+    let newval = value;
+    for (let i = newval.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newval[i], newval[j]] = [newval[j], newval[i]];
+    }
+    myParticipants[key] = newval;
+  });
+  return myParticipants;
+}
+
 const myshit = module.exports = {
   create(req, res) {
     generateEventCode(req, res).then(eventcode => {
-    return MyEvent
-      .create({
-        start: req.body.start,
-        end: req.body.end,
-        code: eventcode.toString(),
-        country: req.body.country,
-        chapter: req.body.chapter,
-        type: req.body.eventType.toString().toLowerCase(),
-        address: req.body.eventAddress || "",
-        email: req.body.email ,
-        participatingNAs: req.body.participatingNAs,
-        theme: req.body.eventTheme || "",
-        meetingPointName: req.body.meetingPointName || "",
-        meetingPointAddress: req.body.meetingPointAddress || "" ,
-        meetingDate: req.body.meetingDate || "",
-        nearestAirportName: req.body.nearestAirportName || "" ,
-        nearestAirportCode: req.body.nearestAirportCode || "",
-        nearestTrainStation: req.body.nearestTrainStation || "",
-        arriveBefore: req.body.arriveBefore,
-        leaveAfter: req.body.leaveAfter,
+      return MyEvent
+        .create({
+          start: req.body.start,
+          end: req.body.end,
+          code: eventcode.toString(),
+          country: req.body.country,
+          chapter: req.body.chapter,
+          type: req.body.eventType.toString().toLowerCase(),
+          address: req.body.eventAddress || "",
+          email: req.body.email,
+          participatingNAs: req.body.participatingNAs,
+          theme: req.body.eventTheme || "",
+          meetingPointName: req.body.meetingPointName || "",
+          meetingPointAddress: req.body.meetingPointAddress || "",
+          meetingDate: req.body.meetingDate || "",
+          nearestAirportName: req.body.nearestAirportName || "",
+          nearestAirportCode: req.body.nearestAirportCode || "",
+          nearestTrainStation: req.body.nearestTrainStation || "",
+          arriveBefore: req.body.arriveBefore,
+          leaveAfter: req.body.leaveAfter,
 
-      })
-      .then(myevent => res.status(201).send(myevent))
-      .catch(error => {console.log(error); res.status(400).send(error)})});
+        })
+        .then(myevent => res.status(201).send(myevent))
+        .catch(error => { console.log(error); res.status(400).send(error) })
+    });
   },
   list(req, res) {
     return MyEvent
@@ -80,7 +129,7 @@ const myshit = module.exports = {
         include: [{
           model: EventParticipation,
           as: 'participations',
-            include: [MyUser, MyRole]
+          include: [MyUser, MyRole]
         }],
       })
       .then(myevent => {
@@ -94,27 +143,28 @@ const myshit = module.exports = {
       .catch(error => res.status(400).send(error));
   },
   contactList(req, res) {
-    if (req.params.eventId == null)
-    {
+    if (req.params.eventId == null) {
       return res.status(404).send({
         message: 'parameter eventId is not defined',
       });
     }
     return MyEvent
       .findById(req.params.eventId, {
-        attributes: [ "id", "theme", "country", "chapter" ],
+        attributes: ["id", "theme", "country", "chapter"],
         include: [{
           model: EventParticipation,
           as: 'participations',
-          attributes: [ "status", "roleId" ],
+          attributes: ["status", "roleId"],
           where: { status: "CLAIMED" },
-            include: [{
-              model: MyUser,
-              attributes: [ "firstName", "middleName", "lastName", "birthday",
-                            "gender", "email", "homeNumber", "cellphoneNumber",
-                            "country", "city", "address", "zipcode" ]},
-            ]
-      }]})
+          include: [{
+            model: MyUser,
+            attributes: ["firstName", "middleName", "lastName", "birthday",
+              "gender", "email", "homeNumber", "cellphoneNumber",
+              "country", "city", "address", "zipcode"]
+          },
+          ]
+        }]
+      })
       .then(myevent => {
         if (!myevent) {
           return res.status(404).send({
@@ -126,25 +176,25 @@ const myshit = module.exports = {
       .catch(error => res.status(400).send(error));
   },
   participantsToRandomize(req, res) {
-    if (req.params.eventId == null)
-    {
+    if (req.params.eventId == null) {
       return res.status(404).send({
         message: 'parameter eventId is not defined',
       });
     }
     return MyEvent
       .findById(req.params.eventId, {
-        attributes: [ "id", "theme", "country", "chapter" ],
+        attributes: ["id", "theme", "country", "chapter"],
         include: [{
           model: EventParticipation,
           as: 'participations',
-          attributes: [ "status", "roleId" ],
-          where: { status: "CLAIMED" },
-            include: [{
-              model: MyUser,
-              attributes: [ "firstName", "lastName", "gender", "country" ],
-            }]
-      }]})
+          attributes: ["status", "roleId"],
+          where: { status: "APPROVED" },
+          include: [{
+            model: MyUser,
+            attributes: ["firstName", "lastName", "gender", "country"],
+          }]
+        }]
+      })
       .then(myevent => {
         if (!myevent) {
           return res.status(404).send({
@@ -156,57 +206,102 @@ const myshit = module.exports = {
       .catch(error => res.status(400).send(error));
   },
   roomRandomizer(req, res) {
-    let myObject;
-    console.log(req.body);
-    switch (req.body.rooms){
-      case 1:
-        myObject = {
-          "Rooms": [
-            {
-              "Room Number": 1,
-              "Participants": [
-                {"firstName": "fake_first_1","lastName": "fake_last_1","gender": true,"country": "fake_country_1","roleId": 2},
-                {"firstName": "fake_first_2","lastName": "fake_last_2","gender": false,"country": "fake_country_2","roleId": 2},
-                {"firstName": "fake_first_3","lastName": "fake_last_3","gender": true,"country": "fake_country_3","roleId": 2},
-                {"firstName": "fake_first_4","lastName": "fake_last_4","gender": false,"country": "fake_country_4","roleId": 2},
-              ],
-              "warning": ""
-            }
-          ]
-        }
-        break;
-      case 2:
-        myObject = {
-          "Rooms": [
-            {
-              "Room Number": 1,
-              "Participants": [
-                {"firstName": "fake_first_1","lastName": "fake_last_1","gender": true,"country": "fake_country_1","roleId": 2},
-                {"firstName": "fake_first_2","lastName": "fake_last_2","gender": false,"country": "fake_country_2","roleId": 2},
-                {"firstName": "fake_first_3","lastName": "fake_last_3","gender": true,"country": "fake_country_3","roleId": 2},
-                {"firstName": "fake_first_4","lastName": "fake_last_4","gender": false,"country": "fake_country_4","roleId": 2},
-              ],
-              "warning": ""
-            },
-            {
-              "Room Number": 2,
-              "Participants": [
-                {"firstName": "fake_first_5","lastName": "fake_last_5","gender": true,"country": "fake_country_1","roleId": 2},
-                {"firstName": "fake_first_6","lastName": "fake_last_6","gender": false,"country": "fake_country_2","roleId": 2},
-                {"firstName": "fake_first_7","lastName": "fake_last_7","gender": true,"country": "fake_country_3","roleId": 2},
-                {"firstName": "fake_first_8","lastName": "fake_last_8","gender": false,"country": "fake_country_4","roleId": 2},
-              ],
-              "warning": "Fake warning"
-            },
-          ]
-        }
-        break;
-      default:
-        myObject = {"error":"Didn't get 1 room or 2 rooms"};
-        break;
+    const { separateBy, rooms, participants } = req.body;
+
+    if (rooms < 3)
+      return res.status(400).send({
+        message: "Minimum rooms required is 3"
+      })
+
+    let dict = {};
+    let shuf = shuffleArray(participants)
+    shuf.map(x => {
+      if (!dict[x.country])
+        dict[x.country] = [];
+      dict[x.country].push(x);
+    });
+
+    let myParticipants = shuffleDict(dict);
+
+    let randomizedRooms = {};
+    let boysRooms = 0;
+    let girlsRooms = 0;
+    for (let i = 0; i < rooms; i++) {
+      if (i % 2 === 0) {
+        randomizedRooms[(++boysRooms).toString() + "M"] = [];
+      }
+      else {
+        randomizedRooms[(++girlsRooms).toString() + "F"] = [];
+      }
     }
-    
-    return res.status(200).send(myObject);
+
+    let boysCounter = 0
+    let girlsCounter = 0;
+    let boysWarning = []
+    let girlsWarning = [];
+
+    if (separateBy.includes("country")) {
+      Object.entries(myParticipants).forEach(([key, value]) => {
+        let boysInCountry = 0
+        let girlsInCountry = 0;
+        value.map(participant => {
+          if (participant.gender) {
+            let boysIndex = (++boysCounter).toString() + "M";
+            if (!randomizedRooms[boysIndex])
+              randomizedRooms[boysIndex] = [];
+            randomizedRooms[boysIndex].push(participant);
+            boysInCountry++;
+            if (boysCounter === boysRooms)
+              boysCounter = 0;
+          }
+          else {
+            let girlsIndex = (++girlsCounter).toString() + "F";
+            if (!randomizedRooms[girlsIndex])
+              randomizedRooms[girlsIndex] = [];
+            randomizedRooms[girlsIndex].push(participant);
+            girlsInCountry++;
+            if (girlsCounter === girlsRooms)
+              girlsCounter = 0;
+          }
+        })
+
+        if (boysInCountry > boysRooms)
+          boysWarning.push(key);
+        if (girlsInCountry > girlsRooms)
+          girlsWarning.push(key);
+
+      })
+    }
+    else {
+      shuf.map(participant => {
+        if (participant.gender) {
+          if (!randomizedRooms[(++boysCounter).toString() + "M"])
+            randomizedRooms[(boysCounter).toString() + "M"] = [];
+          randomizedRooms[(boysCounter).toString() + "M"].push(participant);
+          if (boysCounter === boysRooms)
+            boysCounter = 0;
+        }
+        else {
+          if (!randomizedRooms[(++girlsCounter).toString() + "F"])
+            randomizedRooms[(girlsCounter).toString() + "F"] = [];
+          randomizedRooms[(girlsCounter).toString() + "F"].push(participant);
+          if (girlsCounter === girlsRooms)
+            girlsCounter = 0;
+        }
+      })
+
+    }
+    let warnings = [];
+    if (boysWarning.length > 0)
+      warnings.push(`Cannot fully randomize by country because ${boysWarning.toString()} has more male participants than male rooms`)
+    if (girlsWarning.length > 0)    
+      warnings.push(`Cannot fully randomize by country because ${girlsWarning.toString()} has more female participants than female rooms`)
+
+    return res.status(200).json({
+      rooms: randomizedRooms,
+      warnings: warnings
+    })
+
   },
   update(req, res) {
     return MyEvent
@@ -236,7 +331,7 @@ const myshit = module.exports = {
           model: EventParticipation,
           as: 'participations',
           where: { userId: req.body.userId },
-            include: [MyUser, MyRole]
+          include: [MyUser, MyRole]
         }],
       })
       .then(myevent => {
@@ -270,6 +365,7 @@ const myshit = module.exports = {
       })
       .catch(error => {
         console.log(error);
-        res.status(400).send(error)});
+        res.status(400).send(error)
+      });
   },
 };
