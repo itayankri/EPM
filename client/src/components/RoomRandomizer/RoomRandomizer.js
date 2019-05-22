@@ -162,6 +162,8 @@ class RoomRandomizer extends React.Component {
                                 <br/>
                         </Grid>
                     )
+                } else {
+                    return (<br></br>);
                 }
             })
         )
