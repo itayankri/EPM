@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import Back from '@material-ui/icons/KeyboardBackspace';
+import MyTable from './MyTable';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import ErrorSnackbar from "../common/ErrorSnackbar";
@@ -88,6 +89,7 @@ class CampShop extends React.Component {
             items: [],
             purchases: [],
         }
+        this.generateCell = this.generateCell.bind(this);
     }
 
     disableKeyboard(e) {
@@ -198,6 +200,19 @@ class CampShop extends React.Component {
             });
     }
 
+    generateCell(row, item) {
+        return (
+            <input
+                type='number'
+                pattern='[0-9]{0,5}'
+                onKeyDown={(e) => { this.disableKeyboard(e) }}
+                onChange={(e) => { this.handleChange(e, row.User.id, item) }}
+                style={{ width: 50 }}
+                value={this.state.purchases[item][row.User.id]}
+            />
+        )
+    }
+
     render() {
         // if (!this.props.user) {
         //     console.log("USER IS NOT LOGGED IN");
@@ -214,7 +229,7 @@ class CampShop extends React.Component {
                 <Spinner />
             );
         }
-        let { classes,  } = this.props;
+        let { classes, } = this.props;
         let { purchases, items, event } = this.state;
         return (
             <div>
@@ -241,59 +256,13 @@ class CampShop extends React.Component {
                         </Link>
                     </Grid>
                     <Grid item md={12}>
-                        <Paper className={classes.root}>
-                            <Table className={classes.table}>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center" style={{ backgroundColor: 'blanchedalmond' }}>
-                                            Country
-                                    </TableCell>
-                                        <TableCell align="center" style={{ backgroundColor: 'blanchedalmond' }}>
-                                            Name
-                                    </TableCell>
-                                        {Object.keys(items).map(row => {
-                                            return (
-                                                <TableCell align="center">
-                                                    {row} ({items[row]})
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {event.participations.map(row => {
-                                        return (
-                                            <TableRow
-                                                key={row.id}
-                                                className={classNames(classes.tableRow, classes.tableRowHover)}
-                                            >
-                                                <TableCell align="center">{row.User.country}</TableCell>
-                                                <TableCell align="center">{row.User.firstName} {row.User.lastName}</TableCell>
-                                                {Object.keys(items).map(item => {
-                                                    return (
-                                                        <TableCell align="center">
-                                                            <input
-                                                                type='number'
-                                                                pattern='[0-9]{0,5}'
-                                                                onKeyDown={(e) => { this.disableKeyboard(e) }}
-                                                                onChange={(e) => { this.handleChange(e, row.User.id, item) }}
-                                                                style={{ width: 50 }}
-                                                                value={purchases[item][row.User.id]}
-                                                            //value={this.state.purchases.filter(purchase => {if(purchase.item === row2.name) return purchase})[0].quantities.filter(bla => {if (bla.userId === 2) return bla})[0].quantity}
-                                                            //value={this.state.purchases[row.id][row2.id]}
-                                                            />
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })}
-                                    {
-
-                                    }
-                                </TableBody>
-                            </Table>
-                        </Paper>
+                        <MyTable
+                            coloredColumns={['Country', 'Name']}
+                            columnsColor={'blanchedalmond'}
+                            otherColumns={items}
+                            data={event.participations}
+                            innerCellMethod={this.generateCell}
+                        />
                     </Grid>
                 </Grid>
                 <ErrorSnackbar
