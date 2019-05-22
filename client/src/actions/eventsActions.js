@@ -89,7 +89,7 @@ export const getParticipations = (eventId) => {
 export const randomizeParticipants = (eventId, payload) => {
     return axios.post(`${config.url}/event/${eventId}/roomRandomizer`, payload)
         .then(response => {
-            return response.data.Rooms
+            return response.data
         });
 
 };
