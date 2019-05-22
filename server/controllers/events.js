@@ -306,8 +306,13 @@ const myshit = module.exports = {
 
     if (rooms < 3)
       return res.status(400).send({
-        message: "Minimum rooms required is 3"
+        message: "Minimum rooms required : 3"
       })
+    if (participants.length < 3)
+      return res.status(400).send({
+        message: "Minimum participants required : 3"
+      })
+
 
     let dict = {};
     let shuf = shuffleArray(participants)
@@ -390,7 +395,7 @@ const myshit = module.exports = {
     let warnings = [];
     if (boysWarning.length > 0)
       warnings.push(`Cannot fully randomize by country because ${boysWarning.toString()} has more male participants than male rooms`)
-    if (girlsWarning.length > 0)    
+    if (girlsWarning.length > 0)
       warnings.push(`Cannot fully randomize by country because ${girlsWarning.toString()} has more female participants than female rooms`)
 
     return res.status(200).json({
