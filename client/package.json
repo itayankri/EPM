@@ -32,6 +32,7 @@
   },
   "scripts": {
     "start": "cross-env PORT=4100 react-scripts start",
+    "prebuild": "rmdir build /s /q",
     "build": "react-scripts build",
     "test": "cross-env PORT=4100 react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
