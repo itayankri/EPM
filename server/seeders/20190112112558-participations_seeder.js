@@ -96,7 +96,7 @@ module.exports = {
       // USER 7
       "userId": 7,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -104,7 +104,7 @@ module.exports = {
       // USER 8
       "userId": 8,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -112,7 +112,7 @@ module.exports = {
       // USER 9
       "userId": 9,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -120,7 +120,7 @@ module.exports = {
       // USER 10
       "userId": 10,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -128,7 +128,7 @@ module.exports = {
       // USER 11
       "userId": 11,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -136,7 +136,7 @@ module.exports = {
       // USER 12
       "userId": 12,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -144,7 +144,7 @@ module.exports = {
       // USER 13
       "userId": 13,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -152,7 +152,7 @@ module.exports = {
       // USER 14
       "userId": 14,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -160,7 +160,7 @@ module.exports = {
       // USER 15
       "userId": 15,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -168,7 +168,7 @@ module.exports = {
       // USER 16
       "userId": 16,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -176,7 +176,7 @@ module.exports = {
       // USER 17
       "userId": 17,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -184,7 +184,7 @@ module.exports = {
       // USER 18
       "userId": 18,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
@@ -192,7 +192,7 @@ module.exports = {
       // USER 19
       "userId": 19,
       "eventId": 2,
-      "roleId": 2,
+      "roleId": 1,
       "status": "APPROVED",
       "updatedAt": "2019-01-12T09:37:46.207Z",
       "createdAt": "2019-01-12T09:37:46.207Z"
