@@ -346,7 +346,7 @@ const myshit = module.exports = {
         let boysInCountry = 0
         let girlsInCountry = 0;
         value.map(participant => {
-          if (participant.gender) {
+          if (participant.User.gender) {
             let boysIndex = (++boysCounter).toString() + "M";
             if (!randomizedRooms[boysIndex])
               randomizedRooms[boysIndex] = [];
@@ -375,7 +375,7 @@ const myshit = module.exports = {
     }
     else {
       shuf.map(participant => {
-        if (participant.gender) {
+        if (participant.User.gender) {
           if (!randomizedRooms[(++boysCounter).toString() + "M"])
             randomizedRooms[(boysCounter).toString() + "M"] = [];
           randomizedRooms[(boysCounter).toString() + "M"].push(participant);

@@ -33,13 +33,13 @@ function SimpleTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.data.Participants.map((participant, index) => (
+          {props.data.map((participant, index) => (
             <TableRow key={index}>
-              <TableCell align="left">{participant.firstName}</TableCell>
-              <TableCell align="left">{participant.lastName}</TableCell>
-              <TableCell align="left">{participant.gender ? "Male" : "Female"}</TableCell>
-              <TableCell align="left">{participant.country}</TableCell>
-              <TableCell align="left">{props.translateParticipantRoleId(participant.role)}</TableCell>
+              <TableCell align="left">{participant.User.firstName}</TableCell>
+              <TableCell align="left">{participant.User.lastName}</TableCell>
+              <TableCell align="left">{participant.User.gender ? "Male" : "Female"}</TableCell>
+              <TableCell align="left">{participant.User.country}</TableCell>
+              <TableCell align="left">{props.translateParticipantRoleId(participant.roleId)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

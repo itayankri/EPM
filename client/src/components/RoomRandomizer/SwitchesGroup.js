@@ -8,7 +8,6 @@ class SwitchesGroup extends React.Component {
   state = {
     gender: false,
     country: false,
-    role: false,
   };
 
   componentWillMount(){
@@ -29,6 +28,7 @@ class SwitchesGroup extends React.Component {
                 checked={this.props.gender}
                 onChange={this.props.handleChange('gender')}
                 value="gender"
+                disabled={true}
               />
             }
             label="Seperate By Gender"
@@ -42,16 +42,6 @@ class SwitchesGroup extends React.Component {
               />
             }
             label="Seperate By Country"
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={this.props.role}
-                onChange={this.props.handleChange('role')}
-                value="role"
-              />
-            }
-            label="Seperate By Role"
           />
         </FormGroup>
       </FormControl>

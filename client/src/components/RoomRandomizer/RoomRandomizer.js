@@ -42,7 +42,7 @@ class RoomRandomizer extends React.Component {
                 { id: 'role', numeric: false, disablePadding: false, label: 'Role' },
             ],
             participantIdsToRandomize: [],
-            seperators: { gender: false, country: false, role: false },
+            seperators: { gender: true, country: true },
             randomizedRooms: [],
         };
         this.addParticipantToRandomize = this.addParticipantToRandomize.bind(this);
@@ -97,20 +97,21 @@ class RoomRandomizer extends React.Component {
         let payload = {
             participants: [],
             separateBy: [],
-            rooms: 2
+            rooms: 3
         }
 
-        for (let i = 0; i < this.state.participantIdsToRandomize; i++) {
+        for (let i = 0; i < this.state.participantIdsToRandomize.length; i++) {
             let participantToRandomize = this.state.participants.find(participant => participant.id === this.state.participantIdsToRandomize[i])
             payload.participants.push(participantToRandomize)
         }
 
-        if (this.state.seperators.role) payload.separateBy.push("role")
         if (this.state.seperators.country) payload.separateBy.push("country")
         if (this.state.seperators.gender) payload.separateBy.push("gender")
 
         randomizeParticipants(this.state.eventId, payload)
-            .then(randomizedRooms => this.setState({ randomizedRooms, isRandomized: true }))
+            .then(randomizedRooms => {
+                this.setState({ randomizedRooms: randomizedRooms.rooms, isRandomized: true }
+                )})
     }
 
     translateParticipantRoleId(roleId) {
@@ -145,26 +146,31 @@ class RoomRandomizer extends React.Component {
 
     renderRandomizedTables() {
         return (
-            this.state.randomizedRooms.map(room => {
-                return (
-                    // change the "Room Number" key in the returned object of roomRandomizer to "number"
-                    <Grid item xs={12} key={room['Room Number']}>
-                            <Typography variant="h6">
-                                {`Room Number ${room['Room Number']}`}
-                            </Typography>
-                            <SimpleTable
-                                columns={this.state.tableRows}
-                                data={room}
-                                translateParticipantRoleId={this.translateParticipantRoleId}
-                            />
-                    </Grid>
-                )
+            Object.values(this.state.randomizedRooms).map((room, index) => {
+                if (room.length > 0) {
+                    return (
+                        // change the "Room Number" key in the returned object of roomRandomizer to "number"
+                        <Grid item xs={12} key={index}>
+                                <Typography variant="h6">
+                                    {`Room Number ${index + 1}`}
+                                </Typography>
+                                <SimpleTable
+                                    columns={this.state.tableRows}
+                                    data={room}
+                                    translateParticipantRoleId={this.translateParticipantRoleId}
+                                />
+                                <br/>
+                        </Grid>
+                    )
+                }
             })
         )
     }
 
     resetRandomizer() {
-        this.setState({ isRandomized: false })
+        this.setState({ 
+            isRandomized: false,
+            participantIdsToRandomize: [], })
     }
 
     render() {
@@ -194,7 +200,6 @@ class RoomRandomizer extends React.Component {
                         <SwitchesGroup
                             handleChange={this.handleSwitchChange}
                             gender={this.state.seperators.gender}
-                            role={this.state.seperators.role}
                             country={this.state.seperators.country}
                         />
                         <Button variant="contained" color="primary" onClick={this.randomizeParticipants}>
