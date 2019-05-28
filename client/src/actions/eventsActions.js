@@ -85,7 +85,6 @@ export const getParticipations = (eventId) => {
         })
 };
 
-
 export const randomizeParticipants = (eventId, payload) => {
     return axios.post(`${config.url}/event/${eventId}/roomRandomizer`, payload)
         .then(response => {
@@ -117,17 +116,21 @@ export const removeComment = (eventId, messageId) => {
     return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
 };
 
-export const getPurchases = (eventId, messageId) => {
-    //TODO: Implement
-    //return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
+export const getPurchases = (eventId) => {
+    return axios.get(`${config.url}/event/${eventId}/campShop/purchases`);
 };
 
-export const purchaseItem = (eventId, messageId) => {
-    //TODO: Implement
-    //return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
+export const purchaseItem = (eventId, userId, itemName) => {
+    return axios.post(`${config.url}/event/${eventId}/campShop/buy`, {
+        userId: userId,
+        itemName: itemName,
+    });
+    
 };
 
-export const returnItem = (eventId, messageId) => {
-    //TODO: Implement
-    //return axios.delete(`${config.url}/event/${eventId}/blogMessages/${messageId}`);
+export const returnItem = (eventId, userId, itemName) => {
+    return axios.post(`${config.url}/event/${eventId}/campShop/return`, {
+        userId: userId,
+        itemName: itemName,
+    });
 };

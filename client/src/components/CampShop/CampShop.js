@@ -4,22 +4,14 @@ import { connect } from 'react-redux';
 import Back from '@material-ui/icons/KeyboardBackspace';
 import MyTable from './MyTable';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames';
 import ErrorSnackbar from "../common/ErrorSnackbar";
 import { getEvent, getCampShopItems, getPurchases, purchaseItem, returnItem } from "../../actions/eventsActions";
 import {
     Typography,
     Button,
     Grid,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow
 } from '@material-ui/core';
 import Spinner from "../common/Spinner";
-import { thisExpression } from '@babel/types';
 
 const styles = theme => ({
     card: {
@@ -81,13 +73,14 @@ class CampShop extends React.Component {
         this.state = {
             isLoadingItems: true,
             isLoadingEvent: true,
+            isLoadingPurchases: true,
             isGeneratingTextboxes: true,
             event: '',
             eventId: (this.props.location.pathname.split("/")[2]),
             isErrorSnackbarOpen: false,
             errorSnackbarMessage: "",
             items: [],
-            purchases: [],
+            purchases: {},
         }
         this.generateCell = this.generateCell.bind(this);
     }
@@ -113,18 +106,21 @@ class CampShop extends React.Component {
         })
 
         this.setState({
-            purchases: obj,
+            //purchases: obj,
             isGeneratingTextboxes: false,
         })
     }
 
     handleChange(e, userId, itemName) {
-        let newVal = e.target.value;
-        let previousValue = this.state.purchases[itemName][userId];
+        let newVal = parseInt(e.target.value);
+        let previousValue = (this.state.purchases[userId] && this.state.purchases[userId][itemName]) || 0;
 
         let newPurchases = this.state.purchases;
+        if (!newPurchases[userId])
+            newPurchases[userId] = {}
         let newItems = this.state.items;
         let changed = false;
+        let bought = true;
 
         if (newVal > previousValue) {
             // User bought an item 
@@ -136,7 +132,7 @@ class CampShop extends React.Component {
                 });
             }
             else {
-                newPurchases[itemName][userId] = newVal;
+                newPurchases[userId][itemName] = newVal;
                 newItems[itemName] = newItems[itemName] - 1;
                 changed = true;
             }
@@ -148,17 +144,32 @@ class CampShop extends React.Component {
                     errorSnackbarMessage: `You've returned too many '${itemName}'.`
                 });
             } else {
-                newPurchases[itemName][userId] = newVal;
+                newPurchases[userId][itemName] = newVal;
                 newItems[itemName] = newItems[itemName] + 1;
                 changed = true;
+                bought = false;
             }
         }
 
         if (changed) {
-            this.setState({
-                items: newItems,
-                purchases: newPurchases
-            })
+            if (bought) {
+                console.log("about to purchase");
+                purchaseItem(this.state.eventId, userId, itemName)
+                    .then(this.setState({
+                        items: newItems,
+                        purchases: newPurchases
+                    }))
+                console.log("purchased");
+            }
+            else {
+                console.log("about to return");
+                returnItem(this.state.eventId, userId, itemName)
+                    .then(this.setState({
+                        items: newItems,
+                        purchases: newPurchases
+                    }))
+                console.log("returned");
+            }
         }
     }
 
@@ -198,9 +209,32 @@ class CampShop extends React.Component {
                     errorSnackbarMessage: `Failed to load Event - ${err}`,
                 })
             });
+
+        getPurchases(this.state.eventId)
+            .then(res => {
+                let purchases = {}
+                res.data.map(pur => {
+                    if (! purchases[pur.userId])
+                        purchases[pur.userId] = {}
+                    purchases[pur.userId][pur.itemName] = pur.quantity
+                })
+                this.setState({
+                    isLoadingPurchases: false,
+                    purchases: purchases
+                })
+            })
+            .catch(err => {
+                this.setState({
+                    isLoadingPurchases: false,
+                    isErrorSnackbarOpen: true,
+                    errorSnackbarMessage: `Failed to load Purchases - ${err}`
+                })
+            })
     }
 
     generateCell(row, item) {
+        let val = (this.state.purchases[row.User.id] && this.state.purchases[row.User.id][item]) || 0
+        //val = (val >= 0) ? val : 0
         return (
             <input
                 type='number'
@@ -208,9 +242,21 @@ class CampShop extends React.Component {
                 onKeyDown={(e) => { this.disableKeyboard(e) }}
                 onChange={(e) => { this.handleChange(e, row.User.id, item) }}
                 style={{ width: 50 }}
-                value={this.state.purchases[item][row.User.id]}
+                value={val}
             />
         )
+    }
+
+    mySort(a, b) {
+        if (a.User.country < b.User.country)
+            return -1
+        else {
+            if (a.roleId === b.roleId)
+                return 0
+            if (a.roleId < b.roleId)
+                return -1
+            return -1
+        }
     }
 
     render() {
@@ -218,7 +264,7 @@ class CampShop extends React.Component {
         //     console.log("USER IS NOT LOGGED IN");
         //     this.props.history.push('/login');
         // }
-        if (this.state.isLoadingEvent || this.state.isLoadingItems) {
+        if (this.state.isLoadingEvent || this.state.isLoadingItems || this.state.isLoadingPurchases) {
             return (
                 <Spinner />
             );
@@ -229,13 +275,13 @@ class CampShop extends React.Component {
                 <Spinner />
             );
         }
-        let { classes, } = this.props;
-        let { purchases, items, event } = this.state;
+        let { classes, history } = this.props;
+        let { key, items, event } = this.state;
         return (
             <div>
                 <Grid container spacing={8}>
                     <Grid item md={10}>
-                        <Button key={this.state.key} variant="contained" color="primary" className={classes.button} onClick={() => this.props.history.goBack()}>
+                        <Button key={key} variant="contained" color="primary" className={classes.button} onClick={() => history.goBack()}>
                             <Back />Back
                         </Button>
                         <Typography variant="h4" component="h2">
@@ -260,7 +306,7 @@ class CampShop extends React.Component {
                             coloredColumns={['Country', 'Name']}
                             columnsColor={'blanchedalmond'}
                             otherColumns={items}
-                            data={event.participations}
+                            data={event.participations.filter(a => a.status === "APPROVED").sort(this.mySort)}
                             innerCellMethod={this.generateCell}
                         />
                     </Grid>

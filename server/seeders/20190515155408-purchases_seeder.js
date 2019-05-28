@@ -6,9 +6,9 @@ module.exports = {
       {eventId: 1, userId: 1, itemName: 'Soda', quantity: 1, purchaseDate: new Date(), createdAt: new Date(), updatedAt: new Date()},
       {eventId: 1, userId: 1, itemName: 'Pajamas', quantity: 1, purchaseDate: new Date(), createdAt: new Date(), updatedAt: new Date()},
       {eventId: 1, userId: 1, itemName: 'T-Shirt', quantity: 1, purchaseDate: new Date(), createdAt: new Date(), updatedAt: new Date()},
-      {eventId: 1, userId: 1, itemName: 'Pants', quantity: 1, purchaseDate: new Date(), createdAt: new Date(), updatedAt: new Date()},
+      {eventId: 1, userId: 1, itemName: 'Chocolate bar', quantity: 1, purchaseDate: new Date(), createdAt: new Date(), updatedAt: new Date()},
       {eventId: 1, userId: 2, itemName: 'Soda', quantity: 1, purchaseDate: new Date(), createdAt: new Date(), updatedAt: new Date()},
-      {eventId: 1, userId: 2, itemName: 'Ice Cream', quantity: 1, purchaseDate: new Date(), createdAt: new Date(), updatedAt: new Date()},
+      {eventId: 1, userId: 2, itemName: 'Chocolate bar', quantity: 1, purchaseDate: new Date(), createdAt: new Date(), updatedAt: new Date()},
     ])
   },
   //{eventId: 1, userId: 1, itemName: 'Soda', quantity: 1, purchaseDate: new Date(), createdAt: new Date(), updatedAt: new Date()},

@@ -58,7 +58,7 @@ module.exports = (app) => {
   app.get('/event/:eventId/campShop', campShopController.list); // Get all items
   app.post('/event/:eventId/campShop/addItem'); // Add an item
   app.post('/event/:eventId/campShop/pay'); // Pay for items
-  app.get('/event/:eventId/campShop/items', purchaseController.getEventPurchases); // Get all items
+  app.get('/event/:eventId/campShop/purchases', purchaseController.getEventPurchases); // Get all items
   app.post('/event/:eventId/campShop/buy', purchaseController.purchaseItem); // "Buy" items
   app.post('/event/:eventId/campShop/return', purchaseController.returnItem); // "Buy" items
   app.put('/event/:eventId/campShop/:itemId'); // edit an item

@@ -1,59 +1,103 @@
 const Purchase = require('../models').Purchase;
-const User = require('../models').User;
-const Sequelize = require('sequelize');
+const campShopController = require('../controllers/campShop');
 
 const getEventPurchases = (req, res) => {
-    Purchase.findAll({
-        where: {
-            eventId: req.params.eventId
-        },
-        order: [['id', 'DESC'], ['createdAt', 'DESC']],
-        include: [
-            {
-                model: User,
-                attributes: ['id', 'firstName', 'middleName', 'lastName', 'country']
+    return Purchase
+        .findAll({
+            where: {
+                eventId: req.params.eventId,
             }
-        ]
-    })
-        .then(purchases => {
-            res.send(purchases)
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send('Server Error - ' + err);
-        })
+        .then(myPurchases => res.status(200).send(myPurchases))
+        .catch(error => { console.log(error); res.status(400).send(error) })
 };
 
 const purchaseItem = (req, res) => {
-    Purchase.create({
-        eventId: req.params.eventId,
-        //TODO: Use userId from session after session is fixed.
-        userId: req.session.user.id,
-        content: req.body.message,
-        likes: 0
-    })
-        .then(message => {
-            res.send(message)
+    const { eventId } = req.params
+    const { userId, itemName } = req.body
+    let body = {};
+    return Purchase
+        .findOrCreate({
+            where: {
+                eventId: eventId,
+                userId: userId,
+                itemName: itemName
+            },
+            defaults: {
+                eventId: eventId,
+                userId: userId,
+                itemName: itemName,
+                quantity: 0,
+                purchaseDate: Date.now()
+            }
+        }).then(myPurchase => {
+            myPurchase = myPurchase[0]
+            return Purchase.update({
+                userId: userId || myPurchase.userId,
+                eventId: eventId || myPurchase.eventId,
+                itemName: itemName || myPurchase.itemName,
+                quantity: (myPurchase.quantity + 1),
+                purchaseDate: Date.now()
+            }, {
+                    where: {
+                        id: myPurchase.id
+                    },
+                    returning: true
+                })
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send('Server Error - ' + err);
+        .then(updatedPurchase => {
+            body.updatedPurchase = updatedPurchase[1][0];
+            return campShopController.purchaseItem(req, res)
+                .then(updatedItem => {
+                    body.updatedItem = updatedItem[1][0];
+                    res.status(201).send(body)
+                })
         })
+        .catch(error => { console.log(error); res.status(400).send(error) })
 };
 
 const returnItem = (req, res) => {
-    Purchase.destroy({
-        where: {
-            id: req.params.messageId
-        }
-    })
-        .then(() => {
-            res.send('Message Removed');
+    const { eventId } = req.params
+    const { userId, itemName } = req.body
+    let body = {};
+    return Purchase
+        .findOrCreate({
+            where: {
+                eventId: eventId,
+                userId: userId,
+                itemName: itemName
+            },
+            defaults: {
+                eventId: eventId,
+                userId: userId,
+                itemName: itemName,
+                quantity: 0,
+                purchaseDate: Date.now()
+            }
+        }).then(myPurchase => {
+            myPurchase = myPurchase[0]
+            return Purchase.update({
+                userId: userId || myPurchase.userId,
+                eventId: eventId || myPurchase.eventId,
+                itemName: itemName || myPurchase.itemName,
+                quantity: (myPurchase.quantity - 1),
+                purchaseDate: Date.now()
+            }, {
+                    where: {
+                        id: myPurchase.id
+                    },
+                    returning: true
+                })
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send('Server Error - ' + err);
+        .then(updatedPurchase => {
+            body.updatedPurchase = updatedPurchase[1][0];
+            return campShopController.returnItem(req, res)
+                .then(updatedItem => {
+                    body.updatedItem = updatedItem[1][0];
+                    res.status(201).send(body)
+                })
         })
+        .catch(error => { console.log(error); res.status(400).send(error) })
 };
 
 module.exports = {

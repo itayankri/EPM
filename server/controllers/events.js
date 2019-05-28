@@ -24,8 +24,8 @@ function generateEventCode(req, res) {
   return MyEvent.findAll({
     where: {
       start: {
-        [Op.lt]: new Date((Number(year)), 11, 31, 23, 59, 59),
-        [Op.gt]: new Date((Number(year)), 00, 01)
+        [Op.lt]: new Date((Number(year)), 11, 31, 23, 59, 59), // less than december 31, 23:59:59 same year
+        [Op.gt]: new Date((Number(year)), 00, 01)              // more than january 1, 00:00:00 same year
       },
       type: req.body.eventType.toString().toLowerCase()
     }
