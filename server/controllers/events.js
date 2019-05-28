@@ -317,9 +317,9 @@ const myshit = module.exports = {
     let dict = {};
     let shuf = shuffleArray(participants)
     shuf.map(x => {
-      if (!dict[x.country])
-        dict[x.country] = [];
-      dict[x.country].push(x);
+      if (!dict[x.User.country])
+        dict[x.User.country] = [];
+      dict[x.User.country].push(x);
     });
 
     let myParticipants = shuffleDict(dict);
