@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import Back from '@material-ui/icons/KeyboardBackspace';
+import Add from '@material-ui/icons/Add'
 import MyTable from './MyTable';
 import { Link } from 'react-router-dom';
 import ErrorSnackbar from "../common/ErrorSnackbar";
@@ -253,11 +254,11 @@ class CampShop extends React.Component {
             );
         }
         let { classes, history } = this.props;
-        let { key, items, event } = this.state;
+        let { items, event } = this.state;
         return (
             <div>
                 <Grid container spacing={8}>
-                    <Grid item md={10}>
+                    <Grid item md={2}>
                         <Button key={"back"} variant="contained" color="primary" className={classes.button} onClick={() => history.goBack()}>
                             <Back />Back
                         </Button>
@@ -276,7 +277,7 @@ class CampShop extends React.Component {
                                 variant="outlined"
                                 color="primary"
                             >
-                                Add Item
+                                <Add />Add Item
                             </Button>
                         </Link>
                     </Grid>
