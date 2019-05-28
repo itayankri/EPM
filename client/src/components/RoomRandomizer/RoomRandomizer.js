@@ -98,7 +98,7 @@ class RoomRandomizer extends React.Component {
         let payload = {
             participants: [],
             separateBy: [],
-            rooms: 3
+            rooms: 4
         }
 
         for (let i = 0; i < this.state.participantIdsToRandomize.length; i++) {
