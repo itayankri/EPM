@@ -74,7 +74,6 @@ class CampShop extends React.Component {
             isLoadingItems: true,
             isLoadingEvent: true,
             isLoadingPurchases: true,
-            isGeneratingTextboxes: true,
             event: '',
             eventId: (this.props.location.pathname.split("/")[2]),
             isErrorSnackbarOpen: false,
@@ -92,22 +91,6 @@ class CampShop extends React.Component {
     handleErrorSnackbarClose = () => {
         this.setState({
             isErrorSnackbarOpen: false,
-        })
-    }
-
-    generateTextboxes = () => {
-        let obj = {}
-
-        Object.keys(this.state.items).map(item => {
-            obj[item] = {};
-            this.state.event.participations.map(part => {
-                obj[item][part.User.id] = 0;
-            })
-        })
-
-        this.setState({
-            //purchases: obj,
-            isGeneratingTextboxes: false,
         })
     }
 
@@ -254,7 +237,7 @@ class CampShop extends React.Component {
             if (a.roleId === b.roleId)
                 return 0
             if (a.roleId < b.roleId)
-                return -1
+                return 1
             return -1
         }
     }
@@ -269,28 +252,24 @@ class CampShop extends React.Component {
                 <Spinner />
             );
         }
-        if (this.state.isGeneratingTextboxes) {
-            this.generateTextboxes()
-            return (
-                <Spinner />
-            );
-        }
         let { classes, history } = this.props;
         let { key, items, event } = this.state;
         return (
             <div>
                 <Grid container spacing={8}>
                     <Grid item md={10}>
-                        <Button key={key} variant="contained" color="primary" className={classes.button} onClick={() => history.goBack()}>
+                        <Button key={"back"} variant="contained" color="primary" className={classes.button} onClick={() => history.goBack()}>
                             <Back />Back
                         </Button>
+                        <br />
+                        <br />
                         <Typography variant="h4" component="h2">
                             Camp Shop
                         </Typography>
                     </Grid>
                     <Grid item md={2}>
                         <Link
-                            to="/events/create"
+                            to={`/events/${this.state.eventId}/campShop/createItem`}
                             className={classes.link}
                         >
                             <Button

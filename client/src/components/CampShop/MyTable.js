@@ -30,7 +30,7 @@ function MyTable(props) {
                     <TableRow>
                         {coloredColumns.map(col => {
                             return (
-                                <TableCell key={col} align="center" style={{ backgroundColor: columnsColor }}>
+                                <TableCell key={col} align="center" style={{ backgroundColor: columnsColor, width: 100 }}>
                                 {col}
                                 </TableCell>
                             )
@@ -46,17 +46,19 @@ function MyTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map(row => {
+                    {data.map((row, index) => {
+                        let bgColor = row.roleId > 1 ? 'steelblue' : (index %2 === 1 ? '' : 'lightblue' )
                         return (
                             <TableRow
                                 key={row.id}
                                 className={classNames(classes.tableRow, classes.tableRowHover)}
                             >
-                                <TableCell align="center">{row.User.country}</TableCell>
-                                <TableCell align="center">{row.User.firstName} {row.User.lastName}</TableCell>
+                                <TableCell align="center" style={{ backgroundColor: bgColor || columnsColor }}>{row.User.country}</TableCell>
+                                <TableCell align="center" style={{ backgroundColor: bgColor || columnsColor }}>{row.User.firstName} {row.User.lastName}</TableCell>
                                 {Object.keys(otherColumns).sort().map((item, index) => {
+                                    
                                     return (
-                                        <TableCell key={row.User.email + "_" + index} align="center">
+                                        <TableCell key={row.User.email + "_" + index} align="center" style={{ backgroundColor: bgColor }}>
                                             {innerCellMethod(row, item)}
                                         </TableCell>
                                     );

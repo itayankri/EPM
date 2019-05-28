@@ -134,3 +134,10 @@ export const returnItem = (eventId, userId, itemName) => {
         itemName: itemName,
     });
 };
+
+export const newItem = (eventId, itemName, quantity) => {
+    return axios.post(`${config.url}/event/${eventId}/campShop/addItem`, {
+        itemName: itemName,
+        quantity: quantity
+    });
+};

@@ -12,12 +12,17 @@ const styles = theme => ({
         width: 400,
         backgroundColor: 'white'
     },
+    small: {
+        height: 40,
+        width: 150,
+        backgroundColor: 'white'
+    },
     label: {
         margin: 17
     }
 });
 
-const TextInput = ({label, value, placeholder, onChange, name, classes}) => {
+const TextInput = ({label, value, placeholder, onChange, name, classes, type="text", size="regular", inputProps=""}) => {
     return (
         <Grid container>
             <Grid item md={4}>
@@ -30,11 +35,12 @@ const TextInput = ({label, value, placeholder, onChange, name, classes}) => {
                     name={name}
                     margin="normal"
                     variant="outlined"
-                    type="text"
+                    type={type}
                     value={value}
-                    className={classes.textField}
+                    className={size === "regular" ? classes.textField : classes.small}
                     placeholder={placeholder}
                     onChange={onChange}
+                    inputProps={inputProps}
                 />
             </Grid>
         </Grid>
