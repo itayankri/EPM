@@ -89,7 +89,7 @@ function shuffleDict(d) {
   return myParticipants;
 }
 
-const myshit = module.exports = {
+module.exports = {
   create(req, res) {
     generateEventCode(req, res).then(eventcode => {
       return MyEvent
@@ -281,14 +281,12 @@ const myshit = module.exports = {
         defaults: {
           eventId: req.params.eventId,
           userId: req.params.userId,
-          indicatorsId: 1,
           values: {}
         }
       }).then(myevidence => {
         return MyEvidences.update({
           userId: req.params.userId || myevidence.userId,
           eventId: req.params.eventId || myevidence.userId,
-          indicatorsId: req.params.indicatorsId || myevidence.indicatorsId,
           values: req.body.values || JSON.stringify([{ "index": 0, "checked": true, "evidences": [{ "reportingUser": 1, "description": "bla bla bla" }] },
           { "index": 1, "checked": false, "evidences": [] }])
         }, {

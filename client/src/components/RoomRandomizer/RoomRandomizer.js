@@ -9,6 +9,7 @@ import SimpleTable from './SimpleTable'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 const mapStateToProps = state => {
     return {
@@ -110,8 +111,13 @@ class RoomRandomizer extends React.Component {
 
         randomizeParticipants(this.state.eventId, payload)
             .then(randomizedRooms => {
-                this.setState({ randomizedRooms: randomizedRooms.rooms, isRandomized: true }
-                )})
+                this.setState({
+                    randomizedRooms: randomizedRooms.rooms,
+                    isRandomized: true,
+                    warnings: randomizedRooms.warnings
+                }
+                )
+            })
     }
 
     translateParticipantRoleId(roleId) {
@@ -151,15 +157,15 @@ class RoomRandomizer extends React.Component {
                     return (
                         // change the "Room Number" key in the returned object of roomRandomizer to "number"
                         <Grid item xs={12} key={index}>
-                                <Typography variant="h6">
-                                    {`Room Number ${index + 1}`}
-                                </Typography>
-                                <SimpleTable
-                                    columns={this.state.tableRows}
-                                    data={room}
-                                    translateParticipantRoleId={this.translateParticipantRoleId}
-                                />
-                                <br/>
+                            <Typography variant="h6">
+                                {`Room Number ${index + 1}`}
+                            </Typography>
+                            <SimpleTable
+                                columns={this.state.tableRows}
+                                data={room}
+                                translateParticipantRoleId={this.translateParticipantRoleId}
+                            />
+                            <br />
                         </Grid>
                     )
                 } else {
@@ -169,10 +175,23 @@ class RoomRandomizer extends React.Component {
         )
     }
 
+    renderWarnings() {
+        return (
+            this.state.warnings && this.state.warnings.map(warning => {
+                return(
+                <Typography variant="h6" style={{ color: 'red' }}>
+                    {warning}
+                </Typography>
+                )
+            })
+        )
+    }
+
     resetRandomizer() {
-        this.setState({ 
+        this.setState({
             isRandomized: false,
-            participantIdsToRandomize: [], })
+            participantIdsToRandomize: [],
+        })
     }
 
     render() {
@@ -193,7 +212,7 @@ class RoomRandomizer extends React.Component {
                             addParticipantToRandomize={this.addParticipantToRandomize}
                             translateParticipantRoleId={this.translateParticipantRoleId}
                         />
-                        </Grid>
+                    </Grid>
                     <Grid item xs={12}
                         container
                         direction="row"
@@ -216,6 +235,13 @@ class RoomRandomizer extends React.Component {
                     <Grid container spacing={24}>
                         <Grid item xs={12}>
                             {this.renderRandomizedTables()}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid item xs={12} key={"Warnings"}>
+                                <Paper>
+                                    {this.renderWarnings()}
+                                </Paper>
+                            </Grid>
                         </Grid>
                         <Grid item xs={12}>
                             <Button variant="contained" color="primary" onClick={this.resetRandomizer}>Reset</Button>

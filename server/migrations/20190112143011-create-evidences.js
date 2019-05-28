@@ -17,10 +17,6 @@ module.exports = {
       allowNull: false,
       type: Sequelize.INTEGER
     },
-    indicatorsId: {
-      allowNull: false,
-      type: Sequelize.INTEGER
-    },
     values: {
       type: Sequelize.JSONB
     },
