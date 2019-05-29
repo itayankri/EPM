@@ -47,7 +47,7 @@ class Main extends React.Component {
                     <Route exact path="/events/:eventId/campShop" component={CampShop}/>
                     <Route exact path="/events/:eventId/contactList" component={ContactList}/>
                     <Route exact path="/events/:eventId/blog" component={Blog}/>
-                    <Route exact path="/events/:eventId//campSchedule" component={CampSchedule}/>
+                    <Route exact path="/events/:eventId/campSchedule" component={CampSchedule}/>
                 </Switch>
             </div>
         )
