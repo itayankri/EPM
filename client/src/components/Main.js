@@ -51,7 +51,6 @@ class Main extends React.Component {
                     <Route exact path="/events/:eventId/contactList" component={ContactList}/>
                     <Route exact path="/events/:eventId/roomRandomizer" component={RoomRandomizer}/>
                     <Route exact path="/events/:eventId/blog" component={Blog}/>
-
                     <Route exact path="/events/:eventId/campSchedule" component={CampSchedule}/>
                 </Switch>
             </div>
