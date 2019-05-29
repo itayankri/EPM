@@ -143,7 +143,7 @@ const myshit = module.exports = {
           where: { status: "APPROVED" },
           include: [{
             model: MyUser,
-            attributes: ["firstName", "lastName", "gender", "country"],
+            attributes: ["id", "firstName", "lastName", "gender", "country"],
           }]
         }]
       })
