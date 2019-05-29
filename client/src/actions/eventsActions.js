@@ -91,7 +91,6 @@ export const randomizeParticipants = (eventId, payload) => {
         .then(response => {
             return response.data.Rooms
         });
-
 };
 
 export const getEventBlogMessages = (eventId) => {
@@ -148,4 +147,11 @@ export const getUserEvidence = (eventId, participantId) => {
 
 export const setUserEvidence = (eventId, participantId, payload) => {
     return axios.post(`${config.url}/event/${eventId}/indicators/${participantId}`, payload)
+};
+
+export const getEventIndicators = (eventId) => {
+    return axios.get(`${config.url}/event/${eventId}/indicators`)
+        .then(response => {
+            return response
+        });
 };
