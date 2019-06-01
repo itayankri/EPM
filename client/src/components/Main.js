@@ -18,6 +18,7 @@ import Blog from './Blog/Blog';
 import RoomRandomizer from './RoomRandomizer/RoomRandomizer';
 import CampSchedule from './CampSchedule/CampSchedule';
 import Pdpef from './Pdpef/Pdpef';
+import Account from './Account/Account';
 import 'react-dates/initialize';
 
 const styles = theme => ({
@@ -43,6 +44,7 @@ class Main extends React.Component {
                     <Route exact path="/home" component={About}/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/register" component={Register}/>
+                    <Route exact path="/account" component={Account}/>
                     <Route exact path="/events" component={Events}/>
                     <Route exact path="/events/create" component={CreateEvent}/>
                     <Route exact path="/events/:eventId" component={EventDetails}/>
