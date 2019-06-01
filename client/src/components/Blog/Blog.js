@@ -62,6 +62,12 @@ class Blog extends React.Component {
         })
     }
 
+    handleErrorSnackbarClose = () => {
+        this.setState({
+            isErrorSnackbarOpen: false,
+        })
+    }
+
     post() {
         postComment(this.state.eventId, this.state.commentInput)
             .then(() => {

@@ -28,7 +28,8 @@ const postEventMessage = (req, res) => {
     Blog.create({
         eventId: req.params.eventId,
         //TODO: Use userId from session after session is fixed.
-        userId: req.session.user.id,
+        //userId: req.session.user.id,
+        userId: 2,
         content: req.body.message,
         likes: 0
     })
