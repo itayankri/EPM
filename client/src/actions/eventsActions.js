@@ -141,3 +141,21 @@ export const newItem = (eventId, itemName, quantity) => {
         quantity: quantity
     });
 };
+
+export const getEventIndicators = (eventId) => {
+    return axios.get(`${config.url}/event/${eventId}/indicators`)
+        .then(response => {
+            return response.data;
+        })
+};
+
+export const getUserEvidence = (eventId, participantId) => {
+    return axios.get(`${config.url}/event/${eventId}/indicators/${participantId}`)
+        .then(response => {
+            return response.data;
+        })
+};
+
+export const setUserEvidence = (eventId, participantId, payload) => {
+    return axios.post(`${config.url}/event/${eventId}/indicators/${participantId}`, payload)
+};

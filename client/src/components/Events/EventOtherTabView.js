@@ -18,6 +18,7 @@ import form_pic from "../../static/images/form.png";
 import camp_schedule_pic from "../../static/images/camp_schedule.png";
 import chapter_schedule_pic from "../../static/images/chapter_schedule.png";
 import contact_list_pic from "../../static/images/contact_list.png";
+import pdpef from '../../static/images/pdpef.png';
 
 const styles = ({
     card: {
@@ -270,6 +271,28 @@ class EventOtherTabView extends React.Component {
                             </CardContent>
                         </CardActionArea>
                         </Card>
+                        </Link>
+                    </Grid>
+
+                    <Grid item md={2}>
+                        <Link to={`./${this.props.event.id}/pdpef`} className={classes.link}>
+                            <Card className={classes.card}>
+                                <CardActionArea>
+                                    <CardMedia
+                                        className={classes.media}
+                                        image={pdpef}
+                                        title="PDPEF"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            PDPEF
+                            </Typography>
+                                        <Typography component="p">
+                                            View and edit the Programme Director’s Planning and Evaluation Form.
+                            </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
                         </Link>
                     </Grid>
                 </Grid>

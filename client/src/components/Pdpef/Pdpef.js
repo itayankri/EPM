@@ -24,6 +24,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import ErrorSnackbar from "../common/ErrorSnackbar";
 
 const mapStateToProps = state => {
     return {
@@ -39,6 +40,9 @@ const styles = theme => ({
     input: {
         display: 'none',
     },
+    colored: {
+        borderColor: 'blue'
+    }
 });
 
 class Pdpef extends React.Component {
@@ -54,6 +58,9 @@ class Pdpef extends React.Component {
             currentIndicator: "Hover over any indicator to see it's full description",
             currentParticipant: null,
             currentPayload: {},
+            isErrorSnackbarOpen: false,
+            errorSnackbarMessage: "",
+            currentChecked: false
         }
 
         this.handleDialogClose = this.handleDialogClose.bind(this)
@@ -66,9 +73,15 @@ class Pdpef extends React.Component {
         this.fetchParticipants(this.state.eventId)
     }
 
+    handleErrorSnackbarClose = () => {
+        this.setState({
+            isErrorSnackbarOpen: false,
+        })
+    }
+
     fetchEventIndicators(eventId) {
         getEventIndicators(eventId)
-            .then(data => this.setState({indicators:  data.indicators, isLoadingIndicators: false}))
+            .then(data => this.setState({ indicators: data.indicators, isLoadingIndicators: false }))
     }
 
     fetchParticipants(eventId) {
@@ -78,21 +91,21 @@ class Pdpef extends React.Component {
                 let maxLength = res.data.participations.length;
                 res.data.participations.map((participant, index) => {
                     getUserEvidence(eventId, participant.User.id)
-                    .then(res => {
-                        participant.evidence = res.values
-                        participants.push(participant)
+                        .then(res => {
+                            participant.evidence = res.values
+                            participants.push(participant)
 
-                        if (index === maxLength - 1) {
-                            this.setState({participants: participants, isLoadingParticipants: false})
-                        }
-                    })
+                            if (index === maxLength - 1) {
+                                this.setState({ participants: participants, isLoadingParticipants: false })
+                            }
+                        })
                 })
             })
     }
-            
-    renderIndicatorTableHeaders(){
+
+    renderIndicatorTableHeaders() {
         let headers = []
-        for(let i = 0; i < this.state.indicators.length; i++) {
+        for (let i = 0; i < this.state.indicators.length; i++) {
             let indicator = this.state.indicators[i]
             let indicatorLetter
             switch (i) {
@@ -107,14 +120,14 @@ class Pdpef extends React.Component {
                 default: indicatorLetter = "Z"
                     break;
             }
-            for (let j = 0; j < indicator.indicators.length; j++){
+            for (let j = 0; j < indicator.indicators.length; j++) {
                 let subIndicator = indicator.indicators[j]
                 let cellName = `${indicatorLetter}${j + 1}`
                 let cell = <TableCell
                     key={`${i}-${j}`}
                     align="left"
                     // onMouseEnter={() => this.handleHeaderHover(cellName, indicator.name, subIndicator)}
-                    onMouseEnter={() => this.setState({currentIndicator: `${cellName} ${indicator.name} - ${subIndicator.name}. ${subIndicator.type}`})}
+                    onMouseEnter={() => this.setState({ currentIndicator: `${cellName} ${indicator.name} - ${subIndicator.name}. ${subIndicator.type}` })}
                 >{cellName}</TableCell>
                 headers.push(cell)
             }
@@ -125,11 +138,11 @@ class Pdpef extends React.Component {
 
     renderParticipantTableRows() {
         return this.state.participants.map((participant, index) => (
-                <TableRow key={index}>
-                    <TableCell align="left">{`${participant.User.firstName} ${participant.User.lastName}`}</TableCell>
-                    <TableCell align="left">{participant.User.country}</TableCell>
-                    {this.renderIndicatorTableRows(participant)}
-                </TableRow>
+            <TableRow key={index}>
+                <TableCell align="left">{`${participant.User.firstName} ${participant.User.lastName}`}</TableCell>
+                <TableCell align="left">{participant.User.country}</TableCell>
+                {this.renderIndicatorTableRows(participant)}
+            </TableRow>
         ))
     }
 
@@ -148,19 +161,22 @@ class Pdpef extends React.Component {
         for (let i = 0; i < this.state.indicators.length; i++) {
 
             for (let j = 0; j < this.state.indicators[i].indicators.length; j++) {
-                
-                let isChecked = false
-                
-                for (let k = 0; k < participant.evidence.length; k++) {
-                    
+
+                let isChecked = false;
+                let hasEvidences = false;
+
+                for (let k = 0; k < (participant.evidence ? participant.evidence.length : 0); k++) {
                     if (participant.evidence[k].index === index) {
                         isChecked = participant.evidence[k].checked
+                        hasEvidences = true;
                     }
                 }
 
                 let cell = (<TableCell align="left" key={index}>
+                    {/* //{hasEvidences ? '**' : ''} */}
                     <Checkbox
                         checked={isChecked}
+                        style={(hasEvidences) ? { backgroundColor: 'lightblue', borderColor: 'red' } : {}}
                         onChange={this.handleDialogOpen(index, participant, loggedInUserId)}
                         value={`${index}`}
                     />
@@ -173,13 +189,17 @@ class Pdpef extends React.Component {
 
         return cells
     }
-    
-    handleEvidenceTextFieldChange = event => this.setState({currentEvidence: event.target.value})
-    
-    handleDialogClose = () => this.setState({ isDialogOpen: false, currentPayload: {}, currentParticipant: null})
+
+    handleEvidenceTextFieldChange = event => {
+        this.setState({
+         currentEvidence: event.target.value 
+        })}
+    handleEvidenceCheckedChange = event => this.setState({ currentChecked: event.target.checked })
+
+    handleDialogClose = () => this.setState({ isDialogOpen: false, currentPayload: {}, currentParticipant: null })
 
     handleDialogOpen = (index, participant, loggedInUserId) => event => {
-        
+
         let currentPayload = {
             userId: participant.User.id,
             eventId: this.state.eventId,
@@ -192,33 +212,71 @@ class Pdpef extends React.Component {
             currentPayload
         })
     };
-    
-    handleEvidenceSend() {
+
+    handleEvidenceSend(e) {
+        if (!this.state.currentEvidence || this.state.currentEvidence.length < 3) {
+            e.preventDefault()
+            this.setState({
+                isErrorSnackbarOpen: true,
+                errorSnackbarMessage: `Evidence is required.`
+            });
+            return;
+        }
         let participants = this.state.participants.map(participant => {
-            if (participant.id === this.state.currentParticipant.id) {
+            if (participant.User.id === this.state.currentParticipant.User.id) {
+                let value;
+                if (this.state.currentPayload.values) {
+                    this.state.currentPayload.values.map(val => {
+                        if (val.index === this.state.currentPayload.index) {
+                            value = val;
+                        }
+                    })
+                }
 
                 let newPayloadValue = {
                     index: this.state.currentPayload.index,
-                    checked: false,
-                    evidences: [{
-                        reportingUser: this.state.loggedInUserId || 2,
-                        description: this.state.currentEvidence
-                    }]
+                    checked: this.state.currentChecked,
+                    evidences: []
                 }
+                if (!value) { value = newPayloadValue }
+
+
+                if (value.evidences) value.evidences.map(evi => newPayloadValue.evidences.push(evi))
+                newPayloadValue.evidences.push({
+                    reportingUser: this.state.loggedInUserId || ((this.state.currentChecked ? '[X] ' : '') + "firstName (country)") ,
+                    description: this.state.currentEvidence
+                })
+
+                let newPayload = { ...this.state.currentPayload }
+
+                if (!newPayload.values) {
+                    newPayload.values = []
+                    newPayload.values.push(newPayloadValue)
+                } else {
+                    let exists = false;
+                    newPayload.values = newPayload.values.map(val => {
+                        if (val.index === value.index) {
+                            exists = true;
+                            return newPayloadValue
+                        }
+                        return val;
+                    })
+                    if (!exists) {
+                        newPayload.values.push(newPayloadValue)
+                    }
+                }
+
+                setUserEvidence(this.state.eventId, participant.User.id, newPayload)
+                this.setState({ currentPayload: newPayload })
+
+                participant.evidence = newPayload.values
                 
-                let newPayload = {...this.state.currentPayload}
-                newPayload.values = [...newPayload.values, newPayloadValue]
-                
-                this.setState({currentPayload: newPayload})
-                
-                participant.evidence = this.state.currentPayload.values
+                return participant
             }
             return participant
         })
-        this.setState({ participants })
-        
-        // setUserEvidence(this.state.eventId, this.state.currentParticipant.User.id, this.state.currentPayload)
-        
+        this.setState({ participants, currentChecked: false, currentEvidence: "" })
+
         this.handleDialogClose()
     }
 
@@ -244,7 +302,7 @@ class Pdpef extends React.Component {
         //     })
         // }
         // this.setState({payload})
-        this.setState({currentEvidence: event.target.value})
+        this.setState({ currentEvidence: event.target.value })
     }
 
     render() {
@@ -261,26 +319,45 @@ class Pdpef extends React.Component {
                     <DialogTitle id="form-dialog-title">{`Submit evidence for: ${this.state.currentIndicator}`}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            { `In order to mark this indicator, please provide evidence that indicates that the participant has fullfiled the indicator`}
+                            {`In order to mark this indicator, please provide evidence that indicates that the participant has fullfiled the indicator`}
                         </DialogContentText>
                         <TextField
-                        autoFocus
-                        margin="dense"
-                        id="evidence"
-                        label="Evidence"
-                        type="text"
-                        fullWidth
-                        multiline
-                        rowsMax="4"
-                        onChange={this.handleEvidenceTextFieldChange}
+                            required
+                            autoFocus
+                            margin="dense"
+                            id="evidence"
+                            label="Evidence"
+                            type="text"
+                            fullWidth
+                            multiline
+                            rowsMax="4"
+                            onChange={this.handleEvidenceTextFieldChange}
                         />
+                        Mark as completed:
+                        <Checkbox
+                            id="checked"
+                            onChange={this.handleEvidenceCheckedChange}
+                        />
+                        {this.state.currentPayload.values &&
+                         this.state.currentPayload.values.filter(val1 => val1.index === this.state.currentPayload.index).length > 0 ?
+                            <Typography variant="h6">Previous evidences:</Typography> : ''}
+                        {this.state.currentPayload.values &&
+                         this.state.currentPayload.values.map(val => {
+                            if (val.index === this.state.currentPayload.index) {
+                                return val.evidences.map(evi => {
+                                    console.log(evi);
+                                    console.log(this.state.currentPayload.values.filter(val => val.index === 0).length);
+                                    return (<Typography variant="h7">* {evi.reportingUser}: {evi.description}</Typography>)
+                                })
+                            }
+                        })}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleDialogClose} color="primary">
-                        Cancel
+                            Cancel
                         </Button>
                         <Button onClick={this.handleEvidenceSend} color="primary">
-                        Submit
+                            Submit
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -289,8 +366,8 @@ class Pdpef extends React.Component {
                     <Typography variant="h6"> {this.state.currentIndicator} </Typography >
                     <div>
                     </div>
-                        <Paper>
-                            <Table>
+                    <Paper>
+                        <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="left">Full Name</TableCell>
@@ -298,12 +375,17 @@ class Pdpef extends React.Component {
                                     {this.renderIndicatorTableHeaders()}
                                 </TableRow>
                             </TableHead>
-                                <TableBody>
-                                    {this.renderParticipantTableRows()}
-                                </TableBody>
-                            </Table>
-                        </Paper>
+                            <TableBody>
+                                {this.renderParticipantTableRows()}
+                            </TableBody>
+                        </Table>
+                    </Paper>
                 </Grid>
+                <ErrorSnackbar
+                    open={this.state.isErrorSnackbarOpen}
+                    handleClose={this.handleErrorSnackbarClose}
+                    errorMessage={this.state.errorSnackbarMessage}
+                />
             </div>
         )
     }
