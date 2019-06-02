@@ -123,7 +123,7 @@ class Pdpef extends React.Component {
             for (let j = 0; j < indicator.indicators.length; j++) {
                 let subIndicator = indicator.indicators[j]
                 let cellName = `${indicatorLetter}${j + 1}`
-                let cell = <TableCell style={(j % 2 == 0 ? {backgroundColor:'lightgray'} : {})}
+                let cell = <TableCell style={(j % 2 === 0 ? {backgroundColor:'lightgray'} : {})}
                     key={`${i}-${j}`}
                     align="left"
                     // onMouseEnter={() => this.handleHeaderHover(cellName, indicator.name, subIndicator)}
@@ -138,7 +138,7 @@ class Pdpef extends React.Component {
 
     renderParticipantTableRows() {
         return this.state.participants.map((participant, index) => (
-            <TableRow key={index} style={(index % 2 == 0 ? {backgroundColor:'lightgray'} : {})}>
+            <TableRow key={index} style={(index % 2 === 0 ? {backgroundColor:'lightgray'} : {})}>
                 <TableCell align="left">{`${participant.User.firstName} ${participant.User.lastName}`}</TableCell>
                 <TableCell align="left">{participant.User.country}</TableCell>
                 {this.renderIndicatorTableRows(participant)}
@@ -147,7 +147,6 @@ class Pdpef extends React.Component {
     }
 
     renderIndicatorTableRows(participant) {
-        let eventId = this.props.match.params.eventId
         let loggedInUserId
         let index = 0
         let cells = []
@@ -345,10 +344,10 @@ class Pdpef extends React.Component {
                          this.state.currentPayload.values.map(val => {
                             if (val.index === this.state.currentPayload.index) {
                                 return val.evidences.map(evi => {
-                                    console.log(evi);
-                                    console.log(this.state.currentPayload.values.filter(val => val.index === 0).length);
                                     return (<Typography variant="h7">* {evi.reportingUser}: {evi.description}</Typography>)
                                 })
+                            } else {
+                                return ('')
                             }
                         })}
                     </DialogContent>

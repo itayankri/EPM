@@ -6,6 +6,8 @@ const participationsController = require('../controllers').participations;
 const campShopController = require('../controllers').campShop;
 const blogController = require('../controllers').blog;
 const purchaseController = require('../controllers').purchase;
+const leadersNotesController = require('../controllers').leadersNotes;
+
 
 module.exports = (app) => {
   // app.get('', (req, res) => res.status(200).send({
@@ -27,22 +29,20 @@ module.exports = (app) => {
   app.get('/events', eventsController.list); // list all events by a filter (chapter/country/date range/type)
   app.get('/event/:eventId', eventsController.retrieve); // get a specific event, returns shitload of data
   app.put('/event/:eventId/edit', eventsController.update); // update an event information
-  // BLOG
-  app.get('/event/:eventId/blog'); // get the blog
-  app.post('/event/:eventId/blog'); // create a blog post
-  app.put('/event/:eventId/blog/:postId'); // update a blog post
-  app.delete('/event/:eventId/blog/:postId'); // delete a blog post
   // GALLERY
   app.get('/event/:eventId/gallery'); // get the gallery
   app.post('/event/:eventId/gallery/uploadPhoto'); // upload a picture
   app.get('/event/:eventId/gallery/:photoId'); // view one picture
   app.delete('/event/:eventId/gallery/:photoId'); // delete a picture
   // LEADERS MEETINGS
-  app.get('/event/:eventId/leadersMeetings'); // get the leaders meetings notes
-  app.post('/event/:eventId/leadersMeetings/createNote'); // create a note
-  app.get('/event/:eventId/leadersMeetings/:noteId'); // get a specific note
-  app.post('/event/:eventId/leadersMeetings/:noteId'); // update a note
-  app.delete('/event/:eventId/leadersMeetings/:noteId'); // delete a note
+  app.get('/event/:eventId/leadersNotes', leadersNotesController.listNotes); // get the leaders meetings notes
+  app.post('/event/:eventId/leadersNotes/', leadersNotesController.addNote); // create a note
+  app.post('/event/:eventId/leadersNotes/:noteId', leadersNotesController.addNote); // update a note
+  app.delete('/event/:eventId/leadersNotes/:noteId', leadersNotesController.deleteNote); // delete a note
+  app.get('/event/:eventId/tasks/', leadersNotesController.listTasks); // get the Tasks
+  app.post('/event/:eventId/tasks/', leadersNotesController.addTask); // create a Task
+  app.post('/event/:eventId/tasks/:taskId', leadersNotesController.addTask); // update a Task
+  app.delete('/event/:eventId/tasks/:taskId', leadersNotesController.deleteTask); // delete a Task
   // SHOPPING LIST
   app.get('/event/:eventId/shoppingList'); // get the shopping list
   app.post('/event/:eventId/shoppingList/addItem'); // create an item

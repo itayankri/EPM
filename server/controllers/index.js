@@ -6,12 +6,13 @@ const participations = require('./participations');
 const campShop = require('./campShop');
 const blog = require('./blog');
 const purchase = require('./purchase');
+const leadersNotes = require('./leadersNotes');
 
 module.exports = {
   todos,
   todoItems,
   events,
-  // eventRoles,
+  leadersNotes,
   participations,
   campShop,
   // statuses
