@@ -19,6 +19,12 @@ export const signUp = (user) => dispatch => {
     })
 };
 
+export const updateUserDetails = (userId, userDetails) => {
+    return axios.put(`${config.url}/user/${userId}`, {
+        ...userDetails
+    })
+};
+
 export const setUser = (user) => dispatch => {
     dispatch({
         type: SET_USER,

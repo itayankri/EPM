@@ -91,7 +91,7 @@ module.exports = (app) => {
   app.post('/login', usersController.login);
   app.get('/users', usersController.list);
   app.get('/user/:id', usersController.retrieve);
-  app.put('/user/:id', usersController.update);
+  app.put('/user/:userId', usersController.update);
   app.get('/user', usersController.retrieveAuthenticated);
 
   

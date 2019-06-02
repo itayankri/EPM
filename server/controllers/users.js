@@ -65,23 +65,57 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     update(req, res) {
-        return User
-            .findById(req.params.id)
+        // return User
+        //     .findById(req.params.id)
+        //     .then(user => {
+        //         if (!user) {
+        //             return res.status(404).send({
+        //                 message: 'User Not Found',
+        //             });
+        //         }
+        //         return User
+        //             .update({
+        //                 firstName: req.body.start || user.firstName,
+        //                 lastName: req.body.end || user.lastName,
+        //             })
+        //             .then(() => res.status(200).send(user))  // Send back the updated user.
+        //             .catch((error) => res.status(400).send(error));
+        //     })
+        //     .catch((error) => res.status(400).send(error));
+        User.update({
+            password: req.body.password,
+            firstName: req.body.firstName,
+            middleName: req.body.middleName,
+            gender: req.body.gender,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            homeNumber: req.body.homeNumber,
+            cellphoneNumber: req.body.cellphoneNumber,
+            birthday: req.body.birthday,
+            country: req.body.country,
+            city: req.body.city,
+            address: req.body.address,
+            zipcode: req.body.zipcode,
+            chapter: req.body.chapter,
+            roleInNA: req.body.roleInNA || "123",
+            languages: req.body.languages || "123",
+            allergies: req.body.allergies || "123",
+            swimming: req.body.swimming || true,
+            firstAid: req.body.firstAid || true,
+            lifeSave: req.body.lifeSave || true,
+        }, {
+            where: {
+                id: req.params.userId
+            }
+        })
             .then(user => {
-                if (!user) {
-                    return res.status(404).send({
-                        message: 'User Not Found',
-                    });
-                }
-                return User
-                    .update({
-                        firstName: req.body.start || user.firstName,
-                        lastName: req.body.end || user.lastName,
-                    })
-                    .then(() => res.status(200).send(user))  // Send back the updated user.
-                    .catch((error) => res.status(400).send(error));
+                console.log('Itayway');
+                console.log(user);
+                res.send(user)
             })
-            .catch((error) => res.status(400).send(error));
+            .catch(err => {
+                res.status(400).send();
+            })
     },
 
     login(req, res) {

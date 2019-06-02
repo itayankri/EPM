@@ -1,7 +1,7 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import {Button, Card, CardActions, CardContent, Divider, Grid, TextField, Typography} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
@@ -12,6 +12,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityOff from "@material-ui/core/SvgIcon/SvgIcon";
 import Visibility from '@material-ui/icons/Visibility';
+import {setUser, updateUserDetails} from "../../actions/loginActions";
 
 const styles = theme => ({
     root: {
@@ -61,6 +62,10 @@ const mapStateToProps = state => {
     }
 };
 
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({setUser}, dispatch);
+};
+
 class Account extends React.Component {
     constructor(props) {
         super(props);
@@ -86,7 +91,98 @@ class Account extends React.Component {
             homeNumber: user.homeNumber || null,
             zipcode: user.zipcode || null,
             gender: user.gender ? "male" : "female"
-        }
+        };
+
+        this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+        this.handleClickShowPasswordAgain = this.handleClickShowPasswordAgain.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onTextFieldChange = this.onTextFieldChange.bind(this);
+        this.handleRadioButtonChange = this.handleRadioButtonChange.bind(this);
+        this.onCancel = this.onCancel.bind(this);
+    }
+
+    handleClickShowPassword() {
+        this.setState({showPassword: !this.state.showPassword});
+    }
+
+    handleClickShowPasswordAgain() {
+        this.setState({showPasswordAgain: !this.state.showPasswordAgain});
+    }
+
+    handleRadioButtonChange(event) {
+        this.setState({gender: event.target.value})
+    }
+
+    onTextFieldChange(event) {
+        this.setState({[event.target.name]: event.target.value});
+    }
+
+    onCancel() {
+        let user = this.props.user || {};
+        this.setState({
+            editMode: false,
+            errorMessage: "",
+            showPassword: false,
+            showPasswordAgain: false,
+            firstName: user.firstName || "",
+            middleName: user.middleName || "",
+            lastName: user.lastName || "",
+            email: user.email || "",
+            birthday: new Date(user.birthday) || "",
+            password: "",
+            passwordAgain: "",
+            country: user.country || "",
+            city: user.city || "",
+            chapter: user.chapter || "",
+            address: user.address || "",
+            homeNumber: user.homeNumber || null,
+            zipcode: user.zipcode || null,
+            gender: user.gender ? "male" : "female"
+        })
+    }
+
+    onSubmit() {
+        let userDetails = {
+            id: this.props.user.id,
+            firstName: this.state.firstName,
+            middleName: this.state.middleName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            birthday: this.state.birthday,
+            password: this.state.password,
+            passwordAgain: this.state.passwordAgain,
+            country: this.state.country,
+            city: this.state.city,
+            chapter: this.state.chapter,
+            address: this.state.address,
+            homeNumber: this.state.homeNumber,
+            zipcode: this.state.zipcode,
+            gender: this.state.gender === "male"
+        };
+
+        updateUserDetails(this.props.user.id, {
+            firstName: this.state.firstName,
+            middleName: this.state.middleName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            birthday: this.state.birthday,
+            password: this.state.password,
+            passwordAgain: this.state.passwordAgain,
+            country: this.state.country,
+            city: this.state.city,
+            chapter: this.state.chapter,
+            address: this.state.address,
+            homeNumber: this.state.homeNumber,
+            zipcode: this.state.zipcode,
+            gender: this.state.gender === "male"
+        })
+            .then(res => {
+                this.props.setUser(userDetails);
+                this.props.history.push('/');
+            })
+            .catch(err => {
+                this.setState({errorMessage: `Details update Failure - ${err}`});
+            })
     }
 
     render() {
@@ -378,7 +474,7 @@ class Account extends React.Component {
                                         <Button
                                             color="secondary"
                                             size="normal"
-                                            onClick={() => this.setState({editMode: false})}
+                                            onClick={this.onCancel}
                                         >
                                             Cancel
                                         </Button>
@@ -393,4 +489,4 @@ class Account extends React.Component {
     }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(Account));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Account));
