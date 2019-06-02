@@ -65,24 +65,7 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     update(req, res) {
-        // return User
-        //     .findById(req.params.id)
-        //     .then(user => {
-        //         if (!user) {
-        //             return res.status(404).send({
-        //                 message: 'User Not Found',
-        //             });
-        //         }
-        //         return User
-        //             .update({
-        //                 firstName: req.body.start || user.firstName,
-        //                 lastName: req.body.end || user.lastName,
-        //             })
-        //             .then(() => res.status(200).send(user))  // Send back the updated user.
-        //             .catch((error) => res.status(400).send(error));
-        //     })
-        //     .catch((error) => res.status(400).send(error));
-        User.update({
+        let userObj = {
             password: req.body.password,
             firstName: req.body.firstName,
             middleName: req.body.middleName,
@@ -103,14 +86,17 @@ module.exports = {
             swimming: req.body.swimming || true,
             firstAid: req.body.firstAid || true,
             lifeSave: req.body.lifeSave || true,
+        };
+
+        User.update({
+            ...userObj
         }, {
             where: {
                 id: req.params.userId
             }
         })
             .then(user => {
-                console.log('Itayway');
-                console.log(user);
+                req.session.user = userObj;
                 res.send(user)
             })
             .catch(err => {
