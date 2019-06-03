@@ -105,6 +105,11 @@ class Account extends React.Component {
         this.setState({showPassword: !this.state.showPassword});
     }
 
+    formatDateField= (date) => {
+        let d = new Date(date);
+        return `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`
+    }
+
     handleClickShowPasswordAgain() {
         this.setState({showPasswordAgain: !this.state.showPasswordAgain});
     }
@@ -264,7 +269,7 @@ class Account extends React.Component {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    value={this.state.birthday}
+                                    value={this.formatDateField(this.state.birthday)}
                                     onChange={this.onTextFieldChange}
                                 />
                                 <FormControl component="fieldset" className={classes.formControl}>
