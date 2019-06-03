@@ -11,7 +11,7 @@ import EventSummaryTabView from './EventSummaryTabView';
 import EventParticipationTableView from './EventParticipationTableView';
 import ParticipantEventView from './ParticipantEventView';
 import EventOtherTabView from './EventOtherTabView';
-import {getEvent} from "../../actions/eventsActions";
+import {getEvent, getEventRoles} from "../../actions/eventsActions";
 import ErrorSnackbar from "../common/ErrorSnackbar";
 
 const styles = theme => ({});
@@ -31,6 +31,7 @@ class EventDetails extends React.Component {
             selectedTab: 0,
             eventId: this.props.match.params.eventId,
             event: null,
+            eventRoles: [],
             isSuccessSnackbarOpen: false,
             successSnackbarOpen: "",
             isErrorSnackbarOpen: false,
@@ -43,11 +44,12 @@ class EventDetails extends React.Component {
     }
 
     refreshEvent = () => {
-        getEvent(this.state.eventId)
+        Promise.all([getEventRoles(), getEvent(this.state.eventId)])
             .then(res => {
                 this.setState({
                     isLoading: false,
-                    event: res.data
+                    event: res[1].data,
+                    eventRoles: res[0].data
                 })
             })
             .catch(err => {
@@ -87,6 +89,7 @@ class EventDetails extends React.Component {
         } else if (this.state.selectedTab === 1) {
             tabToRender = <EventParticipationTableView
                 event={this.state.event}
+                eventRoles={this.state.eventRoles}
                 onParticipationRoleChange={this.onParticipationRoleChange}
                 refreshEvent={this.refreshEvent}/>
         } else {

@@ -7,6 +7,7 @@ const campShopController = require('../controllers').campShop;
 const blogController = require('../controllers').blog;
 const purchaseController = require('../controllers').purchase;
 const leadersNotesController = require('../controllers').leadersNotes;
+const eventRolesController = require('../controllers').eventRoles;
 
 
 module.exports = (app) => {
@@ -83,7 +84,7 @@ module.exports = (app) => {
   app.delete('/event/:evenId/blogMessages/:messageId', blogController.removeEventMessage);
   app.put('/event/:eventId/blogMessages/:messageId', blogController.updateEventMessage);
 
-
+  app.get('/eventRoles', eventRolesController.getEventRoles);
 
 
   app.post('/user', usersController.create);

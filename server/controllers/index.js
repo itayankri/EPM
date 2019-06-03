@@ -7,6 +7,7 @@ const campShop = require('./campShop');
 const blog = require('./blog');
 const purchase = require('./purchase');
 const leadersNotes = require('./leadersNotes');
+const eventRoles = require('./eventRoles');
 
 module.exports = {
   todos,
@@ -18,5 +19,6 @@ module.exports = {
   // statuses
   purchase,
   users,
-  blog
+  blog,
+  eventRoles
 };

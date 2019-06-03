@@ -158,9 +158,11 @@ class EventParticipationsTabView extends React.Component {
                                                 <MenuItem value={row.roleId}>
                                                     <em>None</em>
                                                 </MenuItem>
-                                                <MenuItem value={1}>Role 1</MenuItem>
-                                                <MenuItem value={2}>Role 2</MenuItem>
-                                                <MenuItem value={3}>Role 3</MenuItem>
+                                                {
+                                                    this.props.eventRoles.map(role => (
+                                                        <MenuItem value={role.id}>{role.rolename}</MenuItem>
+                                                    ))
+                                                }
                                             </Select>
                                         </TableCell>
                                         <TableCell align="center">{row.status}</TableCell>
