@@ -41,8 +41,7 @@ module.exports = (app) => {
   app.delete('/event/:eventId/leadersNotes/:noteId', leadersNotesController.deleteNote); // delete a note
   app.get('/event/:eventId/tasks/', leadersNotesController.listTasks); // get the Tasks
   app.post('/event/:eventId/tasks/', leadersNotesController.addTask); // create a Task
-  app.post('/event/:eventId/tasks/:taskId', leadersNotesController.addTask); // update a Task
-  app.delete('/event/:eventId/tasks/:taskId', leadersNotesController.deleteTask); // delete a Task
+  app.delete('/event/:eventId/tasks/', leadersNotesController.deleteTask); // delete a Task
   // SHOPPING LIST
   app.get('/event/:eventId/shoppingList'); // get the shopping list
   app.post('/event/:eventId/shoppingList/addItem'); // create an item

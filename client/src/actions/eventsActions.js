@@ -167,3 +167,18 @@ export const getNotes = (eventId) => {
 export const getTasks = (eventId) => {
     return axios.get(`${config.url}/event/${eventId}/tasks`);
 };
+
+export const addTask = (eventId, newTask) => {
+    return axios.post(`${config.url}/event/${eventId}/tasks`, {
+        name: newTask['Task Name'],
+        description: newTask['Description'],
+        date: newTask['date'],
+        completed: newTask['X']
+    });
+};
+
+export const deleteTask = (eventId, task) => {
+    return axios.delete(`${config.url}/event/${eventId}/tasks`, {
+        data: {name: task['Task Name']}
+    });
+};

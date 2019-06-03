@@ -141,7 +141,7 @@ module.exports = {
                 eventId: eventId || myTask.eventId,
                 name: name || myTask.name,
                 date: date || myTask.date,
-                completed: completed || myTask.completed,
+                completed: (completed !== null ? completed : false),
                 description: description || myTask.description
             }, {
                     where: {
@@ -156,12 +156,12 @@ module.exports = {
         .catch(error => { console.log(error); res.status(400).send(error) })
     },
     deleteTask(req, res) {
-        const { taskId } = req.params
+        const { eventId } = req.params
         const { name } = req.body
         return MyTasks
             .destroy({
                 where: {
-                    id: taskId,
+                    eventId: eventId,
                     name: name
                 }
             })

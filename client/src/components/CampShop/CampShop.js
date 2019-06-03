@@ -137,22 +137,18 @@ class CampShop extends React.Component {
 
         if (changed) {
             if (bought) {
-                console.log("about to purchase");
                 purchaseItem(this.state.eventId, userId, itemName)
                     .then(this.setState({
                         items: newItems,
                         purchases: newPurchases
                     }))
-                console.log("purchased");
             }
             else {
-                console.log("about to return");
                 returnItem(this.state.eventId, userId, itemName)
                     .then(this.setState({
                         items: newItems,
                         purchases: newPurchases
                     }))
-                console.log("returned");
             }
         }
     }

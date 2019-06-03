@@ -3,10 +3,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import Back from '@material-ui/icons/KeyboardBackspace';
 import Add from '@material-ui/icons/Add'
+import Delete from '@material-ui/icons/Delete'
 import { Link } from 'react-router-dom';
 import ErrorSnackbar from "../common/ErrorSnackbar";
 import classNames from 'classnames';
-import { getEvent, getTasks, getNotes } from "../../actions/eventsActions";
+import { getEvent, getTasks, getNotes, addTask, deleteTask } from "../../actions/eventsActions";
 import {
     Typography,
     Button,
@@ -96,14 +97,22 @@ class LeadersNotes extends React.Component {
             notes: [],
             tasks: {},
             isDialogOpen: false,
+            isTaskDialogOpen: false,
             noteContents: {},
-            isEditing: false,
-            isNewItem: false
+            isNewItem: false,
+            taskName: "",
+            taskDescription: "",
+            taskDate: this.formatDateField(new Date(Date.now())),
         }
         this.handleEvidenceTextFieldChange = this.handleEvidenceTextFieldChange.bind(this)
         this.handleDialogClose = this.handleDialogClose.bind(this)
         this.handleDialogOpen = this.handleDialogOpen.bind(this)
         this.handleSubmitNote = this.handleSubmitNote.bind(this)
+        this.handleSubmitTask = this.handleSubmitTask.bind(this)
+        this.handleNewNote = this.handleNewNote.bind(this)
+        this.handleNewTask = this.handleNewTask.bind(this)
+        this.handleDeleteTask = this.handleDeleteTask.bind(this)
+        this.resetDialog = this.resetDialog.bind(this)
     }
 
     handleErrorSnackbarClose = () => {
@@ -112,9 +121,38 @@ class LeadersNotes extends React.Component {
         })
     }
 
+    handleNewNote(e) {
+        // TODO: add logic if a note in the same date already exists.
+        let bla = Object.keys(this.state.notes).filter(key => {
+            let fKey = this.formatDate(key)
+            let fNow = this.formatDate(new Date(Date.now()))
+            return (fKey === fNow)
+        })
+        this.setState({
+            isDialogOpen: true,
+            isNewItem: (bla.length === 0),
+            noteContents: (bla.length > 0 ? this.state.notes[bla[0]]['Meeting Notes']: ""),
+            selectedDate: (bla.length > 0 ? bla[0] : "")
+        })
+    }
+
+    handleNewTask(e) {
+        this.setState({
+            isTaskDialogOpen: true,
+            taskName: "",
+            taskDate: this.formatDateField(new Date(Date.now())),
+            taskDescription: "",
+        })
+    }
+
     formatDate = (date) => {
         let d = new Date(date);
         return d.getDate().toString().padStart(2, '0') + "/" + (d.getMonth() + 1).toString().padStart(2, '0') + "/" + d.getFullYear()
+    }
+
+    formatDateField= (date) => {
+        let d = new Date(date);
+        return `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`
     }
 
     componentWillMount() {
@@ -174,50 +212,138 @@ class LeadersNotes extends React.Component {
 
     handleToggle(taskName) {
         // backendlogic
+        let myTask;
         let tasks = Object.values(this.state.tasks).map(task => {
             if (task['Task Name'] === taskName) {
                 task['X'] = !task['X']
+                myTask = task;
             }
             return task
         })
-        this.setState(tasks)
+        
+        addTask(this.state.eventId, myTask)
+            .then(this.setState(tasks))
     }
 
-    handleEvidenceTextFieldChange(e) {
-        let newNote = this.state.noteContents
-        newNote = e.target.value
+    handleEvidenceTextFieldChange(e, field) {
         this.setState({
-            noteContents: newNote
+            [field]: e.target.value
         })
     }
 
-    handleDialogClose = () => this.setState({ isDialogOpen: false, currentNote: {}, isEditing: false, isNewItem: false })
+    handleDialogClose = () => this.resetDialog()
 
-    handleSubmitNote = () => {
-        
+    handleSubmitNote = (e) => {
         let { notes, noteContents, selectedDate } = this.state
+
+        if (!noteContents || noteContents === null || noteContents.trim() === "") {
+            this.setState({
+                isErrorSnackbarOpen: true,
+                errorSnackbarMessage: "Leaders notes cannot be empty"
+            })
+            e.preventDefault();
+            return;
+        }
+
         let newItem = {
-            "Meeting Date": selectedDate || this.formatDate(Date.now()),
+            "Meeting Date": selectedDate || new Date(Date.now()),
             "Meeting Notes": noteContents,
-            "Last Update": this.formatDate(Date.now())
+            "Last Update": new Date(Date.now())
         }
         notes[newItem['Meeting Date']] = newItem
         this.setState({
             notes: notes
         })
+        this.resetDialog();
     }
 
-    handleDialogOpen = (note) => event => {
+    handleDeleteTask = (task) => {
+        let { tasks } = this.state
 
-        let currentPayload = {
-            userId: note.User.id,
-            eventId: this.state.eventId,
-            values: note.evidence,
+        let newTasks = Object.values(tasks).filter(currTask => {
+            return currTask['Task Name'] !== task['Task Name']
+        })
+
+        deleteTask(this.state.eventId, task)
+            .then(this.setState({
+                tasks: newTasks
+            }))
+    }
+
+    handleSubmitTask = (e) => {
+        let { tasks, taskName, taskDescription, taskDate } = this.state
+
+        let exists = Object.values(tasks).filter(val => {
+            return (val['Task Name'] === taskName)
+        }).length !== 0
+        if (!taskName || taskName === null || taskName.trim() === "") {
+            this.setState({
+                isErrorSnackbarOpen: true,
+                errorSnackbarMessage: "Task name cannot be empty"
+            })
+            e.preventDefault();
+            return;
         }
+        if (exists) {
+            this.setState({
+                isErrorSnackbarOpen: true,
+                errorSnackbarMessage: `A task called '${taskName}' already exists`
+            })
+            e.preventDefault();
+            return;
+        }
+        if (!taskDescription || taskDescription === null || taskDescription.trim() === "") {
+            this.setState({
+                isErrorSnackbarOpen: true,
+                errorSnackbarMessage: "Task description cannot be empty"
+            })
+            e.preventDefault();
+            return;
+        }
+        let dNow = new Date(new Date(Date.now()).toLocaleDateString())
+        let dTask = new Date(new Date(taskDate).toLocaleDateString())
+        if (!taskDate || taskDate === null || dNow > dTask) {
+            this.setState({
+                isErrorSnackbarOpen: true,
+                errorSnackbarMessage: "Task date cannot be empty, and it cannot be earlier than today"
+            })
+            e.preventDefault();
+            return;
+        }
+        
+        
+        let newItem = {
+            "Task Name": taskName,
+            "Description": taskDescription,
+            "date": taskDate
+        }
+        tasks[Object.keys(tasks).length] = newItem
+        addTask(this.state.eventId, newItem)
+            .then(() => {
+                this.setState({
+                    tasks: tasks
+                });
+                this.resetDialog()
+            })
+    }
+
+    resetDialog() {
         this.setState({
+            isDialogOpen: false,
+            currentNote: {},
+            isNewItem: false,
+            isTaskDialogOpen: false,
+            taskName: "",
+            taskDescription: "",
+            taskDate: this.formatDateField(new Date(Date.now()))
+        })
+    }
+
+    handleDialogOpen = (note) => {
+        this.setState({ 
             isDialogOpen: true,
-            currentParticipant: note,
-            currentPayload
+            selectedDate: note["Meeting Date"],
+            noteContents: note["Meeting Notes"]
         })
     };
 
@@ -232,30 +358,27 @@ class LeadersNotes extends React.Component {
             );
         }
         let { classes, history } = this.props;
-        let { tasks, notes, noteContents, isEditing, isNewItem } = this.state;
+        let { tasks, notes, noteContents, isNewItem, selectedDate, isTaskDialogOpen, isDialogOpen, taskName, taskDescription, taskDate } = this.state;
         return (
             <div>
-                <Dialog fullWidth maxWidth="md" open={this.state.isDialogOpen} onClose={this.handleDialogClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle align="center" id="form-dialog-title">{!isNewItem ? "Edit a" : "Create a new"} Note</DialogTitle>
+                <Dialog fullWidth maxWidth="md" open={isDialogOpen} onClose={this.handleDialogClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle align="center" id="form-dialog-title">{!isNewItem ? `Notes from ${this.formatDate(selectedDate)}` : "Create a new note"} </DialogTitle>
                     <DialogContent>
-                        
-                        <DialogContentText align="center">
-                            {isNewItem ? 'This note has no content, press EDIT to write content' : (noteContents || "This note has no content, press EDIT to write content")}
-                        </DialogContentText>
                         <TextField
-                            required
-                            value={noteContents}
-                            style={isEditing ? {display: 'flex'} : { display: 'none' }}
-                            autoFocus
-                            margin="dense"
-                            id="noteContents"
-                            label="Note contents"
-                            type="text"
-                            fullWidth
-                            multiline
-                            rowsMax="20"
-                            onChange={this.handleEvidenceTextFieldChange}
-                        />
+                                required
+                                value={noteContents}
+                                autoFocus
+                                margin="dense"
+                                id="noteContents"
+                                label="Note contents"
+                                type="text"
+                                fullWidth
+                                multiline
+                                rowsMax="20"
+                                rows="20"
+                                style={{minHeight: 410}}
+                                onChange={e => {this.handleEvidenceTextFieldChange(e, "noteContents")}}
+                            />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleSubmitNote} color="primary">
@@ -264,8 +387,53 @@ class LeadersNotes extends React.Component {
                         <Button onClick={this.handleDialogClose} color="primary">
                             Cancel
                         </Button>
-                        <Button style={!isEditing ? {} : { display: 'none' }} onClick={() => {this.setState({isEditing: !isEditing})}} color="primary">
-                            Edit
+                    </DialogActions>
+                </Dialog>
+                <Dialog fullWidth maxWidth="xs" open={isTaskDialogOpen} onClose={this.handleDialogClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle align="center" id="form-dialog-title">Create a new task</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                                required
+                                value={taskName}
+                                autoFocus
+                                margin="dense"
+                                id="taskName"
+                                label="Task name"
+                                placeholder="Task name"
+                                type="text"
+                                fullWidth
+                                onChange={e => {this.handleEvidenceTextFieldChange(e, "taskName")}}
+                            />
+                        <TextField
+                                required
+                                value={taskDescription}
+                                margin="dense"
+                                id="taskDescription"
+                                label="Task description"
+                                type="text"
+                                multiline
+                                rowsMax={3}
+                                rows={3}
+                                fullWidth
+                                onChange={e => {this.handleEvidenceTextFieldChange(e, "taskDescription")}}
+                            />
+                        <TextField
+                                required
+                                value={taskDate}
+                                margin="dense"
+                                id="taskDate"
+                                label="Task date (dd/mm/yyyy)"
+                                type="date"
+                                fullWidth
+                                onChange={e => {this.handleEvidenceTextFieldChange(e, "taskDate")}}
+                            />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={(e) => {this.handleSubmitTask(e)}} color="primary">
+                            Submit
+                        </Button>
+                        <Button onClick={this.handleDialogClose} color="primary">
+                            Cancel
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -283,7 +451,7 @@ class LeadersNotes extends React.Component {
                                 avatar={<Button
                                     variant="fab"
                                     color="primary"
-                                    onClick={() => { this.setState({isDialogOpen: true, isNewItem: true, isEditing:false, noteContents: ""}) }}
+                                    onClick={this.handleNewNote}
                                 >
                                     <Add />
                                 </Button>}
@@ -310,7 +478,7 @@ class LeadersNotes extends React.Component {
                                         </TableHead>
                                         <TableBody>
                                             {Object.values(notes).map((note, index) => (
-                                                <TableRow className={classNames(classes.tableRow, classes.tableRowHover)} onClick={() => {this.setState({ isDialogOpen: true, selectedDate: note["Meeting Date"], noteContents: note["Meeting Notes"]})}} key={"notes" + index.toString()}>
+                                                <TableRow className={classNames(classes.tableRow, classes.tableRowHover)} onClick={() => {this.handleDialogOpen(note)}} key={"notes" + index.toString()}>
                                                     <TableCell align="center">{this.formatDate(note['Meeting Date'])}</TableCell>
                                                     <TableCell align="center">{note['Meeting Notes']}</TableCell>
                                                     <TableCell align="center">{this.formatDate(note['Last Update'])}</TableCell>
@@ -323,7 +491,7 @@ class LeadersNotes extends React.Component {
                         </Card>
                     </Grid>
                     <Grid container justify="space-around">
-                    <Grid item xs={4}>
+                    <Grid item xs={5}>
                     <br />
                     <br />
                     <br />
@@ -333,13 +501,13 @@ class LeadersNotes extends React.Component {
                                 avatar={<Button
                                     variant="fab"
                                     color="primary"
-                                    onClick={() => { alert("CLICK") }}
+                                    onClick={this.handleNewTask}
                                 >
                                     <Add />
                                 </Button>}
                                 title="TO DO"
                                 titleTypographyProps={{ align: "center", variant: "h5" }}
-                                subheader="Tasks that need to be done"
+                                subheader="Tasks that needs to be done"
                                 subheaderTypographyProps={{ align: "center" }}
                             />
                             {tasks ?
@@ -348,12 +516,16 @@ class LeadersNotes extends React.Component {
                                         <TableHead>
                                             <TableRow>
                                                 {Object.keys(tasks[0]).map(column => {
+                                                    // if (column !== "X")
                                                     return (
                                                         <TableCell align="center">
                                                             {column !== "date" ? column : "Due date (dd/mm/yyyy)"}
                                                         </TableCell>
                                                     )
                                                 })}
+                                                <TableCell align="center">
+                                                    Delete
+                                                </TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody style={{ backgroundColor: 'lightblue' }}>
@@ -363,6 +535,7 @@ class LeadersNotes extends React.Component {
                                                     <TableCell align="center">{task['Task Name']}</TableCell>
                                                     <TableCell align="center">{task['Description']}</TableCell>
                                                     <TableCell align="center">{this.formatDate(task['date'])}</TableCell>
+                                                    <TableCell align="center"><Button variant="flat" color="secondary" onClick={() => {this.handleDeleteTask(task)}}><Delete /></Button></TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
