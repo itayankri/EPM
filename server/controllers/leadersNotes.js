@@ -7,7 +7,9 @@ module.exports = {
     listNotes(req, res) {
         return MyLeadersNotes
             .findAll({
-                //attributes: ["name", "quantity"],
+                attributes: [["date", "Meeting Date"],
+                             ["content", "Meeting Notes"],
+                             ["updatedAt", "Last Update"]],
                 where: {
                     eventId: req.params.eventId
                 }
@@ -84,7 +86,10 @@ module.exports = {
     listTasks(req, res) {
         return MyTasks
             .findAll({
-                //attributes: ["name", "quantity"],
+                attributes: [["completed", "X"],
+                             ["name", "Task Name"],
+                             ["description", "Description"],
+                             "date"],
                 where: {
                     eventId: req.params.eventId
                 }

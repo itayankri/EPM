@@ -162,7 +162,7 @@ class EventOtherTabView extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                    <Link to={`./${this.props.event.id}/leadersMeetings`} className={classes.link}>
+                    <Link to={`./${this.props.event.id}/leadersNotes`} className={classes.link}>
                         <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia

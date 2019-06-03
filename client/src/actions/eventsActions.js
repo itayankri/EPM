@@ -159,3 +159,11 @@ export const getUserEvidence = (eventId, participantId) => {
 export const setUserEvidence = (eventId, participantId, payload) => {
     return axios.post(`${config.url}/event/${eventId}/indicators/${participantId}`, payload)
 };
+
+export const getNotes = (eventId) => {
+    return axios.get(`${config.url}/event/${eventId}/leadersNotes`);
+};
+
+export const getTasks = (eventId) => {
+    return axios.get(`${config.url}/event/${eventId}/tasks`);
+};

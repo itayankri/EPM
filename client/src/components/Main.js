@@ -19,6 +19,8 @@ import RoomRandomizer from './RoomRandomizer/RoomRandomizer';
 import CampSchedule from './CampSchedule/CampSchedule';
 import Pdpef from './Pdpef/Pdpef';
 import Account from './Account/Account';
+import LeadersNotes from './LeaderNotes/LeadersNotes';
+
 import 'react-dates/initialize';
 
 const styles = theme => ({
@@ -56,6 +58,7 @@ class Main extends React.Component {
                     <Route exact path="/events/:eventId/blog" component={Blog}/>
                     <Route exact path="/events/:eventId/campSchedule" component={CampSchedule}/>
                     <Route exact path="/events/:eventId/pdpef" component={Pdpef}/>
+                    <Route exact path="/events/:eventId/leadersNotes" component={LeadersNotes}/>
                 </Switch>
             </div>
         )
