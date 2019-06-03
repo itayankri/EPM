@@ -159,9 +159,13 @@ class LeadersNotes extends React.Component {
         getTasks(this.state.eventId)
             .then(res => {
                 let tasks = {}
+                if (res.data) {
                 res.data.map((task, index) => {
                     tasks[index] = task;
                 })
+                } else {
+                    tasks = []
+                }
                 this.setState({
                     isLoadingTasks: false,
                     tasks: tasks
@@ -193,9 +197,14 @@ class LeadersNotes extends React.Component {
         getNotes(this.state.eventId)
             .then(res => {
                 let notes = {}
-                res.data.map(note => {
-                    notes[note['Meeting Date']] = note;
-                })
+                if (res.data) {
+                    res.data.map(note => {
+                        notes[note['Meeting Date']] = note;
+                    })
+                }
+                else {
+                    notes = []
+                }
                 this.setState({
                     isLoadingNotes: false,
                     notes: notes
@@ -461,7 +470,7 @@ class LeadersNotes extends React.Component {
                                 subheaderTypographyProps={{ align: "center" }}
                             />
 
-                            {notes ?
+                            {Object.entries(notes).length > 0 ?
                                 <Paper>
                                     <Table>
                                         <TableHead>
@@ -510,7 +519,7 @@ class LeadersNotes extends React.Component {
                                 subheader="Tasks that needs to be done"
                                 subheaderTypographyProps={{ align: "center" }}
                             />
-                            {tasks ?
+                            {Object.entries(tasks).length > 0 ?
                                 <Paper>
                                     <Table>
                                         <TableHead>
@@ -557,7 +566,7 @@ class LeadersNotes extends React.Component {
                                     subheader="Tasks that you've completed! Good job!"
                                     subheaderTypographyProps={{ align: "center" }}
                                 />
-                                {tasks ?
+                                {Object.entries(tasks).length > 0 ?
                                     <Paper>
                                         <Table>
                                             <TableHead>
