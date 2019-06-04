@@ -70,7 +70,6 @@ class Events extends React.Component {
     componentWillMount() {
         getEvents()
             .then(res => {
-                console.log(res.data)
                 this.setState({
                     isLoading: false,
                     events: res.data

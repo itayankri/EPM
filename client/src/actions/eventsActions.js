@@ -2,12 +2,10 @@ import axios from 'axios';
 import config from '../config/config';
 
 export const getEventRoles = () => {
-    console.log('Itayway');
     return axios.get(`${config.url}/eventRoles`);
 };
 
 export const getEvents = () => {
-    console.log('Itayway');
     return axios.get(`${config.url}/events`);
 };
 
