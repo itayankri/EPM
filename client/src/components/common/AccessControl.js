@@ -1,17 +1,5 @@
 import React from 'react';
 
-const permissionsDictionary = {
-    roomRandomizer: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
-    campShop: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
-    blog: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
-    shoppingList: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
-    leadersNotes: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
-    generateForms: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
-    campSchedule: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
-    contactList: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
-    pdpef: ['Staff', 'Director', 'International Staff', 'Junior Staff']
-};
-
 /**
  * Props:
  *  - permission - The name of the feature that the user tries to access.
@@ -32,8 +20,29 @@ class AccessControl extends React.Component {
 
         let roleName = participation ? participation.EventRole.rolename : "";
 
-        return permissionsDictionary[this.props.permission].includes(roleName);
+        if (this.props.permission === "any") {
+            console.log(`${this.props.name} was set to 'any' and therefore returned true`)
+            return true 
+        } else {
+            console.log(`${this.props.name} was set to '${this.props.permission}' and ${this.props.user.firstName} is ${roleName || "not in the event"}, returning: ${this.permissionsDictionary[this.props.permission].includes(roleName)}`)
+            let permList = this.permissionsDictionary[this.props.permission]
+            return (permList ? permList.includes(roleName) : false);
+        }
     }
+
+    permissionsDictionary = {
+        roomRandomizer: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
+        campShop: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
+        blog: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
+        shoppingList: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
+        leadersNotes: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
+        generateForms: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
+        campSchedule: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
+        chapterSchedule: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
+        contactList: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
+        pdpef: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
+        participationTab: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
+    };
 
     render() {
         if (this.checkPermission()) {
