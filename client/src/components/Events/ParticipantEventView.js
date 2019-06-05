@@ -32,7 +32,7 @@ class ParticipantEventView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: ""
+            status: "UNCLAIMED"
         };
 
         if (props.event && props.user) {
