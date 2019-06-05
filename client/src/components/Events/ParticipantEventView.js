@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/es/Typography/Typography";
 import Spinner from "./EventSummaryTabView";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import {claimParticipation, cancelParticipation} from "../../actions/eventsActions";
 
 const styles = theme => ({});
 
@@ -15,12 +16,35 @@ const mapStateToProps = state => {
     }
 };
 
+const getStatusColor = (status) => {
+    if (status === 'APPROVED') {
+        return 'green';
+    } else if (status === 'DECLINED') {
+        return 'red';
+    } else if (status === 'CLAIMED' || status === 'PENDING') {
+        return 'orange';
+    } else {
+        return 'gray'
+    }
+};
+
 class ParticipantEventView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             status: ""
+        };
+
+        if (props.event && props.user) {
+            for (let participation of props.event.participations) {
+                if (participation.User.id === props.user.id) {
+                    this.state.status = participation.status
+                }
+            }
         }
+
+        this.onClaimParticipationButtonClick = this.onClaimParticipationButtonClick.bind(this);
+        this.onCancelParticipationButtonClick = this.onCancelParticipationButtonClick.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -35,6 +59,20 @@ class ParticipantEventView extends React.Component {
         }
     }
 
+    onClaimParticipationButtonClick() {
+        claimParticipation(this.props.user.id, this.props.event.id)
+            .then(() => {
+                this.setState({status: 'CLAIMED'})
+            })
+    }
+
+    onCancelParticipationButtonClick() {
+        cancelParticipation(this.props.user.id, this.props.event.id)
+            .then(() => {
+                this.setState({status: 'UNCLAIMED'})
+            })
+    }
+
     render() {
         let {event} = this.props;
 
@@ -46,23 +84,18 @@ class ParticipantEventView extends React.Component {
 
         return (
             <div>
-                <Typography
-                    variant="h4"
-                    component="h2"
+                <Button
+                    variant="outlined"
+                    disabled
+                    style={{
+                        position: 'absolute',
+                        top: 150,
+                        right: 250,
+                        color: getStatusColor(this.state.status)
+                    }}
                 >
-                    Event Details
-                    <Button
-                        variant="outlined"
-                        disabled
-                        style={{
-                            marginLeft: 10,
-                            color: 'red'
-                        }}
-                    >
-                        Participation Status: {this.state.status}
-                    </Button>
-                </Typography>
-                {/*<Typography variant="subheading">Participation Status: UNCLAIMED</Typography>*/}
+                    Participation Status: {this.state.status}
+                </Button>
                 <Grid container spacing={16}>
                     <Grid item md={4}>
                         <br/>
@@ -84,15 +117,17 @@ class ParticipantEventView extends React.Component {
                         <br/>
                     </Grid>
                     <Button
+                        // disabled={this.state.status !== 'UNCLAIMED'}
+                        onClick={this.state.status !== 'UNCLAIMED' ? this.onCancelParticipationButtonClick : this.onClaimParticipationButtonClick}
                         color="primary"
                         variant="contained"
                         style={{
                             position: 'absolute',
-                            top: 100,
+                            top: 150,
                             right: 30
                         }}
                     >
-                        Claim Participation
+                        {this.state.status === 'UNCLAIMED' ? 'Claim Participation' : 'Cancel Participation'}
                     </Button>
                 </Grid>
                 <br/>

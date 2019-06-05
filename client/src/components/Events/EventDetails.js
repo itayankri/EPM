@@ -10,6 +10,7 @@ import CustomizedTabs from '../common/CustomizedTabs';
 import EventSummaryTabView from './EventSummaryTabView';
 import EventParticipationTableView from './EventParticipationTableView';
 import EventOtherTabView from './EventOtherTabView';
+import ParticipantEventView from './ParticipantEventView';
 import {getEvent, getEventRoles} from "../../actions/eventsActions";
 import ErrorSnackbar from "../common/ErrorSnackbar";
 
@@ -101,14 +102,14 @@ class EventDetails extends React.Component {
                 tabToRender = <EventOtherTabView event={this.state.event}/>
             }
         } else {
-            tabToRender = this.state.selectedTab === 0 ? <EventSummaryTabView event={this.state.event}/> :
+            tabToRender = this.state.selectedTab === 0 ? <ParticipantEventView event={this.state.event}/> :
                 <EventOtherTabView event={this.state.event}/>
         }
 
         return (
             <div>
                 {
-                    isAdmin
+                    (isAdmin || isStaff)
                         ?
                         <CustomizedTabs
                             value={this.state.selectedTab}

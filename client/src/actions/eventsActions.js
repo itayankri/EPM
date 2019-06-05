@@ -39,7 +39,7 @@ export const getContactList = (eventId) => {
 
 export const getCampShopItems = (eventId) => {
     return axios.get(`${config.url}/event/${eventId}/campShop`);
-}
+};
 
 export const getCountryFlag = (countryName) => {
     return axios.get(`https://restcountries.eu/rest/v2/name/${countryName}`).then(res => {
@@ -184,5 +184,19 @@ export const addTask = (eventId, newTask) => {
 export const deleteTask = (eventId, task) => {
     return axios.delete(`${config.url}/event/${eventId}/tasks`, {
         data: {name: task['Task Name']}
+    });
+};
+
+export const claimParticipation = (userId, eventId) => {
+    return axios.put(`${config.url}/event/${eventId}/claim`, {
+        userId: userId,
+        eventId: eventId,
+    });
+};
+
+export const cancelParticipation = (userId, eventId) => {
+    return axios.put(`${config.url}/event/${eventId}/unclaim`, {
+        userId: userId,
+        eventId: eventId
     });
 };
