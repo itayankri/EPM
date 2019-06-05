@@ -20,7 +20,7 @@ import CampSchedule from './CampSchedule/CampSchedule';
 import Pdpef from './Pdpef/Pdpef';
 import Account from './Account/Account';
 import LeadersNotes from './LeaderNotes/LeadersNotes';
-
+import SecureRoute from './common/SecureRoute';
 import 'react-dates/initialize';
 
 const styles = theme => ({
