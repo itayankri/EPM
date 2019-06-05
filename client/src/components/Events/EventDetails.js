@@ -9,7 +9,6 @@ import Spinner from "../common/Spinner";
 import CustomizedTabs from '../common/CustomizedTabs';
 import EventSummaryTabView from './EventSummaryTabView';
 import EventParticipationTableView from './EventParticipationTableView';
-import ParticipantEventView from './ParticipantEventView';
 import EventOtherTabView from './EventOtherTabView';
 import {getEvent, getEventRoles} from "../../actions/eventsActions";
 import ErrorSnackbar from "../common/ErrorSnackbar";
@@ -27,7 +26,7 @@ class EventDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
+            isLoading: true,
             selectedTab: 0,
             eventId: this.props.match.params.eventId,
             event: null,
@@ -81,38 +80,50 @@ class EventDetails extends React.Component {
             );
         }
 
+        let participation = this.state.event.participations.find(participation => {
+            return participation.User.id === this.props.user.id;
+        });
+        let roleName = participation ? participation.EventRole.rolename : "";
+        let isStaff = ['Staff', 'Director', 'International Staff', 'Junior Staff'].includes(roleName);
         let isAdmin = (this.props.user && this.props.user.isAdmin);
         let tabToRender;
 
-        if (this.state.selectedTab === 0) {
-            tabToRender = <EventSummaryTabView event={this.state.event}/>
-        } else if (this.state.selectedTab === 1) {
-            tabToRender = <EventParticipationTableView
-                event={this.state.event}
-                eventRoles={this.state.eventRoles}
-                onParticipationRoleChange={this.onParticipationRoleChange}
-                refreshEvent={this.refreshEvent}/>
+        if (isAdmin || isStaff) {
+            if (this.state.selectedTab === 0) {
+                tabToRender = <EventSummaryTabView event={this.state.event}/>
+            } else if (this.state.selectedTab === 1) {
+                tabToRender = <EventParticipationTableView
+                    event={this.state.event}
+                    eventRoles={this.state.eventRoles}
+                    onParticipationRoleChange={this.onParticipationRoleChange}
+                    refreshEvent={this.refreshEvent}/>
+            } else {
+                tabToRender = <EventOtherTabView event={this.state.event}/>
+            }
         } else {
-            tabToRender = <EventOtherTabView event={this.state.event}/>
+            tabToRender = this.state.selectedTab === 0 ? <EventSummaryTabView event={this.state.event}/> :
+                <EventOtherTabView event={this.state.event}/>
         }
 
         return (
             <div>
                 {
-                    isAdmin &&
-                    <CustomizedTabs
-                        value={this.state.selectedTab}
-                        handleChange={this.handleChange}
-                        tabs={['Summary', 'Participation', 'Other']}
-                    />
+                    isAdmin
+                        ?
+                        <CustomizedTabs
+                            value={this.state.selectedTab}
+                            handleChange={this.handleChange}
+                            tabs={['Summary', 'Participation', 'Other']}
+                        />
+                        :
+                        <CustomizedTabs
+                            value={this.state.selectedTab}
+                            handleChange={this.handleChange}
+                            tabs={['Summary', 'Other']}
+                        />
                 }
                 {
-                    isAdmin ?
-                        tabToRender
-                        :
-                        <ParticipantEventView
-                            event={this.state.event}
-                        />
+                    tabToRender
                 }
                 <ErrorSnackbar
                     open={this.state.isErrorSnackbarOpen}

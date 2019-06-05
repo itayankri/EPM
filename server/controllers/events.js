@@ -130,7 +130,8 @@ module.exports = {
         include: [{
           model: EventParticipation,
           as: 'participations',
-          include: [MyUser, MyRole]
+          include: [MyUser, MyRole],
+          order: [['id', 'ASC']]
         }],
       })
       .then(myevent => {
@@ -157,6 +158,7 @@ module.exports = {
           as: 'participations',
           attributes: ["status", "roleId"],
           where: { status: "APPROVED" },
+          order: [['id', 'ASC']],
           include: [{
             model: MyUser,
             attributes: ["firstName", "middleName", "lastName", "birthday",
@@ -189,6 +191,7 @@ module.exports = {
           model: EventParticipation,
           as: 'participations',
           attributes: ["status", "roleId"],
+          order: [['id', 'ASC']],
           where: { status: "APPROVED" },
           include: [{
             model: MyUser,
@@ -217,7 +220,8 @@ module.exports = {
         include: [{
           model: EventParticipation,
           as: 'participations',
-          include: [MyUser, MyRole]
+          include: [MyUser, MyRole],
+          order: [['id', 'ASC']]
         }],
       })
       .then(myevent => {

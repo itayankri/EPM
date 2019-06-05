@@ -23,9 +23,6 @@ class AccessControl extends React.Component {
     constructor(props) {
         super(props);
         this.checkPermission = this.checkPermission.bind(this);
-
-        console.log('user', props.user);
-        console.log('event', props.event);
     }
 
     checkPermission() {
