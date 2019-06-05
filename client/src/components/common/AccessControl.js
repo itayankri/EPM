@@ -3,12 +3,12 @@ import React from 'react';
 const permissionsDictionary = {
     roomRandomizer: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
     campShop: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
-    blog: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
+    blog: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
     shoppingList: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
     leadersNotes: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
-    generateForms: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
-    campSchedule: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
-    contactList: ['Staff', 'Director', 'International Staff', 'Junior Staff'],
+    generateForms: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
+    campSchedule: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
+    contactList: ['Staff', 'Director', 'International Staff', 'Junior Staff', 'Participant'],
     pdpef: ['Staff', 'Director', 'International Staff', 'Junior Staff']
 };
 
