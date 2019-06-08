@@ -456,7 +456,7 @@ module.exports = {
           "Participant will attend CISV programme in Host Nation": myevent.country,
           "Programme start date": formatDate(new Date(myevent.start)),
           "Programme end date": formatDate(new Date(myevent.end)),
-          "Languages spoken": myevent.participations[0].User.languages.languages.toString(),
+          "Languages spoken": myevent.participations[0].User.languages.toString(),
           "Country Code_Home": myevent.participations[0].User.homeNumber.split("-")[0],
           "Area Code_Home": myevent.participations[0].User.homeNumber.split("-")[1],
           "Local Number_Home": myevent.participations[0].User.homeNumber.split("-")[2],

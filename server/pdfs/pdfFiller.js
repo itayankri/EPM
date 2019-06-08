@@ -22,13 +22,23 @@ function fillPdfForm(formName, dataToFill) {
     for (let field in fields) {
         data[field] = dataToFill[field];
     }
+
     let now = new Date(Date.now());
-    
-    let modifiedFilePath = path.resolve(__dirname,'../static/pdfs/filledForms/',now.getFullYear().toString() + 
-                                        (now.getMonth()+1).toString().padStart(2, '0') + now.getDate().toString().padStart(2, '0') + "-" +
-                                        data["First name"] + "_" + data["Last name"] + "_" + formName + '_' + "Filled.pdf");
+
+    /** Use this only on development!!!!! (when using localhost:4100) */
+    // let modifiedFilePath = path.resolve(__dirname,'../static/pdfs/filledForms/',now.getFullYear().toString() +
+    //                                     (now.getMonth()+1).toString().padStart(2, '0') + now.getDate().toString().padStart(2, '0') + "-" +
+    //                                     data["First name"] + "_" + data["Last name"] + "_" + formName + '_' + "Filled.pdf");
+
+    /** Use this on production!!!!! (when using localhost:8000) */
+    let modifiedFilePath = path.resolve(__dirname,'../../client/build/static/pdfs/filledForms/',now.getFullYear().toString() +
+        (now.getMonth()+1).toString().padStart(2, '0') + now.getDate().toString().padStart(2, '0') + "-" +
+        data["First name"] + "_" + data["Last name"] + "_" + formName + '_' + "Filled.pdf");
+
+    console.log('destination path', modifiedFilePath);
 
     fs.copyFile(path.resolve(__dirname,'../static/pdfs/filledForms/healthForm.pdf'), modifiedFilePath, (err) => {
+        console.log(err);
         if (err) throw err;
     });
 
@@ -67,4 +77,4 @@ function getFormFields(formName) {
 module.exports = {
     fillPdfForm:fillPdfForm,
     getFormFields:getFormFields
-}
+};

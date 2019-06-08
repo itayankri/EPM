@@ -63,11 +63,11 @@ export const downloadForm = (formName, eventId, userId) => {
         userId: userId
     })
         .then(filePath => {
-            console.log(filePath);
-            console.log(filePath.data);
-            console.log(`${config.url}/static/pdfs/filledForms/${filePath.data.split("\\")[8]}`);
+            let directories = filePath.data.split('\\');
+            let fileName = directories[directories.length - 1];
+
             axios({
-                url: `${config.url}/static/pdfs/filledForms/${filePath.data.split("\\")[8]}`,
+                url: `${config.url}/static/pdfs/filledForms/${fileName}`,
                 method: 'GET',
                 responseType: 'blob', // important
             }).then((response) => {
