@@ -110,7 +110,7 @@ class GenerateForms extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                            <Card className={classes.card} onClick={() => downloadForm("adultLegalForm.pdf", this.state.eventId, this.props.userId)}>
+                            <Card className={classes.card} onClick={() => downloadForm("adultLegalForm.pdf", this.state.eventId, this.props.user.id)}>
                                 <CardActionArea>
                                     <CardMedia
                                     className={classes.media}
@@ -130,7 +130,7 @@ class GenerateForms extends React.Component {
                     </Grid>
 
                     <Grid item md={2}>
-                            <Card className={classes.card} onClick={() => downloadForm("incidentReportForm.docx", this.state.eventId, this.props.userId)}>
+                            <Card className={classes.card} onClick={() => downloadForm("incidentReportForm.docx", this.state.eventId, this.props.user.id)}>
                                 <CardActionArea>
                                     <CardMedia
                                     className={classes.media}

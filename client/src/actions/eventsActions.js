@@ -67,7 +67,7 @@ export const downloadForm = (formName, eventId, userId) => {
             let fileName = directories[directories.length - 1];
 
             axios({
-                url: `${config.url}/static/pdfs/filledForms/${fileName}`,
+                url: `${config.url}/static/${fileName}`,
                 method: 'GET',
                 responseType: 'blob', // important
             }).then((response) => {

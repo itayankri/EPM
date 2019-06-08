@@ -31,7 +31,7 @@ function fillPdfForm(formName, dataToFill) {
     //                                     data["First name"] + "_" + data["Last name"] + "_" + formName + '_' + "Filled.pdf");
 
     /** Use this on production!!!!! (when using localhost:8000) */
-    let modifiedFilePath = path.resolve(__dirname,'../../client/build/static/pdfs/filledForms/',now.getFullYear().toString() +
+    let modifiedFilePath = path.resolve(__dirname,'../../client/build/static',now.getFullYear().toString() +
         (now.getMonth()+1).toString().padStart(2, '0') + now.getDate().toString().padStart(2, '0') + "-" +
         data["First name"] + "_" + data["Last name"] + "_" + formName + '_' + "Filled.pdf");
 
