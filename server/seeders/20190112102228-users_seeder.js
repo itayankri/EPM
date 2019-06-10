@@ -6,9 +6,9 @@ module.exports = {
             {
                 // USER 1
                 "password": "user1",
-                "firstName": "firstname1",
-                "middleName": "middlename1",
-                "lastName": "lastname1",
+                "firstName": "Itay",
+                "middleName": "Middle",
+                "lastName": "Ankri",
                 "gender": true,
                 "email": "user1@gmail.com",
                 "homeNumber": "972-1-1234567",
@@ -32,10 +32,10 @@ module.exports = {
             }, {
                 // USER 2
                 "password": "user2",
-                "firstName": "firstname2",
+                "firstName": "Omer",
                 "middleName": "middlename2",
-                "lastName": "lastname2",
-                "gender": false,
+                "lastName": "Glass",
+                "gender": true,
                 "email": "user2@gmail.com",
                 "homeNumber": "972-2-1234567",
                 "cellphoneNumber": "972-52-1234567",
@@ -58,9 +58,9 @@ module.exports = {
             }, {
                 // USER 3
                 "password": "user3",
-                "firstName": "firstname3",
+                "firstName": "Ziv",
                 "middleName": "middlename3",
-                "lastName": "lastname3",
+                "lastName": "Yatziv",
                 "gender": true,
                 "email": "user3@gmail.com",
                 "homeNumber": "972-3-1234567",
@@ -84,9 +84,9 @@ module.exports = {
             }, {
                 // USER 4
                 "password": "user4",
-                "firstName": "firstname4",
+                "firstName": "Nicol",
                 "middleName": "middlename4",
-                "lastName": "lastname4",
+                "lastName": "Kazinets",
                 "gender": false,
                 "email": "user4@gmail.com",
                 "homeNumber": "972-4-1234567",
@@ -110,9 +110,9 @@ module.exports = {
             }, {
                 // USER 5
                 "password": "user5",
-                "firstName": "firstname5",
+                "firstName": "Shir",
                 "middleName": "middlename5",
-                "lastName": "lastname5",
+                "lastName": "Dinel",
                 "gender": true,
                 "email": "user5@gmail.com",
                 "homeNumber": "972-5-1234567",
@@ -136,10 +136,10 @@ module.exports = {
             }, {
                 // USER 6
                 "password": "user6",
-                "firstName": "firstname6",
+                "firstName": "Iris",
                 "middleName": "middlename6",
-                "lastName": "lastname6",
-                "gender": true,
+                "lastName": "Dagan",
+                "gender": false,
                 "email": "user6@gmail.com",
                 "homeNumber": "972-6-1234567",
                 "cellphoneNumber": "972-56-1234567",
@@ -162,9 +162,9 @@ module.exports = {
             }, {
                 // USER 7
                 "password": "user7",
-                "firstName": "firstname7",
+                "firstName": "Omri",
                 "middleName": "middlename7",
-                "lastName": "lastname7",
+                "lastName": "Shoval",
                 "gender": true,
                 "email": "user7@gmail.com",
                 "homeNumber": "972-7-1234577",
@@ -189,9 +189,9 @@ module.exports = {
             {
                 // USER 8
                 "password": "user8",
-                "firstName": "firstname8",
+                "firstName": "Yoav",
                 "middleName": "middlename8",
-                "lastName": "lastname8",
+                "lastName": "Yehudai",
                 "gender": true,
                 "email": "user8@gmail.com",
                 "homeNumber": "972-8-1234587",
@@ -215,10 +215,10 @@ module.exports = {
             }, {
                 // USER 9
                 "password": "user9",
-                "firstName": "firstname9",
+                "firstName": "Elad",
                 "middleName": "middlename9",
-                "lastName": "lastname9",
-                "gender": false,
+                "lastName": "Pelach",
+                "gender": true,
                 "email": "user9@gmail.com",
                 "homeNumber": "972-9-1234597",
                 "cellphoneNumber": "972-59-1234597",
@@ -241,9 +241,9 @@ module.exports = {
             }, {
                 // USER 10
                 "password": "user10",
-                "firstName": "firstname10",
+                "firstName": "Bar",
                 "middleName": "middlename10",
-                "lastName": "lastname10",
+                "lastName": "Almasli",
                 "gender": false,
                 "email": "user10@gmail.com",
                 "homeNumber": "972-6-1234567",
@@ -267,10 +267,10 @@ module.exports = {
             }, {
                 // USER 11
                 "password": "user11",
-                "firstName": "firstname11",
+                "firstName": "Gal",
                 "middleName": "middlename11",
-                "lastName": "lastname11",
-                "gender": false,
+                "lastName": "Yaniv",
+                "gender": true,
                 "email": "user11@gmail.com",
                 "homeNumber": "972-6-1234567",
                 "cellphoneNumber": "972-56-1234567",
@@ -293,10 +293,10 @@ module.exports = {
             }, {
                 // USER 12
                 "password": "user12",
-                "firstName": "firstname12",
+                "firstName": "Lara",
                 "middleName": "middlename12",
-                "lastName": "lastname12",
-                "gender": true,
+                "lastName": "Amaruti",
+                "gender": false,
                 "email": "user12@gmail.com",
                 "homeNumber": "972-6-1234567",
                 "cellphoneNumber": "972-56-1234567",
@@ -319,10 +319,10 @@ module.exports = {
             }, {
                 // USER 13
                 "password": "user13",
-                "firstName": "firstname13",
+                "firstName": "Andu",
                 "middleName": "middlename13",
-                "lastName": "lastname13",
-                "gender": false,
+                "lastName": "Amaruti",
+                "gender": true,
                 "email": "user13@gmail.com",
                 "homeNumber": "972-6-1234567",
                 "cellphoneNumber": "972-56-1234567",
@@ -345,10 +345,10 @@ module.exports = {
             }, {
                 // USER 14
                 "password": "user14",
-                "firstName": "firstname14",
+                "firstName": "Siri",
                 "middleName": "middlename14",
-                "lastName": "lastname14",
-                "gender": true,
+                "lastName": "Torgaro",
+                "gender": false,
                 "email": "user14@gmail.com",
                 "homeNumber": "972-6-1244567",
                 "cellphoneNumber": "972-56-1244567",
@@ -371,10 +371,10 @@ module.exports = {
             }, {
                 // USER 15
                 "password": "user15",
-                "firstName": "firstname15",
+                "firstName": "Thom",
                 "middleName": "middlename15",
-                "lastName": "lastname15",
-                "gender": false,
+                "lastName": "Kunz",
+                "gender": true,
                 "email": "user15@gmail.com",
                 "homeNumber": "972-6-1254567",
                 "cellphoneNumber": "972-56-1254567",
@@ -397,9 +397,9 @@ module.exports = {
             }, {
                 // USER 16
                 "password": "user16",
-                "firstName": "firstname16",
+                "firstName": "Kacper",
                 "middleName": "middlename16",
-                "lastName": "lastname16",
+                "lastName": "Smolinski",
                 "gender": true,
                 "email": "user16@gmail.com",
                 "homeNumber": "972-6-1264567",
@@ -423,9 +423,9 @@ module.exports = {
             }, {
                 // USER 17
                 "password": "user17",
-                "firstName": "firstname17",
+                "firstName": "Karo",
                 "middleName": "middlename17",
-                "lastName": "lastname17",
+                "lastName": "Sefarin",
                 "gender": false,
                 "email": "user17@gmail.com",
                 "homeNumber": "972-6-1274567",
@@ -449,9 +449,9 @@ module.exports = {
             }, {
                 // USER 18
                 "password": "user18",
-                "firstName": "firstname18",
+                "firstName": "Tudor",
                 "middleName": "middlename18",
-                "lastName": "lastname18",
+                "lastName": "Baican",
                 "gender": true,
                 "email": "user18@gmail.com",
                 "homeNumber": "972-6-1284567",
@@ -475,9 +475,9 @@ module.exports = {
             }, {
                 // USER 19
                 "password": "user19",
-                "firstName": "firstname19",
+                "firstName": "Malina",
                 "middleName": "middlename19",
-                "lastName": "lastname19",
+                "lastName": "Simona",
                 "gender": false,
                 "email": "user19@gmail.com",
                 "homeNumber": "972-6-1294567",
