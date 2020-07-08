@@ -115,8 +115,8 @@ class EventOtherTabView extends React.Component {
         / date range reports.`},
         {name: "blog", displayName: "Blog", picture: blog_pic, description: `Access the blog, view pictures from the event, posts written by the
         managers, etc'.`},
-        {name: "shoppingList", displayName: "Shopping List", picture: shopping_list_pic, description: `Manage an event's shopping list, ask for new items, update storage,
-        etc'.`},
+        // {name: "shoppingList", displayName: "Shopping List", picture: shopping_list_pic, description: `Manage an event's shopping list, ask for new items, update storage,
+        // etc'.`},
         {name: "leadersNotes", displayName: "Leaders Notes", picture: leaders_notes_pic, description: `Show the leaders meetings notes, to catch up on information that may
         have
         been passed on.`},

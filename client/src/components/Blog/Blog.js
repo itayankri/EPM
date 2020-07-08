@@ -186,7 +186,8 @@ class Blog extends React.Component {
                     this.state.messages.map(message =>
                         <BlogMessageCard
                             key={message.id}
-                            title={`${message.User.firstName} ${message.User.middleName || ""} ${message.User.lastName}`}
+                            //title={`${message.User.firstName} ${message.User.middleName || ""} ${message.User.lastName}`}
+                            title={`${message.User.firstName} ${message.User.lastName}`}
                             user={message.User}
                             subtitle={message.User.country}
                             body={message.content}
