@@ -89,6 +89,9 @@ class EventDetails extends React.Component {
         let isAdmin = (this.props.user && this.props.user.isAdmin);
         let tabToRender;
 
+        console.log('isAdmin', isAdmin);
+        console.log('isStaff', isStaff);
+
         if (isAdmin || isStaff) {
             if (this.state.selectedTab === 0) {
                 tabToRender = <EventSummaryTabView event={this.state.event}/>
